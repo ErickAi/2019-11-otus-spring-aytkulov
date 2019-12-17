@@ -1,0 +1,11 @@
+package ru.otus.studentstesting.dao;
+
+
+import ru.otus.studentstesting.domain.Question;
+
+import java.util.Map;
+
+public interface QuestionDao {
+
+    Map<Integer, Question> getAll(String localization);
+}

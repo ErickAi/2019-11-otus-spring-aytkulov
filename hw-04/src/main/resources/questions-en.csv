@@ -1,0 +1,6 @@
+id,question                                        ,answer1           ,answer2          ,answer3              ,rightAnswer
+1 ,Who wrote the first computer program?					      ,1 Tom Kilburn     ,2 Ada Lovelace   ,3 Bill Gates         ,2 Ada Lovelace
+2 ,What language is this program written in? 				  ,1 Russian         ,2 English        ,3 Java               ,3 Java
+3 ,What framework is this program written with?				,1 Spring          ,2 String         ,3 Swing              ,1 Spring
+4 ,Whose joke was used in the previous question?   ,1 Kirill Tolkachev,2 Evgenii Borisov,3 George Bernard Shaw,2 Evgenii Borisov
+5 ,Rate the passed test.			                        ,1 Not bad         ,2 Excellent      ,3 Can be better      ,Thanks for feedback
