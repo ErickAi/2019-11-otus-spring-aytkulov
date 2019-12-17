@@ -11,9 +11,7 @@ import ru.otus.studentstesting.config.LocalizationProperties;
 import ru.otus.studentstesting.dao.QuestionDao;
 import ru.otus.studentstesting.domain.User;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static ru.otus.studentstesting.TestData.*;
 
 @SpringBootTest(classes = {QuizServiceImpl.class})

@@ -1,6 +1,5 @@
 package ru.otus.studentstesting.service;
 
-
 import ru.otus.studentstesting.domain.Question;
 import ru.otus.studentstesting.domain.User;
 
@@ -17,9 +16,17 @@ interface QuizService {
 
     Map<Integer, Question> getQuestions();
 
+    Question getCurrentQuestion();
+
+    Question getNextQuestion();
+
     List<String> getQuizResults();
 
     void restart();
+
+    boolean isStarted();
+
+    boolean isFinished();
 
     void addNextComment(Question question, String answer);
 }

@@ -43,4 +43,11 @@ class QuestionDaoImplTest {
         Map<Integer, Question> questions = questionDao.getAll("en");
         assertFalse(questions.isEmpty());
     }
+
+    @Test
+    @DisplayName(value = "Возвращает вопрос по его идентификатору")
+    void getOneEn() {
+        Question question = questionDao.getById(3, "en");
+        assertEquals(3, question.getId());
+    }
 }

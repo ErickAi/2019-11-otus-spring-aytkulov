@@ -2,6 +2,7 @@ package ru.otus.studentstesting.service;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import ru.otus.studentstesting.config.LocalizationProperties;
 import ru.otus.studentstesting.domain.Question;
@@ -13,6 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Service
+@Profile("console")
 public class InteractionServiceConsole implements InteractionService {
     private static final String SEPARATOR = "\n------------------------------------------------\n";
 

@@ -1,12 +1,11 @@
 package ru.otus.studentstesting.service;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import ru.otus.studentstesting.dao.QuestionDao;
 import ru.otus.studentstesting.domain.Question;
 import ru.otus.studentstesting.domain.User;
-import ru.otus.studentstesting.dao.QuestionDao;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,9 +38,25 @@ public class QuizServiceImpl implements QuizService {
         return user != null && !StringUtils.isEmpty(user.getName()) && !StringUtils.isEmpty(user.getSurname());
     }
 
+
     @Override
     public Map<Integer, Question> getQuestions() {
         return questionDao.getAll(localizationService.getCurrentLocale().getLanguage());
+    }
+
+    @Override
+    public Question getCurrentQuestion() {
+        currentQuestion = questionDao.getById(currentQuestionIndex, localizationService.getCurrentLocale().getLanguage());
+        return currentQuestion;
+    }
+
+    @Override
+    public Question getNextQuestion() {
+        if (currentQuestionIndex == 0) {
+            questionSize = questionDao.count();
+        }
+        currentQuestion = questionDao.getById(++currentQuestionIndex, localizationService.getCurrentLocale().getLanguage());
+        return currentQuestion;
     }
 
     @Override
@@ -56,6 +71,16 @@ public class QuizServiceImpl implements QuizService {
         this.currentQuestionIndex = 0;
         this.currentQuestion = null;
         this.quizResults = new LinkedList<>();
+    }
+
+    @Override
+    public boolean isStarted() {
+        return currentQuestion != null;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !quizResults.isEmpty() && questionSize == quizResults.size();
     }
 
     @Override

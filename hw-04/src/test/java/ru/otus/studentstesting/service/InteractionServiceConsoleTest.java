@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import ru.otus.studentstesting.config.LocalizationProperties;
+import ru.otus.studentstesting.domain.User;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,6 +29,7 @@ class InteractionServiceConsoleTest {
     private static final String yes = "yes";
     private static final String condition = "condition";
     private static final String noMatter = "noMatter";
+    private static User user = new User("Name", "Surname");
 
     @Autowired
     LocalizationProperties properties;
@@ -70,11 +72,12 @@ class InteractionServiceConsoleTest {
     @Test
     @DisplayName(value = "Принимает имя и фамилию и устанавливает пользователя")
     void login() {
-        Mockito.when(ioService.getTyped()).thenReturn("name").thenReturn("surname");
+        Mockito.when(ioService.getTyped()).thenReturn(user.getName()).thenReturn(user.getSurname());
         Mockito.when(localizationService.getBundledMessage(any())).thenReturn(noMatter);
         Mockito.doNothing().when(ioService).printBundledMessage(any());
         Mockito.when(quizService.isUserLoggedIn()).thenReturn(true);
+        Mockito.when(quizService.getUser()).thenReturn(user);
         assertTrue(interactionService.login());
-        Mockito.verify(interactionService, Mockito.times(1)).login("name", "surname");
+        Mockito.verify(interactionService, Mockito.times(1)).login(user.getName(), user.getSurname());
     }
 }

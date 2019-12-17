@@ -13,6 +13,9 @@ app:
     questions-resource-urls:
       ru: /questions-ru.csv
       en: /questions-en.csv
+spring:
+  profiles:
+    active: shell
 logging:
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
@@ -21,3 +24,23 @@ logging:
     path: log/student-testing.log
   level:
     org.springframework: debug
+---
+spring:
+  profiles: console
+  shell.interactive.enabled: false
+
+---
+spring:
+  profiles: shell
+  shell:
+    script: enabled
+    command:
+      history.enabled: false
+      script.enabled: false
+      stacktrace.enabled: false
+
+---
+spring:
+  profiles: test
+  shell.interactive.enabled: false
+  main.banner-mode: off
