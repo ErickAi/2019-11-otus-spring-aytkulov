@@ -1,0 +1,21 @@
+== 05 Продвинутая конфигурация Spring-приложений
+
++++ <details><summary> +++
+Изучаемый стек
++++ </summary><div> +++
+
+- Spring Boot 2
+- JUnit 5
+
+- Libraries:
+
+    lombok        code generator
+    opencsv       csv to object mapper
+
++++ </div></details> +++
+
+=== Техническое задание
+
+- Перевести приложение для проведения опросов на Spring Shell
+- Подключить Spring Shell, используя starter.
+- Написать юнит-тесты и использовать spring-boot-test-starter
