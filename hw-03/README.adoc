@@ -1,0 +1,25 @@
+== 04 "Чёрная магия" Spring Boot
+
++++ <details><summary> +++
+Изучаемый стек
++++ </summary><div> +++
+
+- Spring Boot 2
+- JUnit 5
+
+- Libraries:
+
+    lombok        code generator
+    opencsv       csv to object mapper
+
++++ </div></details> +++
+
+=== Техническое задание
+
+- Создать проект, используя Spring Boot Initializr.
+- Перенести приложение проведения опросов из прошлого домашнего задания с Annotation-based конфигурацией.
+- Перенести все свойства в application.yml
+- Сделать собственный баннер для приложения.
+- Перенести тесты и использовать spring-boot-test-starter для тестирования
+- Коммитить wrapper или нет в репозиторий - решать Вам.
+- *Опционально - использовать ANSI-цвета для баннера
