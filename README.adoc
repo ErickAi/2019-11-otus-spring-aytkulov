@@ -1,0 +1,21 @@
+== Айткулов Эрик
+
+== OTUS "Разработчик на Spring Framework" 2019-11
+
++++ <details><summary> +++
+Изучаемый стек
++++ </summary><div> +++
+
+- Spring Boot 2
+- JUnit 5
+
+- Libraries:
+
+    lombok        code generator
+    opencsv       csv to object mapper
+
++++ </div></details> +++
+
+=== Навигация по домашним заданиям в репозитории
+
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-03[ДЗ 03 (занятие 04) "Чёрная магия" Spring Boot]
