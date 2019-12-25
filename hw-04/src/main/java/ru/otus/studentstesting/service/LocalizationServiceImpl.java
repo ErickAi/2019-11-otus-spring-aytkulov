@@ -28,6 +28,7 @@ public class LocalizationServiceImpl implements LocalizationService, Initializin
         return availableLanguages;
     }
 
+    @Override
     public Locale getCurrentLocale() {
         return currentLocale;
     }
@@ -37,6 +38,7 @@ public class LocalizationServiceImpl implements LocalizationService, Initializin
         this.currentLocale = locale;
     }
 
+    @Override
     public String getBundledMessage(String key) {
         return messageSource.getMessage(key, null, currentLocale);
     }

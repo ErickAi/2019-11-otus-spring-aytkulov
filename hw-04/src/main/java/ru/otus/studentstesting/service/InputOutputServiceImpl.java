@@ -15,14 +15,17 @@ public class InputOutputServiceImpl implements InputOutputService {
 
     private Scanner consoleScanner = new Scanner(System.in);
 
+    @Override
     public String getTyped() {
         return consoleScanner.next();
     }
 
+    @Override
     public void print(String message) {
         System.out.println(message);
     }
 
+    @Override
     public void printQuestion(Question question) {
         print(localizationService.getBundledMessage("question-number") + question.getId());
         print(question.getQuestion());
@@ -32,6 +35,7 @@ public class InputOutputServiceImpl implements InputOutputService {
         print(localizationService.getBundledMessage("shell.use-answer-command"));
     }
 
+    @Override
     public void printSurroundQuotes(List<String> source) {
         StringBuilder builder = new StringBuilder();
         for (String s : source) {
@@ -40,6 +44,7 @@ public class InputOutputServiceImpl implements InputOutputService {
         System.out.println(builder.toString());
     }
 
+    @Override
     public void printBundledMessage(String key) {
         print(localizationService.getBundledMessage(key));
     }

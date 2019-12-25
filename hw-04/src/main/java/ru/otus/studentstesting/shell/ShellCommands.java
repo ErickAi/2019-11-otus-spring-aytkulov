@@ -1,60 +1,52 @@
-package ru.otus.studentstesting.service;
+package ru.otus.studentstesting.shell;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.studentstesting.config.LocalizationProperties;
 import ru.otus.studentstesting.domain.Question;
-import ru.otus.studentstesting.domain.User;
+import ru.otus.studentstesting.service.InputOutputService;
+import ru.otus.studentstesting.service.InteractionService;
+import ru.otus.studentstesting.service.LocalizationService;
+import ru.otus.studentstesting.service.QuizService;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 import java.util.List;
 
 @ShellComponent
-@Profile("shell")
 @RequiredArgsConstructor
-public class InteractionServiceShell implements InteractionService {
+public class ShellCommands {
 
-    private final InputOutputService ioService;
+    private final InteractionService interactionService;
     private final LocalizationService localizationService;
-    private final LocalizationProperties properties;
+    private final InputOutputService ioService;
     private final QuizService quizService;
+    private final LocalizationProperties properties;
 
     @PostConstruct
     public void init() {
     }
 
-    @Override
-    public void startInteraction() {
-    }
-
-    @Override
     @ShellMethod(value = "Select language command.", key = {"language", "lang"})
     public String selectLanguage(String language) {
         if (properties.getAvailableLocales().containsKey(language)) {
-            localizationService.setCurrentLocale(properties.getAvailableLocales().get(language));
-            String currentLocalization = localizationService.getCurrentLocale().getLanguage();
-            return String.format(localizationService.getBundledMessage("selected-language"), language);
+            return interactionService.selectLanguage(language);
         } else {
+            ioService.printBundledMessage("language-not-exists");
             ioService.print(properties.getSelectLanguageGreeting());
-            ioService.print(properties.getSelectOneOptionOf());
             ioService.printSurroundQuotes(properties.getAvailableLanguages());
-
-            return localizationService.getBundledMessage("language-not-exists");
+            return "";
         }
     }
 
     @ShellMethod(value = "Show current language command.", key = {"current-language", "c-lang"})
     public String currentLanguage() {
         return String.format(localizationService.getBundledMessage("selected-language")
-            , localizationService.getCurrentLocale().getLanguage());
+                , localizationService.getCurrentLocale().getLanguage());
     }
 
-    @Override
     @ShellMethod(value = "Instructions for test.", key = {"instructions", "i"})
     public void instructions() {
         ioService.printBundledMessage("instruction.authorization");
@@ -64,26 +56,22 @@ public class InteractionServiceShell implements InteractionService {
         ioService.printBundledMessage("shell.use-commands");
         ioService.printBundledMessage("instruction.exit");
         ioService.printBundledMessage("instruction.exit.commands");
-        ioService.printSurroundQuotes(Arrays.asList("exit", "quit"));
+        ioService.printSurroundQuotes(properties.getExitCommands());
     }
 
-    @Override
     @ShellMethod(value = "Login command. required options: name, surname", key = {"login", "l"})
-    public String login(@ShellOption("--name") String name, @ShellOption("--surname") String surname) {
+    public void login(@ShellOption("--name") String name, @ShellOption("--surname") String surname) {
         if (name != null && surname != null) {
-            quizService.setUser(new User(name, surname));
-            return String.format(localizationService.getBundledMessage("authorized-as"), name, surname);
+            interactionService.login(name, surname);
         }
-        return localizationService.getBundledMessage("not-authorized");
     }
 
     @ShellMethod(value = "Show current login command.", key = {"current-login", "c-login", "c-l"})
     public String currentLogin() {
         return String.format(localizationService.getBundledMessage("authorized-as"),
-            quizService.getUser().getName(), quizService.getUser().getSurname());
+                quizService.getUser().getName(), quizService.getUser().getSurname());
     }
 
-    @Override
     @ShellMethod(value = "Start quiz.", key = {"start", "s"})
     public void startQuiz() {
         ioService.printBundledMessage("instruction.quiz");
@@ -107,7 +95,6 @@ public class InteractionServiceShell implements InteractionService {
         }
     }
 
-    @Override
     @ShellMethod(value = "Show quiz results.", key = {"results", "r"})
     public void showResults() {
         List<String> quizResults = quizService.getQuizResults();
@@ -117,15 +104,9 @@ public class InteractionServiceShell implements InteractionService {
         }
     }
 
-    @Override
-    @ShellMethod(value = "Restart command.")
+    @ShellMethod(value = "Restart command.", key = {"restart test", "r-t"})
     public void startNewTest() {
         quizService.restart();
-    }
-
-    @Override
-    public boolean isExit(String command) {
-        return false;
     }
 
     private Availability loginAvailability() {
@@ -143,7 +124,7 @@ public class InteractionServiceShell implements InteractionService {
         return Availability.available();
     }
 
-    private Availability notStartedOrAlredyFinished() {
+    private Availability notStartedOrAlreadyFinished() {
         Availability availability = handShakeAvailability();
         if (quizService.isFinished()) {
             availability = Availability.unavailable(localizationService.getBundledMessage("shell.unavailable.you-are-finished"));
@@ -156,7 +137,7 @@ public class InteractionServiceShell implements InteractionService {
     }
 
     private Availability startQuizAvailability() {
-        Availability availability = notStartedOrAlredyFinished();
+        Availability availability = notStartedOrAlreadyFinished();
         if (quizService.isStarted()) {
             availability = Availability.unavailable(localizationService.getBundledMessage("shell.unavailable.need-restart"));
         }
@@ -164,11 +145,11 @@ public class InteractionServiceShell implements InteractionService {
     }
 
     private Availability currentQuestionAvailability() {
-        Availability availability = notStartedOrAlredyFinished();
+        Availability availability = notStartedOrAlreadyFinished();
         if (!quizService.isStarted()) {
             String reason = availability.getReason();
             availability = Availability.unavailable((reason == null ? "" : reason)
-                + localizationService.getBundledMessage("shell.unavailable.not-started"));
+                    + localizationService.getBundledMessage("shell.unavailable.not-started"));
         }
         return availability;
     }
@@ -182,7 +163,7 @@ public class InteractionServiceShell implements InteractionService {
         if (!quizService.isFinished()) {
             String reason = inherit.getReason();
             return Availability.unavailable((reason == null ? "" : reason)
-                + localizationService.getBundledMessage("shell.unavailable.not-quizzed"));
+                    + localizationService.getBundledMessage("shell.unavailable.not-quizzed"));
         }
         return inherit;
     }

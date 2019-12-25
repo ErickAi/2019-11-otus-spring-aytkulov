@@ -2,7 +2,6 @@ package ru.otus.studentstesting.service;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import ru.otus.studentstesting.config.LocalizationProperties;
 import ru.otus.studentstesting.domain.Question;
@@ -14,9 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Service
-@Profile("console")
-public class InteractionServiceConsole implements InteractionService {
-    private static final String SEPARATOR = "\n------------------------------------------------\n";
+public class InteractionServiceImpl implements InteractionService {
 
     private final InputOutputService ioService;
     private final LocalizationService localizationService;
@@ -27,8 +24,8 @@ public class InteractionServiceConsole implements InteractionService {
     private List<String> exitCommands;
     private Map<String, Locale> availableLocales;
 
-    public InteractionServiceConsole(InputOutputService ioService, LocalizationService localizationService,
-                                     QuizService quizService, LocalizationProperties properties) {
+    public InteractionServiceImpl(InputOutputService ioService, LocalizationService localizationService,
+                                  QuizService quizService, LocalizationProperties properties) {
         this.ioService = ioService;
         this.localizationService = localizationService;
         this.quizService = quizService;
@@ -62,7 +59,7 @@ public class InteractionServiceConsole implements InteractionService {
 
         if (availableLocales.containsKey(language)) {
             localizationService.setCurrentLocale(availableLocales.get(language));
-            return availableLocales.get(language).toString();
+            return String.format(localizationService.getBundledMessage("selected-language"), language);
         } else if (isExit(language)) {
             return "";
         }
@@ -100,7 +97,7 @@ public class InteractionServiceConsole implements InteractionService {
     public String login(String name, String surname) {
         quizService.setUser(new User(name, surname));
         ioService.print(String.format(localizationService.getBundledMessage("authorized-as"),
-            quizService.getUser().getName(), quizService.getUser().getSurname()));
+                quizService.getUser().getName(), quizService.getUser().getSurname()));
         ioService.printBundledMessage("you-can-start");
         return "done";
     }
@@ -160,6 +157,7 @@ public class InteractionServiceConsole implements InteractionService {
         }
     }
 
+    @Override
     public boolean isExit(String command) {
         if (exitCommands.contains(command)) {
             System.exit(0);

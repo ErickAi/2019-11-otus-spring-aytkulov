@@ -18,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static ru.otus.studentstesting.TestData.TEST_QUESTION;
 
-@SpringBootTest(classes = {LocalizationProperties.class, InteractionServiceConsole.class})
+@SpringBootTest(classes = {LocalizationProperties.class, InteractionServiceImpl.class})
 @Profile("test")
-@ContextConfiguration(classes = {LocalizationProperties.class, InteractionServiceConsole.class},
-    initializers = ConfigFileApplicationContextInitializer.class)
+@ContextConfiguration(classes = {LocalizationProperties.class, InteractionServiceImpl.class},
+        initializers = ConfigFileApplicationContextInitializer.class)
 @PropertySource(value = "classpath:application.yml")
 @DisplayName(value = "Класс InteractionService")
 class InteractionServiceConsoleTest {
@@ -34,7 +34,7 @@ class InteractionServiceConsoleTest {
     @Autowired
     LocalizationProperties properties;
     @SpyBean
-    private InteractionServiceConsole interactionService;
+    private InteractionServiceImpl interactionService;
     @MockBean
     private InputOutputService ioService;
     @MockBean

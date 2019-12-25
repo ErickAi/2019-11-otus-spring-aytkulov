@@ -6,7 +6,7 @@ app:
       - ру
       - ru
       - en
-    exit-commands:
+    exit-commands:    # see ru.otus.studentstesting.shell.Exit
       - выйти
       - exit
       - "-"
@@ -33,7 +33,7 @@ spring:
 spring:
   profiles: shell
   shell:
-    script: enabled
+    interactive.enabled: true
     command:
       history.enabled: false
       script.enabled: false

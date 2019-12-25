@@ -6,7 +6,7 @@ import ru.otus.studentstesting.domain.User;
 import java.util.List;
 import java.util.Map;
 
-interface QuizService {
+public interface QuizService {
 
     User getUser();
 
