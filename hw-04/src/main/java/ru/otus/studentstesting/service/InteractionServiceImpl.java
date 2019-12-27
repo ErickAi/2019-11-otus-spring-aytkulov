@@ -15,6 +15,8 @@ import java.util.Map;
 @Service
 public class InteractionServiceImpl implements InteractionService {
 
+    private static final String SEPARATOR = "\n------------------------------------------------\n";
+
     private final InputOutputService ioService;
     private final LocalizationService localizationService;
     private final QuizService quizService;
@@ -97,7 +99,7 @@ public class InteractionServiceImpl implements InteractionService {
     public String login(String name, String surname) {
         quizService.setUser(new User(name, surname));
         ioService.print(String.format(localizationService.getBundledMessage("authorized-as"),
-                quizService.getUser().getName(), quizService.getUser().getSurname()));
+            quizService.getUser().getName(), quizService.getUser().getSurname()));
         ioService.printBundledMessage("you-can-start");
         return "done";
     }

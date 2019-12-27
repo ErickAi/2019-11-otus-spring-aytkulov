@@ -12,7 +12,6 @@ import ru.otus.studentstesting.service.InteractionService;
 import ru.otus.studentstesting.service.LocalizationService;
 import ru.otus.studentstesting.service.QuizService;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @ShellComponent
@@ -24,10 +23,6 @@ public class ShellCommands {
     private final InputOutputService ioService;
     private final QuizService quizService;
     private final LocalizationProperties properties;
-
-    @PostConstruct
-    public void init() {
-    }
 
     @ShellMethod(value = "Select language command.", key = {"language", "lang"})
     public String selectLanguage(String language) {
@@ -44,7 +39,7 @@ public class ShellCommands {
     @ShellMethod(value = "Show current language command.", key = {"current-language", "c-lang"})
     public String currentLanguage() {
         return String.format(localizationService.getBundledMessage("selected-language")
-                , localizationService.getCurrentLocale().getLanguage());
+            , localizationService.getCurrentLocale().getLanguage());
     }
 
     @ShellMethod(value = "Instructions for test.", key = {"instructions", "i"})
@@ -69,7 +64,7 @@ public class ShellCommands {
     @ShellMethod(value = "Show current login command.", key = {"current-login", "c-login", "c-l"})
     public String currentLogin() {
         return String.format(localizationService.getBundledMessage("authorized-as"),
-                quizService.getUser().getName(), quizService.getUser().getSurname());
+            quizService.getUser().getName(), quizService.getUser().getSurname());
     }
 
     @ShellMethod(value = "Start quiz.", key = {"start", "s"})
@@ -149,7 +144,7 @@ public class ShellCommands {
         if (!quizService.isStarted()) {
             String reason = availability.getReason();
             availability = Availability.unavailable((reason == null ? "" : reason)
-                    + localizationService.getBundledMessage("shell.unavailable.not-started"));
+                + localizationService.getBundledMessage("shell.unavailable.not-started"));
         }
         return availability;
     }
@@ -163,7 +158,7 @@ public class ShellCommands {
         if (!quizService.isFinished()) {
             String reason = inherit.getReason();
             return Availability.unavailable((reason == null ? "" : reason)
-                    + localizationService.getBundledMessage("shell.unavailable.not-quizzed"));
+                + localizationService.getBundledMessage("shell.unavailable.not-quizzed"));
         }
         return inherit;
     }

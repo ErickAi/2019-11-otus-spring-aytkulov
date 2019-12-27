@@ -1,4 +1,4 @@
-package ru.otus.studentstesting;
+package ru.otus.studentstesting.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

@@ -21,7 +21,7 @@ import static ru.otus.studentstesting.TestData.TEST_QUESTION;
 @SpringBootTest(classes = {LocalizationProperties.class, InteractionServiceImpl.class})
 @Profile("test")
 @ContextConfiguration(classes = {LocalizationProperties.class, InteractionServiceImpl.class},
-        initializers = ConfigFileApplicationContextInitializer.class)
+    initializers = ConfigFileApplicationContextInitializer.class)
 @PropertySource(value = "classpath:application.yml")
 @DisplayName(value = "Класс InteractionService")
 class InteractionServiceConsoleTest {
@@ -47,6 +47,7 @@ class InteractionServiceConsoleTest {
     @DisplayName(value = "Валидирует выбранный язык")
     void selectLanguage() {
         Mockito.when(ioService.getTyped()).thenReturn("ru");
+        Mockito.when(localizationService.getBundledMessage("selected-language")).thenReturn(noMatter);
         assertTrue(interactionService.selectLanguage());
     }
 

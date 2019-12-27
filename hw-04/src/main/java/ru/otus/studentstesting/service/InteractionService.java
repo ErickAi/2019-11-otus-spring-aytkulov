@@ -2,8 +2,6 @@ package ru.otus.studentstesting.service;
 
 public interface InteractionService {
 
-    String SEPARATOR = "\n------------------------------------------------\n";
-
     void startInteraction();
 
     String selectLanguage(String language);
