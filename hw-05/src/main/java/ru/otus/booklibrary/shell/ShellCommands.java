@@ -20,7 +20,7 @@ public class ShellCommands {
         System.out.println(bookDao.getById(id).toString());
     }
 
-    @ShellMethod(value = "Get list all books", key = {"all-b", "all-books"})
+    @ShellMethod(value = "Get list all books", key = {"b-all", "books-all"})
     public void getAllBooks() {
         List<Book> books = bookDao.getAll();
         for (Book book : books) {

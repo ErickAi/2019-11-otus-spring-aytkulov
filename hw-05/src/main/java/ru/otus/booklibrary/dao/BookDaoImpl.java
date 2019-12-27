@@ -60,7 +60,7 @@ public class BookDaoImpl implements BookDao {
                     "select genre.* from books book " +
                             "  LEFT join book_genre link on book.id=link.BOOK_ID " +
                             "  LEFT join genres genre on link.GENRE_ID=genre.id " +
-                            "where book.id=1",
+                            "where book.id= :book_id",
                     params, GENRE_ROW_MAPPER);
             book.setGenres(new HashSet<>(genres));
         }

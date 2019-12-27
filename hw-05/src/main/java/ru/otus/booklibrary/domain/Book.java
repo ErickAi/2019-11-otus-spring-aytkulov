@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,11 +26,15 @@ public class Book {
         this.author = author;
     }
 
+    public Set<Genre> getGenres() {
+        return genres != null ? genres : new HashSet<>();
+    }
+
     @Override
     public String toString() {
         return "Book{(id=" + id + ") \'" + name + '\'' +
                 ", author: " + author.getName() +
-                ", genres: " + genres.stream().map(Genre::getName).collect(Collectors.toList()).toString() +
+                ", genres: " + getGenres().stream().map(Genre::getName).collect(Collectors.toList()).toString() +
                 '}';
     }
 }
