@@ -11,10 +11,7 @@ import ru.otus.booklibrary.domain.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -40,7 +37,27 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        return null;
+        Map<Integer, Set<Genre>> allGenresByBookId = new HashMap<>();
+        jdbcOperations.query("SELECT * FROM BOOK_GENRE " +
+                "join GENRES g on BOOK_GENRE.GENRE_ID = g.ID ORDER BY BOOK_ID, GENRE_ID", rs -> {
+            allGenresByBookId.compute(rs.getInt("book_id"), (key, value) -> {
+                if (value == null) {
+                    value = new HashSet<>();
+                }
+                try {
+                    value.add(new Genre(rs.getInt("genre_id"), rs.getString("name")));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return value;
+            });
+        });
+        List<Book> books = jdbcOperations.query("SELECT book.id, book.name, book.author_id, " +
+                "author.name as author_name FROM BOOKS as book" +
+                " left outer join authors author " +
+                "  on book.author_id=author.id", new BookMapper());
+        books.forEach(b -> b.setGenres(allGenresByBookId.get(b.getId())));
+        return books;
     }
 
     @Override
