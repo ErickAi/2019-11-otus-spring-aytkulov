@@ -7,11 +7,19 @@ import java.util.List;
 
 public interface BookDao {
 
+    Integer count();
+
     Book getById(int id);
+
+    Book getByName(String name);
+
+    List<Book> getByAuthor(String author);
+
+    List<Book> getByGenre(String genre);
 
     List<Book> getAll();
 
-    void insert(Book book);
+    Book insert(Book book);
 
-    void deleteById(int id);
+    boolean deleteById(int id);
 }
