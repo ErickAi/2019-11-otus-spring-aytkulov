@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id", "name"})
-public class Book {
+public class Book implements HasId {
 
     private Integer id;
     private String name;
@@ -24,6 +24,11 @@ public class Book {
         this.id = id;
         this.name = name;
         this.author = author;
+    }
+
+    public Book(Integer id, String name, Author author, Set<Genre> genres) {
+        this(id, name, author);
+        this.genres = genres;
     }
 
     public Set<Genre> getGenres() {

@@ -5,17 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id", "name"})
-public class Author {
+public class Author implements HasId {
 
     private Integer id;
     private String name;
-    private Set<Book> books;
+
+    public Author(String name) {
+        this(null, name);
+    }
 
     public Author(Integer id, String name) {
         this.id = id;

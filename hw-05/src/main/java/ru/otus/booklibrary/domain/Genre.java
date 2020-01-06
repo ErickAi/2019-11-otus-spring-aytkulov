@@ -5,17 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id", "name"})
-public class Genre {
+public class Genre implements HasId {
 
     private Integer id;
     private String name;
-    private List<Book> books;
+
+    public Genre(String name) {
+        this(null, name);
+    }
 
     public Genre(Integer id, String name) {
         this.id = id;
