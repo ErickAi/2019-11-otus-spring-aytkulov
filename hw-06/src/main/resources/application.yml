@@ -8,9 +8,8 @@ spring:
     username: sa
     password:
   jpa:
-    generate-ddl: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
 
     show-sql: true
 logging:
