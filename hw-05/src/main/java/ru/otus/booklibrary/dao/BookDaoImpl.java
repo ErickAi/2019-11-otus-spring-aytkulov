@@ -125,15 +125,15 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        Map<Integer, Set<Genre>> allGenresByBookId = new HashMap<>();
+        Map<Long, Set<Genre>> allGenresByBookId = new HashMap<>();
         jdbcOperations.query("SELECT * FROM BOOK_GENRE " +
                 "join GENRES g on BOOK_GENRE.GENRE_ID = g.ID ORDER BY BOOK_ID, GENRE_ID", rs -> {
-            allGenresByBookId.compute(rs.getInt("book_id"), (key, value) -> {
+            allGenresByBookId.compute(rs.getLong("book_id"), (key, value) -> {
                 if (value == null) {
                     value = new HashSet<>();
                 }
                 try {
-                    value.add(new Genre(rs.getInt("genre_id"), rs.getString("name")));
+                    value.add(new Genre(rs.getLong("genre_id"), rs.getString("name")));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -154,7 +154,7 @@ public class BookDaoImpl implements BookDao {
                 "authorId", book.getAuthor().getId())
                 .addValue("name", book.getName());
         Number newKey = jdbcInsert.executeAndReturnKey(parameterSource);
-        book.setId(newKey.intValue());
+        book.setId(newKey.longValue());
         insertGenres(book);
         return book;
     }
@@ -200,9 +200,9 @@ public class BookDaoImpl implements BookDao {
 
         @Override
         public Book mapRow(ResultSet rs, int i) throws SQLException {
-            int id = rs.getInt("id");
+            long id = rs.getInt("id");
             String name = rs.getString("name");
-            int authorId = rs.getInt("author_id");
+            long authorId = rs.getInt("author_id");
             String authorName = rs.getString("author_name");
             return new Book(id, name, new Author(authorId, authorName));
         }

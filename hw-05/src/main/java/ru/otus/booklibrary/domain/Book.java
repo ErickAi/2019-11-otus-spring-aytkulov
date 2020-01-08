@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = {"id", "name"})
 public class Book implements HasId {
 
-    private Integer id;
+    private Long id;
     private String name;
     private Author author;
     private Set<Genre> genres;
 
-    public Book(Integer id, String name, Author author) {
+    public Book(Long id, String name, Author author) {
         this.id = id;
         this.name = name;
         this.author = author;
     }
 
-    public Book(Integer id, String name, Author author, Set<Genre> genres) {
+    public Book(Long id, String name, Author author, Set<Genre> genres) {
         this(id, name, author);
         this.genres = genres;
     }

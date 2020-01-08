@@ -1,9 +1,9 @@
 package ru.otus.booklibrary.domain;
 
 public interface HasId {
-    Integer getId();
+    Long getId();
 
-    void setId(Integer id);
+    void setId(Long id);
 
     default boolean isNew() {
         return getId() == null;

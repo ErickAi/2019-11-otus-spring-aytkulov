@@ -59,7 +59,7 @@ public class GenreDaoImpl implements GenreDao {
     public Genre insert(Genre genre) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(genre);
         Number newKey = jdbcInsert.executeAndReturnKey(parameterSource);
-        genre.setId(newKey.intValue());
+        genre.setId(newKey.longValue());
         return genre;
     }
 }

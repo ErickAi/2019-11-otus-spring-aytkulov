@@ -52,7 +52,7 @@ public class AuthorDaoImpl implements AuthorDao {
     public Author insert(Author author) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(author);
         Number newKey = jdbcInsert.executeAndReturnKey(parameterSource);
-        author.setId(newKey.intValue());
+        author.setId(newKey.longValue());
         return author;
     }
 }

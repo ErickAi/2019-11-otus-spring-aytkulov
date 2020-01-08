@@ -11,14 +11,14 @@ import lombok.Setter;
 @EqualsAndHashCode(of = {"id", "name"})
 public class Genre implements HasId {
 
-    private Integer id;
+    private Long id;
     private String name;
 
     public Genre(String name) {
         this(null, name);
     }
 
-    public Genre(Integer id, String name) {
+    public Genre(Long id, String name) {
         this.id = id;
         this.name = name;
     }

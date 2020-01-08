@@ -11,14 +11,14 @@ import lombok.Setter;
 @EqualsAndHashCode(of = {"id", "name"})
 public class Author implements HasId {
 
-    private Integer id;
+    private Long id;
     private String name;
 
     public Author(String name) {
         this(null, name);
     }
 
-    public Author(Integer id, String name) {
+    public Author(Long id, String name) {
         this.id = id;
         this.name = name;
     }
