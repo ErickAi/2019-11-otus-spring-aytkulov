@@ -4,7 +4,7 @@ import ru.otus.booklibrary.domain.Author;
 
 public interface AuthorDao {
 
-    Integer count();
+    Long count();
 
     Author getByName(String name);
 

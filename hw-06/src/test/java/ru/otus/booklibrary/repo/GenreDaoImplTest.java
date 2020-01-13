@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.booklibrary.domain.Genre;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.otus.booklibrary.TestData.*;
 
-@JdbcTest
+@DataJpaTest
 @Import(GenreDaoImpl.class)
 @DisplayName(value = "DAO для работы с жанрами")
 @Slf4j
@@ -39,7 +40,7 @@ class GenreDaoImplTest {
     @Test
     @DisplayName(value = "сохраняет новый жанр")
     void insert() {
-        int expectedCount = genreDao.count() + 1;
+        long expectedCount = genreDao.count() + 1;
         genreDao.insert(NEW_GENRE);
         assertEquals(expectedCount, genreDao.count());
     }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.booklibrary.domain.Author;
 
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.otus.booklibrary.TestData.AUTHOR;
 import static ru.otus.booklibrary.TestData.NEW_AUTHOR;
 
-@JdbcTest
+@DataJpaTest
 @Import(AuthorDaoImpl.class)
 @DisplayName(value = "DAO для работы с авторами")
 @Slf4j
@@ -31,7 +32,7 @@ class AuthorDaoImplTest {
     @Test
     @DisplayName(value = "сохраняет нового автора")
     void insert() {
-        int expectedCount = authorDao.count() + 1;
+        long expectedCount = authorDao.count() + 1;
         authorDao.insert(NEW_AUTHOR);
         assertEquals(expectedCount, authorDao.count());
     }

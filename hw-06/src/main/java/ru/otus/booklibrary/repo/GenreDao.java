@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GenreDao {
 
-    Integer count();
+    Long count();
 
     Genre getByName(String name);
 
