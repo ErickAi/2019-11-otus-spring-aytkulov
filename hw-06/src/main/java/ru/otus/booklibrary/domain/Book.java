@@ -20,7 +20,7 @@ public class Book implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
@@ -34,7 +34,7 @@ public class Book implements HasId {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres;
 
-    public Book(Integer id, String name, Author author) {
+    public Book(Long id, String name, Author author) {
         this(id, name, author, null);
         this.name = name;
         this.author = author;
