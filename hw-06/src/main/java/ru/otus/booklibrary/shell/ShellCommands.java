@@ -38,7 +38,7 @@ public class ShellCommands {
     }
 
     @ShellMethod(value = "Get book by id", key = {"b", "book"})
-    public void getBookById(int id) {
+    public void getBookById(long id) {
         try {
             ioService.print(bookDao.getById(id).toString());
         } catch (Exception e) {
@@ -121,7 +121,7 @@ public class ShellCommands {
     }
 
     @ShellMethod(value = "Delete book by ID", key = {"b-d", "book-delete"})
-    public void deleteBookById(int id) {
+    public void deleteBookById(long id) {
         if (bookDao.deleteById(id)) {
             ioService.print(String.format("book with id '%s' deleted.", id));
         }

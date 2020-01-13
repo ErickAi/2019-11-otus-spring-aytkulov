@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface BookDao {
 
-    Integer count();
+    Long count();
 
-    Book getById(int id);
+    Book getById(Long id);
 
     Book getByName(String name);
 
@@ -21,5 +21,5 @@ public interface BookDao {
 
     Book insert(Book book);
 
-    boolean deleteById(int id);
+    boolean deleteById(long id);
 }

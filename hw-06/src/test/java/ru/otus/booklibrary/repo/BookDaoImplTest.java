@@ -3,7 +3,7 @@ package ru.otus.booklibrary.repo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.booklibrary.domain.Book;
 import ru.otus.booklibrary.exception.NotFoundException;
@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.otus.booklibrary.TestData.*;
 
-@JdbcTest
+@DataJpaTest
 @Import(BookDaoImpl.class)
 @DisplayName(value = "DAO для работы с книгами")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -28,14 +28,14 @@ class BookDaoImplTest {
     @DisplayName(value = "достает из базы все книги")
     void getAll() {
         List<Book> allBooks = bookDao.getAll();
-        assertEquals(allBooks.size(), bookDao.count());
+        assertEquals(bookDao.count(), allBooks.size());
     }
 
     @Test
     @Order(2)
     @DisplayName(value = "достает из базы книгу по ID")
     void getById() {
-        log.info(bookDao.getById(1).toString());
+        log.info(bookDao.getById(1L).toString());
     }
 
     @Test
@@ -71,7 +71,7 @@ class BookDaoImplTest {
     @Order(6)
     @DisplayName(value = "добавляет книгу с автором и жанрами в базу")
     void insert() {
-        int expectedCount = bookDao.count() + 1;
+        long expectedCount = bookDao.count() + 1;
         bookDao.insert(NEW_BOOK);
         assertEquals(expectedCount, bookDao.count());
     }
@@ -80,13 +80,13 @@ class BookDaoImplTest {
     @Order(7)
     @DisplayName(value = "удаляет книгу и связи с жанрами по ее ID")
     void deleteById() {
-        int expectedCount = bookDao.count() - 1;
-        bookDao.deleteById(1);
+        long expectedCount = bookDao.count() - 1;
+        bookDao.deleteById(1L);
         assertEquals(expectedCount, bookDao.count());
     }
 
     @Test
-    @DisplayName(value = "оборачивает EmptyResultDataAccessException в NotFoundException")
+    @DisplayName(value = "оборачивает NoResultException в NotFoundException если книги с запрашиваемым названием нет в библиотеке")
     void getByNameException() {
         NotFoundException thrown = assertThrows(NotFoundException.class, () -> bookDao.getByName(NO_NAME));
         assertTrue(thrown.getMessage().contains("not found"));
