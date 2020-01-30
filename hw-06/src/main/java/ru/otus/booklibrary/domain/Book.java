@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = {"id", "name"})
 @Entity
 @Table(name = "books")
-public class Book implements HasId {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
