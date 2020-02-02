@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.booklibrary.domain.Author;
 import ru.otus.booklibrary.domain.Book;
+import ru.otus.booklibrary.domain.Comment;
 import ru.otus.booklibrary.domain.Genre;
 import ru.otus.booklibrary.exception.NotFoundException;
 import ru.otus.booklibrary.repo.GenreRepo;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @ShellComponent
 @RequiredArgsConstructor
-public class ShellCommands {
+public class BooksCommands {
 
     private final IOService ioService;
     private final BookService bookService;
@@ -38,7 +39,12 @@ public class ShellCommands {
     @ShellMethod(value = "Get book by id", key = {"b", "book"})
     public void getBookById(long id) {
         try {
-            ioService.print(bookService.getById(id).toString());
+            Book book = bookService.getById(id);
+            ioService.print(book.toString());
+            for (Comment comment : book.getComments()) {
+                ioService.print("\tcomment: " + comment.getEntry());
+            }
+
         } catch (Exception e) {
             ioService.print(e.getMessage());
         }
@@ -76,6 +82,12 @@ public class ShellCommands {
         for (Genre genre : genres) {
             ioService.print(genre.toString());
         }
+    }
+
+    @ShellMethod(value = "Add comment to book by bookId", key = {"c-add", "comment-add-to-book"})
+    public void addCommentToBook(@ShellOption(value = "--bookId") Long bookId, @ShellOption(value = "--comment") String comment) {
+        comment = replaceUnderscores(comment);
+        bookService.addCommentToBook(bookId, comment);
     }
 
     @ShellMethod(value = "Create new book command (if name/author/genre contains spaces, replace it to underscores ('_'))"
@@ -132,38 +144,42 @@ public class ShellCommands {
     }
 
     private Availability getAllBooksAvailability() {
-        return creationAvailability();
+        return creationLock();
     }
 
     private Availability getBookByIdAvailability() {
-        return creationAvailability();
+        return creationLock();
     }
 
     private Availability getBooksByAuthorAvailability() {
-        return creationAvailability();
+        return creationLock();
     }
 
     private Availability getBooksByGenreAvailability() {
-        return creationAvailability();
+        return creationLock();
+    }
+
+    private Availability addCommentToBookAvailability() {
+        return creationLock();
     }
 
     private Availability deleteBookByIdAvailability() {
-        return creationAvailability();
+        return creationLock();
     }
 
     private Availability addGenreToNewBookAvailability() {
-        return saveOrDenyAvailability();
+        return creationAvailability();
     }
 
     private Availability saveCreationAvailability() {
-        return saveOrDenyAvailability();
+        return creationAvailability();
     }
 
     private Availability denyCreationAvailability() {
-        return saveOrDenyAvailability();
+        return creationAvailability();
     }
 
-    private Availability creationAvailability() {
+    private Availability creationLock() {
         if (newBook != null) {
             return Availability.unavailable("\n Now you creating the book %s. \nConfirm or deny creation by command " +
                     "\n Confirm: 'c', 'confirm-creation'. \n Deny: 'd', 'deny-creation'");
@@ -171,7 +187,7 @@ public class ShellCommands {
         return Availability.available();
     }
 
-    private Availability saveOrDenyAvailability() {
+    private Availability creationAvailability() {
         if (newBook == null) {
             return Availability.unavailable("\nThis command for save or deny created book." +
                     "\nFor create new book use command ");

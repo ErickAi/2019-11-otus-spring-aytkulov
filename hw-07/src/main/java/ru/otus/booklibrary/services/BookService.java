@@ -19,4 +19,6 @@ public interface BookService {
     Book save(Book book);
 
     void deleteById(Long id);
+
+    void addCommentToBook(Long bookId, String comment);
 }
