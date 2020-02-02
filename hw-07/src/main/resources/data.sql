@@ -13,8 +13,7 @@ insert into GENRES (id, name) values (11, 'Военная проза');
 insert into GENRES (id, name) values (12, 'Фентези');
 insert into GENRES (id, name) values (13, 'Поэма');
 insert into GENRES (id, name) values (14, 'Пьеса');
-insert into GENRES (id, name) values (15, 'Военная проза');
-insert into GENRES (id, name) values (16, 'Сказка');
+insert into GENRES (id, name) values (15, 'Сказка');
 
 insert into AUTHORS (id, name) values ( 1, 'a');
 insert into AUTHORS (id, name) values ( 2, 'author');
@@ -114,11 +113,11 @@ insert into BOOK_GENRE(book_id, genre_id) values (22, 6);
 insert into BOOK_GENRE(book_id, genre_id) values (24, 5);
 insert into BOOK_GENRE(book_id, genre_id) values (24, 12);
 insert into BOOK_GENRE(book_id, genre_id) values (24, 2);
-insert into BOOK_GENRE(book_id, genre_id) values (24, 16);
+insert into BOOK_GENRE(book_id, genre_id) values (24, 15);
 insert into BOOK_GENRE(book_id, genre_id) values (25, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (25, 16);
+insert into BOOK_GENRE(book_id, genre_id) values (25, 15);
 insert into BOOK_GENRE(book_id, genre_id) values (26, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (26, 16);
+insert into BOOK_GENRE(book_id, genre_id) values (26, 15);
 
 insert into COMMENTS(id, book_id, ENTRY) values (1, 1, 'Small comment for book "b".');
 insert into COMMENTS(id, book_id, ENTRY) values (2, 1, 'Another small comment for book "b".');

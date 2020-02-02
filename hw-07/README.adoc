@@ -6,7 +6,6 @@
 
 - Spring Boot 2
 - Spring data JPA
-- JPQL
 - JUnit 5
 
 - Libraries:
