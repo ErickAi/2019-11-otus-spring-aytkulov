@@ -34,21 +34,6 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "book")
-    private Set<Comment> comments;
-
-    public Book(Long id, String name, Author author, Set<Genre> genres) {
-        this(id, name, author, genres, null);
-    }
-
-    public Set<Genre> getGenres() {
-        return genres != null ? genres : new HashSet<>();
-    }
-
-    public Set<Comment> getComments() {
-        return comments != null ? comments : new HashSet<>();
-    }
-
     @Override
     public String toString() {
         return "Book{(id=" + id + ") \'" + name + '\'' +

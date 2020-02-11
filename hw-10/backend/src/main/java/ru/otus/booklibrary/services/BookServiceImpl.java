@@ -27,7 +27,6 @@ public class BookServiceImpl implements BookService {
     public Book getById(Long id) {
         Book book = bookRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book with id '" + id + "' not found."));
-        Hibernate.initialize(book.getComments());
         return book;
     }
 
@@ -64,7 +63,6 @@ public class BookServiceImpl implements BookService {
     public void addCommentToBook(Long bookId, String comment) {
         Book book = bookRepo.findById(bookId)
                 .orElseThrow(() -> new NotFoundException("Book with id '" + bookId + "' not found."));
-        book.getComments().add(new Comment(comment, book));
         bookRepo.save(book);
     }
 }
