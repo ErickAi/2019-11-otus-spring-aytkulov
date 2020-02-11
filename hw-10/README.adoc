@@ -1,0 +1,23 @@
+== 04 "Чёрная магия" Spring Boot
+
++++ <details><summary> +++
+Изучаемый стек
++++ </summary><div> +++
+
+- Spring Boot 2
+- Spring data JPA
+- Spring WEB
+- VueJS
+- JUnit 5
+
+- Libraries:
+
+    lombok        code generator
+
++++ </div></details> +++
+
+=== Техническое задание
+
+- Переписать приложение с классических View на AJAX архитектуру и REST-контроллеры.
+- Минимум: получение одной сущности и отображение её на странице с помощью Vanilla JS или jQuery
+- Опционально максимум: полноценное SPA приложение на React/Vue/Angular, только REST-контроллеры.
