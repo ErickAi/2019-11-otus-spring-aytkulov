@@ -8,6 +8,7 @@ import ru.otus.booklibrary.services.BookService;
 
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:80", "http://localhost"})
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -25,6 +26,18 @@ class BookController {
     public Book getById(@PathVariable("id") Long id) {
         log.info("getById");
         return bookService.getById(id);
+    }
+
+    @GetMapping(value = "/books/name/{name}")
+    public Book getByName(@PathVariable("name") String name) {
+        log.info("getByName");
+        return bookService.getByName(name);
+    }
+
+    @GetMapping(value = "/books/author/{authorName}")
+    public List<Book> getByAuthorName(@PathVariable("authorName") String authorName) {
+        log.info("getByAuthorName");
+        return bookService.getAllContainsAuthorName(authorName);
     }
 
     @PostMapping(value = "/books")
