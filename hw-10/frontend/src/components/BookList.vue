@@ -1,11 +1,24 @@
 <template>
   <div class="list row">
-    <div class="col-md-8">
+    <div class="col-md-4">
       <div class="input-group mb-3">
         <input class="form-control" placeholder="Search by author" type="text"
-               v-model="authorName"/>
+               v-model="searchByAuthor"/>
         <div class="input-group-append">
           <button @click="searchAuthor" class="btn btn-outline-secondary"
+                  type="button"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="input-group mb-3">
+        <input class="form-control" placeholder="Search by genre" type="text"
+               v-model="searchByGenre"/>
+        <div class="input-group-append">
+          <button @click="searchGenre" class="btn btn-outline-secondary"
                   type="button"
           >
             Search
@@ -33,7 +46,7 @@
           <strong>Author:</strong> {{ currentBook.author.name }}
         </div>
         <div>
-          <label><strong>Genres as array:</strong></label>
+          <label><strong>Genres:</strong></label>
           <ul>
             <li :key="genre.id"
                 v-for="(genre) in this.currentBookGenres">
@@ -66,7 +79,8 @@
                 currentBook: null,
                 currentIndex: -1,
                 currentBookGenres: [],
-                authorName: ""
+                searchByAuthor: "",
+                searchByGenre: ""
             };
         },
         methods: {
@@ -93,19 +107,19 @@
                 this.currentBookGenres = book.genres;
             },
 
-            removeAllBooks() {
-                BookDataService.deleteAll()
+            searchAuthor() {
+                BookDataService.findByAuthor(this.searchByAuthor)
                     .then(response => {
+                        this.books = response.data;
                         console.log(response.data);
-                        this.refreshList();
                     })
                     .catch(e => {
                         console.log(e);
                     });
             },
 
-            searchAuthor() {
-                BookDataService.findByAuthor(this.authorName)
+            searchGenre() {
+                BookDataService.findByGenre(this.searchByGenre)
                     .then(response => {
                         this.books = response.data;
                         console.log(response.data);

@@ -40,6 +40,12 @@ class BookController {
         return bookService.getAllContainsAuthorName(authorName);
     }
 
+    @GetMapping(value = "/books/genre/{genreName}")
+    public List<Book> getByGenre(@PathVariable("genreName") String authorName) {
+        log.info("getByAuthorName");
+        return bookService.findByGenre(authorName);
+    }
+
     @PostMapping(value = "/books")
     public void create(@RequestBody Book newBook) {
         log.info("create");

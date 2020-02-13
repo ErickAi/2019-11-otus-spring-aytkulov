@@ -13,6 +13,10 @@ class BookDataService {
         return http.get(`/books/author/${authorName}`);
     }
 
+    findByGenre(genreName) {
+        return http.get(`/books/genre/${genreName}`);
+    }
+
     create(data) {
         return http.post("/books", data);
     }
