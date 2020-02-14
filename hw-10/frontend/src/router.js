@@ -12,5 +12,11 @@ export default new Router({
             name: "books",
             component: () => import("./components/BookList")
         },
+
+        {
+            path: "/books/:id",
+            name: "book-details",
+            component: () => import("./components/Book")
+        },
     ]
 });
