@@ -11,7 +11,7 @@
   <groupId>ru.otus</groupId>
   <artifactId>book-library-web-mvc</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>book-library-web-mvc</name>
+  <name>book-library-mongodb</name>
   <description>web mvc thymeleaf with classic controllers</description>
 
   <properties>

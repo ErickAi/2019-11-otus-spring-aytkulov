@@ -1,21 +1,4 @@
 spring:
-  datasource:
-    initialization-mode: always
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:book-library
-    # tcp connection jdbc:h2:tcp://localhost:7072/mem:book-library
-    # web connection http://localhost:8082
-    username: sa
-    password:
-  jpa:
-    show-sql: true
-    database: default
-    generate-ddl: false
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        batch_fetch_style: dynamic
-        default_batch_fetch_size: 30
-        jdbc:
-          batch_size: 30
+  data:
+    mongodb:
+      database: booklibrary
