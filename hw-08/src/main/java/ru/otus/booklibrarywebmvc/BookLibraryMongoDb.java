@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BookLibraryWebMvcApplication {
+public class BookLibraryMongoDb {
 
     public static void main(String[] args) {
-        SpringApplication.run(BookLibraryWebMvcApplication.class, args);
+        SpringApplication.run(BookLibraryMongoDb.class, args);
     }
 
 }
