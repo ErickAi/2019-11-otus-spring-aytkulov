@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class Book {
 
     @Id
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -29,7 +29,7 @@ public class Book {
 
     private Set<Comment> comments;
 
-    public Book(Long id, String name, Author author, Set<Genre> genres) {
+    public Book(String  id, String name, Author author, Set<Genre> genres) {
         this(id, name, author, genres, null);
     }
 
