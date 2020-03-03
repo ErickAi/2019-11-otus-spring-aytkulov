@@ -1,20 +1,7 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Library</a>
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/books">Books</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/add">Add</a>
-        </li>
-      </div>
-    </nav>
-
-    <div class="container mt-3">
-      <router-view/>
-    </div>
+    <router-view/>
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@1.2.2/dist/vuetify.min.css" rel="stylesheet" />
   </div>
 </template>
 
@@ -23,3 +10,7 @@
         name: 'App',
     }
 </script>
+<style>
+  @import url("//unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css");
+</style>
+

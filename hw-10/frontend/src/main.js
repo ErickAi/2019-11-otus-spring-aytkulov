@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
+import Element from 'element-ui'
 import router from './router'
-import Autocomplete from '@trevoreyre/autocomplete-vue'
-import '@trevoreyre/autocomplete-vue/dist/style.css'
 
+Vue.use(Element);
 Vue.config.productionTip = false;
-Vue.use(Autocomplete);
 
 new Vue({
     router,

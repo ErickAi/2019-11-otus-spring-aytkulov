@@ -1,33 +1,26 @@
 import http from "../http-common";
 
-class BookDataService {
+class GenreDataService {
     getAll() {
-        return http.get("/books");
+        return http.get("/genres");
+
     }
 
     get(id) {
-        return http.get(`/books/${id}`);
-    }
-
-    findByAuthor(authorName) {
-        return http.get(`/books/author/${authorName}`);
-    }
-
-    findByGenre(genreName) {
-        return http.get(`/genre/name/${genreName}`);
+        return http.get(`/genres/${id}`);
     }
 
     create(data) {
-        return http.post("/books", data);
+        return http.post("/genres", data);
     }
 
     update(id, data) {
-        return http.put(`/books/${id}`, data);
+        return http.put(`/genres/${id}`, data);
     }
 
     delete(id) {
-        return http.delete(`/books/${id}`);
+        return http.delete(`/genres/${id}`);
     }
 }
 
-export default new BookDataService();
+export default new GenreDataService();

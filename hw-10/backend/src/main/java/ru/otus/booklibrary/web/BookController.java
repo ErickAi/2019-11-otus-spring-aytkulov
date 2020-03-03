@@ -8,7 +8,7 @@ import ru.otus.booklibrary.services.BookService;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:80", "http://localhost"})
+@CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
 @RequiredArgsConstructor
 @Slf4j

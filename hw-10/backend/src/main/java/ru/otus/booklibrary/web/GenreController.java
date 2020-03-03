@@ -4,51 +4,48 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.booklibrary.domain.Book;
-import ru.otus.booklibrary.services.BookService;
+import ru.otus.booklibrary.domain.Genre;
+import ru.otus.booklibrary.exception.NotFoundException;
+import ru.otus.booklibrary.repo.GenreRepo;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:80", "http://localhost"})
+@CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 class GenreController {
 
-    private final BookService bookService;
+    private final GenreRepo genreRepo;
 
     @GetMapping(value = "/genres")
-    public List<Book> getAll() {
+    public List<Genre> getAll() {
         log.info("getAll");
-        return bookService.getAll();
+        return genreRepo.findAll();
     }
 
     @GetMapping(value = "/genres/{id}")
-    public Book getById(@PathVariable("id") Long id) {
+    public Genre getById(@PathVariable("id") Long id) {
         log.info("getById");
-        return bookService.getById(id);
-    }
-
-    @GetMapping(value = "/genres/name/{name}")
-    public Book getByName(@PathVariable("name") String name) {
-        log.info("getByName");
-        return bookService.getByName(name);
+        return genreRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("Genre with id '" + id + "' not found."));
     }
 
     @PostMapping(value = "/genres")
-    public void create(@RequestBody Book newBook) {
+    public void create(@RequestBody Genre newGenre) {
         log.info("create");
-        bookService.save(newBook);
+        genreRepo.save(newGenre);
     }
 
     @PutMapping(value = "/genres/{id}")
-    public void update(@PathVariable("id") Long id, @RequestBody Book forUpdate) {
+    public void update(@PathVariable("id") Long id, @RequestBody Genre forUpdate) {
         log.info("update");
-        bookService.save(forUpdate);
+        genreRepo.save(forUpdate);
     }
 
     @DeleteMapping(value = "/genres/{id}")
     public void delete(@PathVariable("id") Long id) {
         log.info("delete");
-        bookService.deleteById(id);
+        genreRepo.deleteById(id);
     }
 }

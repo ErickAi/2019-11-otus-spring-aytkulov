@@ -10,7 +10,7 @@ export default new Router({
             path: "/",
             alias: "/books",
             name: "books",
-            component: () => import("./components/BookList")
+            component: () => import("./components/Books")
         },
 
         {
