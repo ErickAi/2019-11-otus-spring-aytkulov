@@ -1,119 +1,168 @@
 <template>
-  <el-container class="mt-5">
-    <el-form :model="modifiedBook" ref="bookForm" label-width="120px">
-      <el-form-item
-              prop="name"
-              label="Name"
-              :rules="{ required: true, message: 'message', trigger: 'blur' }">
-<!--        <el-input v-model="bookForm.name"></el-input>-->
-        <el-input v-model="modifiedBook.name"></el-input>
-      </el-form-item>
-      <el-form-item
-              v-for="(genre, index) in addedGenres"
-              :label="'Жанр: index: ' + index + '. id: ' + genre.id"
-              :key="genre.id"
-              :prop="'addedGenres.' + index + '.name'"
-              :rules="{required: true, message: 'genre can not be null', trigger: 'blur'}">
-        <el-input v-model="genre.name"></el-input>
-        <el-button @click.prevent="removeGenre(genre)">Delete</el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('bookForm')">Submit</el-button>
-        <el-button @click="addDomain">New domain</el-button>
-        <el-button @click="resetForm('bookForm')">Reset</el-button>
-      </el-form-item>
-    </el-form>
-    <!--    БЫЛО     -->
-    <!--
-        <div class="el-col-10">
-          <form>
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input class="form-control" id="name" type="text"
-                     v-model="currentBook.name"/>
-            </div>
-            <div class="form-group">
-              <label for="author">Author</label>
-              <input class="form-control" id="author" type="text"
-                     v-model="currentBook.author.name"
-              />
-            </div>
-            <div v-bind:key="genre.id" v-for="(genre) in currentBook.genres">
-              <div class="raw">
-                <label for="genreName">{{ genre.id }}</label>
-                <input id="genreName"
-                       type="text"
-                       v-bind:value=genre.name>
-              </div>
-            </div>
-          </form>
-        </div>
-    -->
-  </el-container>
+  <div>
+    <NavMenu/>
+    <el-main>
+      <el-container class="el-col-16">
+        <el-form :model="currentBook" ref="bookForm" label-width="140px">
+          <h1>Редактировать книгу</h1>
+          <el-form-item
+                  class="mt-4"
+                  prop="name"
+                  label="Название"
+                  :rules="{ required: true, message: 'У книги должно быть название.', trigger: 'blur' }">
+            <el-input class="el-input-group" v-model="currentBook.name"></el-input>
+          </el-form-item>
+          <el-form-item
+                  prop="author"
+                  label="Автор"
+                  :rules="{ required: true, message: 'message', trigger: 'blur' }">
+            <el-autocomplete
+                    class="el-input-group"
+                    value-key="name"
+                    v-model="currentBook.author.name"
+                    :fetch-suggestions="querySearchAsyncAuthor"
+                    placeholder="Выберите из списка"
+                    @select="handleSelectAuthor"
+                    clearable
+            ></el-autocomplete>
+          </el-form-item>
+          <div v-if="!isNew">
+            <el-form-item
+                    v-for="(genre, index) in currentBook.genres"
+                    label="Жанр"
+                    :v-bind="index"
+                    :key="genre.id"
+                    :prop="`genres.${index}.name`">
+              <el-input class="el-input-group" v-model="genre.name" readonly></el-input>
+              <el-button class="mt-1 right" type="danger" round size="mini" @click.prevent="removeGenre(genre)">Удалить
+              </el-button>
+            </el-form-item>
+          </div>
+          <el-form-item
+                  prop="genreForAdd"
+                  label="Добавить жанр">
+            <el-autocomplete
+                    class="el-input-group"
+                    value-key="name"
+                    v-model="genreSuggestion"
+                    :fetch-suggestions="querySearchAsyncGenres"
+                    placeholder="Выберите из списка"
+                    @select="handleSelectGenre"
+                    clearable
+            ></el-autocomplete>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('bookForm')">
+              <span v-if="currentBook.id">Обновить</span><span v-else>Создать</span>
+            </el-button>
+            <el-button type="warning" @click="resetForm('bookForm')">Сбросить</el-button>
+            <el-button type="danger" @click="deleteBook">Удалить</el-button>
+          </el-form-item>
+        </el-form>
+      </el-container>
+    </el-main>
+  </div>
 </template>
 
 <script>
+    import NavMenu from "@/components/NavMenu";
     import BookDataService from "../services/BookDataService";
+    import AuthorDataService from "../services/AuthorDataService";
     import GenreDataService from "../services/GenreDataService";
 
     export default {
         name: "Book",
+        components: {
+            NavMenu,
+        },
         data() {
             return {
-                currentBook: null,
-                modifiedBook: null,
-                addedGenres: [{
-                            id: 1,
+                isNew: true,
+                currentBook: {
+                    id: null,
+                    name: "",
+                    author: {
+                        id: null,
+                        name: ""
+                    },
+                    genres: [
+/*
+                        {
+                            id: null,
                             name: ''
-                }],
-                genres: [],
-                // bookForm: {
-                //     book: null,
-                //     id: 1,
-                //     name: '',
-                //     author: null,
-                //     genres: [{
-                //         id: 1,
-                //         name: ''
-                //     }],
-                // }
+                        }
+*/
+                    ]
+                },
+                /*
+                                currentBook: {
+                                    id: null,
+                                    name: "",
+                                    author: {
+                                        id: null,
+                                        name: ""
+                                    },
+                                    genres: [
+                                        {
+                                            id: null,
+                                            name: ''
+                                        }
+                                    ]
+                                },
+                */
+                allAuthors: [],
+                allGenres: [],
+                genreSuggestion: null,
             };
         },
         methods: {
+            resetForm() {
+                if (this.$route.params.id) {
+                    this.requestBookAndSetData(this.$route.params.id);
+                    this.isNew = false;
+                } else {
+                    this.currentBook = {
+                        id: null,
+                        name: "",
+                        author: {
+                            id: null,
+                            name: ""
+                        },
+                        genres: [
+                            // {
+                            //     id: null,
+                            //     name: ''
+                            // }
+                        ]
+                    }
+                }
+            },
             requestBookAndSetData(id) {
                 BookDataService.get(id)
                     .then(response => {
-                        console.log(response.data);
+                        console.log("Book received. id: " + id);
                         this.currentBook = response.data;
-                        this.modifiedBook = this.currentBook;
-                        this.addedGenres = this.currentBook.genres;
-                        // this.bookForm.id = this.currentBook.id;
-                        // this.bookForm.name = this.currentBook.name;
-                        // this.bookForm.author = this.currentBook.author;
-                        // this.bookForm.genres = this.currentBook.genres;
-                        // console.log("this.bookForm");
-                        // console.log(this.bookForm)
                     })
                     .catch(e => {
                         console.log(e);
                     });
 
             },
-            getGenres() {
-                GenreDataService.getAll()
+            getAllAuthors() {
+                AuthorDataService.getAll()
                     .then(response => {
-                        this.genres = response.data;
-                        console.log(response.data);
+                        this.allAuthors = response.data;
+                        console.log("Authors loaded. count: " + this.allAuthors.length);
                     })
                     .catch(e => {
                         console.log(e);
                     });
             },
-            updateBook() {
-                BookDataService.update(this.currentBook.id, this.currentBook)
+            getAllGenres() {
+                GenreDataService.getAll()
                     .then(response => {
-                        console.log(response.data);
-                        this.message = 'The book was updated successfully!';
+                        this.allGenres = response.data;
+                        console.log("Genres loaded. count: " + this.allGenres.length);
                     })
                     .catch(e => {
                         console.log(e);
@@ -132,38 +181,59 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        let bookId = this.currentBook.id;
+                        (bookId ? BookDataService.update(bookId, this.currentBook)
+                            : BookDataService.create(this.currentBook))
+                            .then(response => {
+                                this.message = 'The book was updated successfully!';
+                                console.log(response.data);
+                            })
+                            .catch(e => {
+                                console.log(e);
+                            });
                     } else {
-                        console.log('error submit!!');
+                        console.log('Book form is not valid!');
                         return false;
                     }
                 });
             },
-            resetForm() {
-                // this.$refs[formName].resetFields();
-                this.modifiedBook = this.currentBook;
-            },
             removeGenre(item) {
-                // var index = this.bookForm.genres.indexOf(item);
-                let index = this.modifiedBook.genres.indexOf(item);
+                let index = this.currentBook.genres.indexOf(item);
                 if (index !== -1) {
-                    this.modifiedBook.genres.splice(index, 1);
+                    this.currentBook.genres.splice(index, 1);
                 }
             },
-            addDomain() {
-                this.modifiedBook.genres.push({
-                    id: Date.now(),
-                    name: ''
-                });
+            querySearchAsyncAuthor(queryString, cb) {
+                let authors = this.allAuthors;
+                let suggestions = queryString ? authors.filter(this.createFilter(queryString)) : authors;
+                cb(suggestions);
+            },
+            handleSelectAuthor(author) {
+                this.currentBook.author = author;
+                console.log(this.currentBook);
+            },
+            querySearchAsyncGenres(queryString, cb) {
+                let genres = this.allGenres;
+                let suggestions = queryString ? genres.filter(this.createFilter(queryString)) : genres;
+                cb(suggestions);
+            },
+            handleSelectGenre(genre) {
+                this.currentBook.genres.push(genre);
+                console.log(this.currentBook);
+            },
+            createFilter(queryString) {
+                return (object) => {
+                    return (object.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                };
             },
         },
         mounted() {
-            this.requestBookAndSetData(this.$route.params.id);
-            // this.getGenres();
+            this.resetForm();
+            this.getAllAuthors();
+            this.getAllGenres();
         }
     }
 </script>
 
-<style scoped>
-
+<style>
 </style>

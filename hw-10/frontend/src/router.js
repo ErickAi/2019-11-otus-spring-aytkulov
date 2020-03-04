@@ -18,5 +18,11 @@ export default new Router({
             name: "book-details",
             component: () => import("./components/Book")
         },
+
+        {
+            path: "/addBook",
+            name: "book-details",
+            component: () => import("./components/Book")
+        },
     ]
 });

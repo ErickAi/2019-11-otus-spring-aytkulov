@@ -3,7 +3,6 @@ package ru.otus.booklibrary.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.otus.booklibrary.domain.Book;
 import ru.otus.booklibrary.domain.Genre;
 import ru.otus.booklibrary.exception.NotFoundException;
 import ru.otus.booklibrary.repo.GenreRepo;

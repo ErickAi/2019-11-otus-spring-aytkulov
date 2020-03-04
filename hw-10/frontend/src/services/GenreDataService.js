@@ -3,7 +3,6 @@ import http from "../http-common";
 class GenreDataService {
     getAll() {
         return http.get("/genres");
-
     }
 
     get(id) {
