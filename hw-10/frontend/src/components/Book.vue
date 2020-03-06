@@ -1,79 +1,87 @@
 <template>
-  <div>
-    <NavMenu/>
+  <el-container>
+    <nav-menu/>
     <el-main>
-      <el-container class="el-col-16">
-        <el-form :model="currentBook" ref="bookForm" label-width="140px">
-          <h1>Редактировать книгу</h1>
-          <el-form-item
-                  class="mt-4"
-                  prop="name"
-                  label="Название"
-                  :rules="{ required: true, message: 'У книги должно быть название.', trigger: 'blur' }">
-            <el-input class="el-input-group" v-model="currentBook.name"></el-input>
-          </el-form-item>
-          <el-form-item
-                  prop="author"
-                  label="Автор"
-                  :rules="{ required: true, message: 'message', trigger: 'blur' }">
-            <el-autocomplete
-                    class="el-input-group"
-                    value-key="name"
-                    v-model="currentBook.author.name"
-                    :fetch-suggestions="querySearchAsyncAuthor"
-                    placeholder="Выберите из списка"
-                    @select="handleSelectAuthor"
-                    clearable
-            ></el-autocomplete>
-          </el-form-item>
-          <div v-if="!isNew">
+      <el-row>
+        <el-container class="el-col-12">
+          <el-form :model="currentBook" ref="bookForm" label-width="120px">
+            <h1>Редактировать книгу</h1>
             <el-form-item
-                    v-for="(genre, index) in currentBook.genres"
-                    label="Жанр"
-                    :v-bind="index"
-                    :key="genre.id"
-                    :prop="`genres.${index}.name`">
-              <el-input class="el-input-group" v-model="genre.name" readonly></el-input>
-              <el-button class="mt-1 right" type="danger" round size="mini" @click.prevent="removeGenre(genre)">Удалить
-              </el-button>
+                    class="mt-4"
+                    prop="name"
+                    label="Название"
+                    :rules="{ required: true, message: 'У книги должно быть название.', trigger: 'blur' }">
+              <el-input class="el-input-group" v-model="currentBook.name"></el-input>
             </el-form-item>
-          </div>
-          <el-form-item
-                  prop="genreForAdd"
-                  label="Добавить жанр">
-            <el-autocomplete
-                    class="el-input-group"
-                    value-key="name"
-                    v-model="genreSuggestion"
-                    :fetch-suggestions="querySearchAsyncGenres"
-                    placeholder="Выберите из списка"
-                    @select="handleSelectGenre"
-                    clearable
-            ></el-autocomplete>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('bookForm')">
-              <span v-if="currentBook.id">Обновить</span><span v-else>Создать</span>
-            </el-button>
-            <el-button type="warning" @click="resetForm('bookForm')">Сбросить</el-button>
-            <el-button type="danger" @click="deleteBook">Удалить</el-button>
-          </el-form-item>
-        </el-form>
-      </el-container>
+            <el-form-item
+                    prop="author"
+                    label="Автор"
+                    :rules="{ required: true, message: 'message', trigger: 'blur' }">
+              <el-input class="el-input-group" v-model="currentBook.author.name" readonly></el-input>
+              <el-autocomplete
+                      class="el-input-group mt-1"
+                      value-key="name"
+                      v-model="authorSuggestion"
+                      :fetch-suggestions="querySearchAsyncAuthor"
+                      placeholder="Выберите из списка"
+                      @select="handleSelectAuthor"
+                      clearable
+              ></el-autocomplete>
+            </el-form-item>
+            <div v-if="Array.isArray(this.currentBook.genres) && this.currentBook.genres.length">
+              <el-form-item
+                      v-for="(genre, index) in currentBook.genres"
+                      label="Жанр"
+                      :v-bind="index"
+                      :key="genre.id"
+                      :prop="`genres.${index}.name`">
+                <el-input class="el-input-group" v-model="genre.name" readonly></el-input>
+                <el-button class="mt-1 right" type="danger" round size="mini" @click.prevent="removeGenre(genre)">
+                  Удалить
+                </el-button>
+              </el-form-item>
+            </div>
+            <el-form-item
+                    prop="genreForAdd"
+                    label="Добавить жанр">
+              <el-autocomplete
+                      class="el-input-group"
+                      value-key="name"
+                      v-model="genreSuggestion"
+                      :fetch-suggestions="querySearchAsyncGenres"
+                      placeholder="Выберите из списка"
+                      @select="handleSelectGenre"
+                      clearable
+              ></el-autocomplete>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitBookForm('bookForm')">
+                <span v-if="currentBook.id">Обновить</span><span v-else>Создать</span>
+              </el-button>
+              <el-button type="warning" @click="resetForm('bookForm')">Сбросить</el-button>
+              <el-button type="danger" @click="deleteBook">Удалить</el-button>
+            </el-form-item>
+          </el-form>
+        </el-container>
+          <author class="el-col-6"/>
+          <genre  class="el-col-6"/>
+      </el-row>
     </el-main>
-  </div>
+  </el-container>
 </template>
 
 <script>
     import NavMenu from "@/components/NavMenu";
+    import Author from "@/components/Author";
+    import Genre from "@/components/Genre";
     import BookDataService from "../services/BookDataService";
-    import AuthorDataService from "../services/AuthorDataService";
-    import GenreDataService from "../services/GenreDataService";
 
     export default {
         name: "Book",
         components: {
             NavMenu,
+            Author,
+            Genre
         },
         data() {
             return {
@@ -85,35 +93,21 @@
                         id: null,
                         name: ""
                     },
-                    genres: [
-/*
-                        {
-                            id: null,
-                            name: ''
-                        }
-*/
-                    ]
+                    genres: []
                 },
-                /*
-                                currentBook: {
-                                    id: null,
-                                    name: "",
-                                    author: {
-                                        id: null,
-                                        name: ""
-                                    },
-                                    genres: [
-                                        {
-                                            id: null,
-                                            name: ''
-                                        }
-                                    ]
-                                },
-                */
                 allAuthors: [],
                 allGenres: [],
+                authorSuggestion: null,
                 genreSuggestion: null,
             };
+        },
+        created(){
+            this.$root.$on("authorsUpdated", (authors) => {
+                this.allAuthors = authors
+            });
+            this.$root.$on("genresUpdated", (genres) => {
+                this.allGenres = genres
+            })
         },
         methods: {
             resetForm() {
@@ -128,12 +122,6 @@
                             id: null,
                             name: ""
                         },
-                        genres: [
-                            // {
-                            //     id: null,
-                            //     name: ''
-                            // }
-                        ]
                     }
                 }
             },
@@ -148,26 +136,6 @@
                     });
 
             },
-            getAllAuthors() {
-                AuthorDataService.getAll()
-                    .then(response => {
-                        this.allAuthors = response.data;
-                        console.log("Authors loaded. count: " + this.allAuthors.length);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            },
-            getAllGenres() {
-                GenreDataService.getAll()
-                    .then(response => {
-                        this.allGenres = response.data;
-                        console.log("Genres loaded. count: " + this.allGenres.length);
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            },
             deleteBook() {
                 BookDataService.delete(this.currentBook.id)
                     .then(response => {
@@ -178,7 +146,7 @@
                         console.log(e);
                     });
             },
-            submitForm(formName) {
+            submitBookForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let bookId = this.currentBook.id;
@@ -229,8 +197,6 @@
         },
         mounted() {
             this.resetForm();
-            this.getAllAuthors();
-            this.getAllGenres();
         }
     }
 </script>

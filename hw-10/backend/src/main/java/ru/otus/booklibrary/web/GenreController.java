@@ -32,13 +32,13 @@ class GenreController {
 
     @PostMapping(value = "/genres")
     public void create(@RequestBody Genre newGenre) {
-        log.info("create");
+        log.info("create: {}", newGenre);
         genreRepo.save(newGenre);
     }
 
     @PutMapping(value = "/genres/{id}")
     public void update(@PathVariable("id") Long id, @RequestBody Genre forUpdate) {
-        log.info("update");
+        log.info("update: {}", forUpdate);
         genreRepo.save(forUpdate);
     }
 

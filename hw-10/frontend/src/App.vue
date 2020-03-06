@@ -12,5 +12,8 @@
 </script>
 <style>
   @import url("//unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css");
+  .el-main{
+    margin-top: 64px !important;
+  }
 </style>
 

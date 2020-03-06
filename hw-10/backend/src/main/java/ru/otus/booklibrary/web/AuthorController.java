@@ -33,13 +33,13 @@ class AuthorController {
 
     @PostMapping(value = "/authors")
     public void create(@RequestBody Author newAuthor) {
-        log.info("create");
+        log.info("create: {}", newAuthor);
         authorRepo.save(newAuthor);
     }
 
     @PutMapping(value = "/authors/{id}")
     public void update(@PathVariable("id") Long id, @RequestBody Author forUpdate) {
-        log.info("update");
+        log.info("update: {}", forUpdate);
         authorRepo.save(forUpdate);
     }
 
