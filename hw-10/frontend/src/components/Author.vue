@@ -1,46 +1,48 @@
 <template>
   <div>
     <el-container>
-      <el-form :model="currentAuthor" ref="authorForm" label-width="50px" :rules="authorValidationRules">
+      <el-form :model="currentAuthor" :rules="authorValidationRules" label-width="50px" ref="authorForm">
         <h1>Добавить автора</h1>
         <el-form-item
                 class="mt-4"
-                prop="name"
                 label="Имя"
-        >
+                prop="name">
           <el-input
                   class="el-input-group"
-                  v-model="currentAuthor.name"
-                  clearable></el-input>
+                  clearable
+                  v-model="currentAuthor.name"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitAuthorForm('authorForm')">
+          <el-button @click="submitAuthorForm('authorForm')" type="primary">
             <span v-if="currentAuthor.id">Обновить</span><span v-else>Создать</span>
           </el-button>
-          <el-button type="warning" @click="resetAuthorForm('authorForm')">Новый</el-button>
+          <el-button @click="resetAuthorForm('authorForm')" type="warning">Новый</el-button>
         </el-form-item>
       </el-form>
     </el-container>
-    <el-table
-            :data="allAuthors"
-            :default-sort="{prop: 'name', order: 'ascending'}"
-            highlight-current-row
-            @current-change="handleCurrentChange"
-            empty-text="Нет данных"
-    >
-      <el-table-column
-              width="66"
-              label="id"
-              prop="id"
-              sortable>
-      </el-table-column>
-      <el-table-column
-              width="auto"
-              label="Author"
-              prop="name"
-              sortable>
-      </el-table-column>
-    </el-table>
+    <el-container>
+      <el-table
+              :data="computedAuthors"
+              :default-sort="{prop: 'name', order: 'ascending'}"
+              @current-change="handleCurrentChange"
+              empty-text="Нет данных"
+              highlight-current-row
+              style="padding: 5px;  background-color: mintcream"
+      >
+        <el-table-column
+                label="id"
+                prop="id"
+                sortable
+                width="66">
+        </el-table-column>
+        <el-table-column
+                label="Author"
+                prop="name"
+                sortable
+                width="auto">
+        </el-table-column>
+      </el-table>
+    </el-container>
   </div>
 </template>
 
@@ -67,12 +69,19 @@
                     id: null,
                     name: ''
                 },
+                renderAuthors: true,
                 allAuthors: [],
                 authorValidationRules: {
                     name: [
                         {validator: checkNameExists, trigger: 'blur'}
                     ]
                 }
+
+            }
+        },
+        computed: {
+            computedAuthors: function () {
+                return this.allAuthors
             }
         },
         methods: {
@@ -80,7 +89,7 @@
                 AuthorDataService.getAll()
                     .then(response => {
                         this.allAuthors = response.data;
-                        // this.$root.$emit("authorsUpdated", response.data);
+                        this.$root.$emit("authorsUpdated", response.data);
                     })
                     .catch(e => {
                         console.log(e);
@@ -89,8 +98,16 @@
             submitAuthorForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        console.log(this.currentAuthor);
+                        this.currentAuthor.name.trim();
                         AuthorDataService.create(this.currentAuthor)
+                            .then(response => {
+                                console.log(response.data);
+                                this.renderAuthors = false;
+                                this.getAllAuthors();
+                                this.$nextTick(() => {
+                                    this.renderAuthors = true
+                                })
+                            })
                             .catch(e => {
                                 console.log(e);
                             });
@@ -99,7 +116,6 @@
                         return false;
                     }
                 });
-                this.getAllAuthors()
             },
             resetAuthorForm(formName) {
                 this.$refs[formName].resetFields();
@@ -109,7 +125,7 @@
                 }
             },
             handleCurrentChange(val) {
-                this.currentAuthor = val;
+                this.currentAuthor = {...val};
                 window.scrollTo(0, 0);
             },
         },

@@ -3,68 +3,68 @@
     <nav-menu/>
     <el-main>
       <el-row>
-        <el-container class="el-col-12">
-          <el-form :model="currentBook" ref="bookForm" label-width="120px">
+        <el-container class="el-col-11">
+          <el-form :model="currentBook" label-width="120px" ref="bookForm">
             <h1>Редактировать книгу</h1>
             <el-form-item
+                    :rules="{ required: true, message: 'У книги должно быть название.', trigger: 'blur' }"
                     class="mt-4"
-                    prop="name"
                     label="Название"
-                    :rules="{ required: true, message: 'У книги должно быть название.', trigger: 'blur' }">
+                    prop="name">
               <el-input class="el-input-group" v-model="currentBook.name"></el-input>
             </el-form-item>
             <el-form-item
-                    prop="author"
+                    :rules="{ required: true, message: 'message', trigger: 'blur' }"
                     label="Автор"
-                    :rules="{ required: true, message: 'message', trigger: 'blur' }">
-              <el-input class="el-input-group" v-model="currentBook.author.name" readonly></el-input>
+                    prop="author">
+              <el-input class="el-input-group" readonly v-model="currentBook.author.name"></el-input>
               <el-autocomplete
-                      class="el-input-group mt-1"
-                      value-key="name"
-                      v-model="authorSuggestion"
                       :fetch-suggestions="querySearchAsyncAuthor"
-                      placeholder="Выберите из списка"
                       @select="handleSelectAuthor"
+                      class="el-input-group mt-1"
                       clearable
+                      placeholder="Выберите из списка"
+                      v-model="authorSuggestion"
+                      value-key="name"
               ></el-autocomplete>
             </el-form-item>
-            <div v-if="Array.isArray(this.currentBook.genres) && this.currentBook.genres.length">
+            <div>
               <el-form-item
-                      v-for="(genre, index) in currentBook.genres"
-                      label="Жанр"
-                      :v-bind="index"
                       :key="genre.id"
-                      :prop="`genres.${index}.name`">
-                <el-input class="el-input-group" v-model="genre.name" readonly></el-input>
-                <el-button class="mt-1 right" type="danger" round size="mini" @click.prevent="removeGenre(genre)">
+                      :prop="`genres.${index}.name`"
+                      :v-bind="index"
+                      label="Жанр"
+                      v-for="(genre, index) in currentBook.genres">
+                <el-input class="el-input-group" readonly v-model="genre.name"></el-input>
+                <el-button @click.prevent="removeGenre(genre)" class="mt-1 right" round size="mini" type="danger">
                   Удалить
                 </el-button>
               </el-form-item>
             </div>
             <el-form-item
-                    prop="genreForAdd"
-                    label="Добавить жанр">
+                    label="Добавить жанр"
+                    prop="genreForAdd">
               <el-autocomplete
-                      class="el-input-group"
-                      value-key="name"
-                      v-model="genreSuggestion"
                       :fetch-suggestions="querySearchAsyncGenres"
-                      placeholder="Выберите из списка"
                       @select="handleSelectGenre"
+                      class="el-input-group"
                       clearable
+                      placeholder="Выберите из списка"
+                      v-model="genreSuggestion"
+                      value-key="name"
               ></el-autocomplete>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitBookForm('bookForm')">
+              <el-button @click="submitBookForm('bookForm')" type="primary">
                 <span v-if="currentBook.id">Обновить</span><span v-else>Создать</span>
               </el-button>
-              <el-button type="warning" @click="resetForm('bookForm')">Сбросить</el-button>
-              <el-button type="danger" @click="deleteBook">Удалить</el-button>
+              <el-button @click="resetForm('bookForm')" type="warning">Сбросить</el-button>
+              <el-button @click="deleteBook" type="danger">Удалить</el-button>
             </el-form-item>
           </el-form>
         </el-container>
-          <author class="el-col-6"/>
-          <genre  class="el-col-6"/>
+        <author class="el-col-6"/>
+        <genre class="el-col-6"/>
       </el-row>
     </el-main>
   </el-container>
@@ -101,7 +101,7 @@
                 genreSuggestion: null,
             };
         },
-        created(){
+        created() {
             this.$root.$on("authorsUpdated", (authors) => {
                 this.allAuthors = authors
             });
@@ -122,6 +122,7 @@
                             id: null,
                             name: ""
                         },
+                        genres: []
                     }
                 }
             },

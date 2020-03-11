@@ -1,45 +1,48 @@
 <template>
   <div>
     <el-container>
-      <el-form :model="currentGenre" ref="genreForm" class="genreForm" label-width="80px" :rules="genreValidationRules">
+      <el-form :model="currentGenre" :rules="genreValidationRules" class="genreForm" label-width="80px" ref="genreForm">
         <h1>Добавить жанр</h1>
         <el-form-item
                 class="mt-4"
-                prop="name"
-                label="Название">
+                label="Название"
+                prop="name">
           <el-input
                   class="el-input-group"
-                  v-model="currentGenre.name"
-                  clearable></el-input>
+                  clearable
+                  v-model="currentGenre.name"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitGenreForm('genreForm')">
+          <el-button @click="submitGenreForm('genreForm')" type="primary">
             <span v-if="currentGenre.id">Обновить</span><span v-else>Создать</span>
           </el-button>
-          <el-button type="warning" @click="resetGenreForm('genreForm')">Новый</el-button>
+          <el-button @click="resetGenreForm('genreForm')" type="warning">Новый</el-button>
         </el-form-item>
       </el-form>
     </el-container>
-    <el-table
-            :data="allGenres"
-            :default-sort = "{prop: 'name', order: 'ascending'}"
-            highlight-current-row
-            @current-change="handleCurrentChange"
-            empty-text="Нет данных"
-    >
-      <el-table-column
-              width="66"
-              label="id"
-              prop="id"
-              sortable>
-      </el-table-column>
-      <el-table-column
-              width="auto"
-              label="Genre"
-              prop="name"
-              sortable>
-      </el-table-column>
-    </el-table>
+    <el-container>
+      <el-table
+              :data="computedGenres"
+              :default-sort="{prop: 'name', order: 'ascending'}"
+              @current-change="handleCurrentChange"
+              empty-text="Нет данных"
+              highlight-current-row
+              style="padding: 5px; background-color: mintcream"
+      >
+        <el-table-column
+                label="id"
+                prop="id"
+                sortable
+                width="66">
+        </el-table-column>
+        <el-table-column
+                label="Genre"
+                prop="name"
+                sortable
+                width="auto">
+        </el-table-column>
+      </el-table>
+    </el-container>
   </div>
 </template>
 
@@ -65,6 +68,7 @@
                     id: null,
                     name: ''
                 },
+                renderGenres: true,
                 allGenres: [],
                 genreValidationRules: {
                     name: [
@@ -74,17 +78,24 @@
 
             }
         },
+        computed: {
+            computedGenres: function () {
+                return this.allGenres
+            }
+        },
         methods: {
             getAllGenres() {
                 GenreDataService.getAll()
                     .then(response => {
                         this.allGenres = response.data;
                         this.$root.$emit("genresUpdated", response.data);
+                        console.log(response.data)
                     })
                     .catch(e => {
                         console.log(e);
                     });
-            },
+            }
+            ,
             submitGenreForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -92,30 +103,37 @@
                         GenreDataService.create(this.currentGenre)
                             .then(response => {
                                 console.log(response.data);
+                                this.renderGenres = false;
+                                this.getAllGenres();
+                                this.$nextTick(() => {
+                                    this.renderGenres = true
+                                })
                             })
                             .catch(e => {
                                 console.log(e);
                             });
-                        this.resetGenreForm(formName);
-                        this.getAllGenres()
                     } else {
                         console.log('Book form is not valid!');
                         return false;
                     }
                 });
-            },
-            resetGenreForm(formName){
+            }
+            ,
+            resetGenreForm(formName) {
                 this.$refs[formName].resetFields();
                 this.currentGenre = {
                     id: null,
                     name: ''
                 }
-            },
+            }
+            ,
             handleCurrentChange(val) {
-                this.currentGenre = val;
-                window.scrollTo(0,0);
-            },
-        },
+                this.currentGenre = {...val};
+                window.scrollTo(0, 0);
+            }
+            ,
+        }
+        ,
         mounted() {
             this.getAllGenres();
         }

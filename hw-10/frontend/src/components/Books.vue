@@ -6,34 +6,33 @@
         <el-row :gutter="24">
           <el-col :span="6">
             <el-input
-                    v-on:input="searchData('name')"
+                    placeholder="Найти по названию"
+                    size="mini"
                     v-model="search.name"
-                    size="mini"
-                    placeholder="Найти по названию"/>
+                    v-on:input="searchData('name')"/>
           </el-col>
           <el-col :span="6">
             <el-input
-                    v-on:input="searchData('author.name')"
+                    placeholder="Найти по автору"
+                    size="mini"
                     v-model="search.author"
-                    size="mini"
-                    placeholder="Найти по автору"/>
+                    v-on:input="searchData('author.name')"/>
           </el-col>
           <el-col :span="6">
             <el-input
-                    v-on:input="searchData('genres.name')"
-                    v-model="search.genre"
+                    placeholder="Найти по жанру"
                     size="mini"
-                    placeholder="Найти по жанру"/>
+                    v-model="search.genre"
+                    v-on:input="searchData('genres.name')"/>
           </el-col>
         </el-row>
         <el-container>
-          <!--                  :data="books.filter(data => !searchByName || data.name.toLowerCase().includes(searchByName.toLowerCase()))"-->
           <el-table
                   :data="filteredBooks"
                   :default-sort="{prop: 'name', order: 'ascending'}"
-                  highlight-current-row
                   @current-change="handleCurrentChange"
                   empty-text="Нет книг, удовлетворяющих поиску"
+                  highlight-current-row
           >
             <el-table-column
                     label="Название"
@@ -46,9 +45,9 @@
                     sortable>
             </el-table-column>
             <el-table-column
+                    :formatter="formatGenres"
                     label="Жанр"
                     prop="genres"
-                    :formatter="formatGenres"
             >
             </el-table-column>
           </el-table>
