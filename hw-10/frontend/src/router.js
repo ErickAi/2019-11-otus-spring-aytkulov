@@ -14,15 +14,21 @@ export default new Router({
         },
 
         {
-            path: "/books/:id",
+            path: "/books/:id/details",
             name: "book-details",
-            component: () => import("./components/Book")
+            component: () => import("./components/BookDetails")
         },
 
         {
-            path: "/addBook",
-            name: "book-details",
-            component: () => import("./components/Book")
+            path: "/books/:id/edit",
+            name: "book-edit",
+            component: () => import("./components/BookEdit")
+        },
+
+        {
+            path: "/new-book",
+            name: "book-new",
+            component: () => import("./components/BookEdit")
         },
     ]
 });

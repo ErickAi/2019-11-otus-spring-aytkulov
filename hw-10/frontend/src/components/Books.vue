@@ -50,6 +50,27 @@
                     prop="genres"
             >
             </el-table-column>
+            <el-table-column
+                    align="right">
+              <template slot="header" slot-scope="scope">
+                <el-button
+                        @click="handleCreate(scope)"
+                        type="primary">Создать
+                </el-button>
+              </template>
+              <template slot-scope="scope">
+                <el-button
+                        @click="handleEdit(scope.$index, scope.row)"
+                        class="btn-edit"
+                        size="mini">Редактировать
+                </el-button>
+                <el-button
+                        @click="handleDelete(scope.row)"
+                        class="btn-delete"
+                        size="mini">Удалить
+                </el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-container>
       </div>
@@ -67,7 +88,6 @@
             return {
                 books: [],
                 filteredBooks: [],
-                currentBook: null,
                 search: {
                     name: null,
                     author: null,
@@ -112,14 +132,28 @@
                 this.filteredBooks = searchString ? fuse.search(searchString) : this.books;
 
             },
-            handleCurrentChange(val) {
-                this.currentBook = val;
-                this.$router.push("/books/" + val.id)
-            },
             formatGenres(row) {
                 let allGenreNames = [];
                 row.genres.forEach(genre => allGenreNames.push(genre.name));
                 return allGenreNames.join(", ")
+            },
+            handleCurrentChange(val) {
+                this.$router.push("/books/" + val.id + "/details")
+            },
+            handleCreate() {
+                this.$router.push("/new-book")
+            },
+            handleEdit(index, row) {
+                event.stopPropagation();
+                this.$router.push("/books/" + row.id + "/edit")
+            },
+            handleDelete(row) {
+                event.stopPropagation();
+                BookDataService.delete(row.id);
+                let index = this.books.indexOf(row);
+                if (index !== -1) {
+                    this.books.splice(index, 1);
+                }
             }
         },
         components: {

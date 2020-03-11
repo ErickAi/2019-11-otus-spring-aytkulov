@@ -16,7 +16,7 @@
           <el-button @click="submitGenreForm('genreForm')" type="primary">
             <span v-if="currentGenre.id">Обновить</span><span v-else>Создать</span>
           </el-button>
-          <el-button @click="resetGenreForm('genreForm')" type="warning">Новый</el-button>
+          <el-button @click="resetGenreForm('genreForm')" class="btn-edit">Новый</el-button>
         </el-form-item>
       </el-form>
     </el-container>

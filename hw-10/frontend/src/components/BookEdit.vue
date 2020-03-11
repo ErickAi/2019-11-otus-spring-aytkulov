@@ -36,7 +36,7 @@
                       label="Жанр"
                       v-for="(genre, index) in currentBook.genres">
                 <el-input class="el-input-group" readonly v-model="genre.name"></el-input>
-                <el-button @click.prevent="removeGenre(genre)" class="mt-1 right" round size="mini" type="danger">
+                <el-button @click.prevent="removeGenre(genre)" class="mt-1 right btn-delete" round>
                   Удалить
                 </el-button>
               </el-form-item>
@@ -58,8 +58,8 @@
               <el-button @click="submitBookForm('bookForm')" type="primary">
                 <span v-if="currentBook.id">Обновить</span><span v-else>Создать</span>
               </el-button>
-              <el-button @click="resetForm('bookForm')" type="warning">Сбросить</el-button>
-              <el-button @click="deleteBook" type="danger">Удалить</el-button>
+              <el-button @click="resetForm('bookForm')" class="btn-edit">Сбросить</el-button>
+              <el-button @click="deleteBook" class="btn-delete">Удалить</el-button>
             </el-form-item>
           </el-form>
         </el-container>
@@ -77,7 +77,7 @@
     import BookDataService from "../services/BookDataService";
 
     export default {
-        name: "Book",
+        name: "BookEdit",
         components: {
             NavMenu,
             Author,
@@ -135,7 +135,6 @@
                     .catch(e => {
                         console.log(e);
                     });
-
             },
             deleteBook() {
                 BookDataService.delete(this.currentBook.id)

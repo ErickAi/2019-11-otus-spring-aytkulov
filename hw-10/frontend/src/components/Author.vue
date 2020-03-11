@@ -16,7 +16,7 @@
           <el-button @click="submitAuthorForm('authorForm')" type="primary">
             <span v-if="currentAuthor.id">Обновить</span><span v-else>Создать</span>
           </el-button>
-          <el-button @click="resetAuthorForm('authorForm')" type="warning">Новый</el-button>
+          <el-button @click="resetAuthorForm('authorForm')" class="btn-edit">Новый</el-button>
         </el-form-item>
       </el-form>
     </el-container>
