@@ -76,7 +76,6 @@
                         {validator: checkNameExists, trigger: 'blur'}
                     ]
                 }
-
             }
         },
         computed: {

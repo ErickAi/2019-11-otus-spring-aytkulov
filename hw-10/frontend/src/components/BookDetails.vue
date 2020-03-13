@@ -18,36 +18,86 @@
           </el-image>
         </el-col>
         <el-col :span="18">
-          <h1 style="padding-bottom: 11px">{{ currentBook.name }}</h1>
-          <h3 style="padding-bottom: 11px">{{ currentBook.author.name }}</h3>
+          <h1 style="padding-bottom: 11px; font-size: 33px; color: #3346c4">{{ currentBook.name }}</h1>
+          <h3 style="padding-bottom: 11px; font-size: 23px; color: #385dff">{{ currentBook.author.name }}</h3>
           <h4 :key="genre.id"
               :prop="`genres.${index}.name`"
               :v-bind="index"
-              style="padding-left: 20px"
+              style="padding-left: 20px; font-size: 19px"
               v-for="(genre, index) in currentBook.genres"
           ><span>{{ genre.name }}</span></h4>
         </el-col>
       </el-row>
-      <el-row>
+      <el-container>
         <el-col :span="24">
-          <div>
-            <h1>Comments</h1>
+          <h1>Отзывы</h1>
+          <div class="comments-block">
+            <vue-custom-scrollbar
+                    :settings="scrollSettings"
+                    class="comment-list"
+                    v-infinite-scroll="loadNextCommentsPage">
+              <p class="comment-item" v-if="!bookComments.length">Ваш комментарий будет первым.</p>
+              <div :key="comment.id" class="comment-item"
+                   v-for="(comment) in bookComments">
+                <el-row>
+                  <el-col :span="24">
+                    <div v-text="comment.entry"></div>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :offset="22">
+                    <el-button @click="clickEdit(comment)" circle class="btn-edit"
+                               icon="el-icon-edit" size="mini"></el-button>
+                    <el-button @click="deleteComment(comment, 'commentForm')" circle icon="el-icon-delete"
+                               size="mini" type="danger"></el-button>
+                  </el-col>
+                </el-row>
+              </div>
+            </vue-custom-scrollbar>
+            <h1 class="mt-4" style="width: 100%">
+              <span v-if="currentComment.id">Редактировать</span><span v-else>Добавить</span> отзыв</h1>
+            <el-container class="mt-1">
+              <el-form :model="currentComment" ref="commentForm" style="width: 100%">
+                <el-input
+                        :autosize="{ minRows: 2}"
+                        class="mt-2"
+                        placeholder="Ваш отзыв"
+                        type="textarea"
+                        v-model="currentComment.entry">
+                </el-input>
+                <el-form-item class="mt-1" style="position: absolute; right: 22px;">
+                  <el-button @click="submitCommentForm('commentForm')"
+                             type="primary" v-if="currentComment.entry">Принять
+                  </el-button>
+                  <el-button @click="submitCommentForm('commentForm')" disabled
+                             type="primary" v-if="!currentComment.entry">Принять
+                  </el-button>
+                  <el-button @click="resetCommentForm('commentForm')" class="btn-edit">Очистить</el-button>
+                </el-form-item>
+              </el-form>
+            </el-container>
           </div>
         </el-col>
-      </el-row>
+      </el-container>
     </el-main>
   </el-container>
 </template>
 
 <script>
+    import vueCustomScrollbar from 'vue-custom-scrollbar'
     import NavMenu from "@/components/NavMenu";
     import BookDataService from "../services/BookDataService";
+    import CommentDataService from "@/services/CommentDataService";
+
+    const infiniteScroll = require('vue-infinite-scroll');
 
     export default {
         name: "BookDetails",
         components: {
+            vueCustomScrollbar,
             NavMenu,
         },
+        directives: {infiniteScroll},
         data() {
             return {
                 currentBook: {
@@ -59,12 +109,20 @@
                     },
                     genres: []
                 },
-                url: 'undefined'
-                // url: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
+                bookComments: [],
+                url: 'undefined',
+                currentComment: {
+                    id: null,
+                    bookId: null,
+                    entry: "",
+                },
+                scrollSettings: {
+                    maxScrollbarLength: 60
+                }
             };
         },
         methods: {
-            requestBookAndSetData(id) {
+            initData(id) {
                 BookDataService.get(id)
                     .then(response => {
                         console.log("Book received. id: " + id);
@@ -73,10 +131,66 @@
                     .catch(e => {
                         console.log(e);
                     });
+                this.loadComments(id);
             },
+            loadComments(bookId) {
+                CommentDataService.findByBookId(bookId)
+                    .then(response => {
+                        console.log(response.data);
+                        this.bookComments = response.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            loadNextCommentsPage() {
+                //    need implement pagination into backend
+            },
+            deleteComment(comment, formName) {
+                let index = this.bookComments.indexOf(comment);
+                CommentDataService.delete(comment.id);
+                this.bookComments.splice(index, 1);
+                this.resetCommentForm(formName)
+            },
+            submitCommentForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let commentId = this.currentComment.id;
+                        this.currentComment.bookId = this.currentBook.id;
+                        console.log(this.currentComment);
+                        commentId ? CommentDataService.update(commentId, this.currentComment)
+                            : CommentDataService.create(this.currentComment)
+                                .then(response => {
+                                    this.message = 'The book was updated successfully!';
+                                    console.log(response.data);
+                                    if (!this.currentComment.id) {
+                                        this.bookComments.push(response.data);
+                                    }
+                                    this.resetCommentForm(formName);
+                                })
+                                .catch(e => {
+                                    console.log(e);
+                                });
+                    } else {
+                        console.log('Book comment form is not valid!');
+                        return false;
+                    }
+                });
+            },
+            resetCommentForm(formName) {
+                this.$refs[formName].resetFields();
+                this.currentComment = {
+                    id: null,
+                    bookId: null,
+                    entry: "",
+                }
+            },
+            clickEdit(comment) {
+                this.currentComment = comment
+            }
         },
         mounted() {
-            this.requestBookAndSetData(this.$route.params.id);
+            this.initData(this.$route.params.id);
         }
     }
 </script>
@@ -90,5 +204,30 @@
     height: 100%;
     background: #c2c6cf;
     color: #82858c;
+  }
+
+  .comments-block {
+    border-radius: 3px;
+    transition: .2s;
+  }
+
+  .comment-list {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(104, 165, 255, 0.2);
+    min-height: 50px;
+    max-height: 500px;
+    padding: 0;
+    margin: 11px 0 0;
+    overflow: auto;
+    list-style: none;
+  }
+
+  .comment-item {
+    height: auto;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 9px 15px;
+    background: #e3f4ff;
+    color: #0062ff;
+    font-size: 17px;
   }
 </style>
