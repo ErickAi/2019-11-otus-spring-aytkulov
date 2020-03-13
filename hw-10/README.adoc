@@ -23,10 +23,20 @@
 - Опционально максимум: полноценное SPA приложение на React/Vue/Angular, только REST-контроллеры.
 
 === Предустановки
+
 - Yarn или NPM
+
 === Запуск
+
 - cd %project-base-dir%/backend
 - mvn spring-boot:run
 - cd %project-base-dir%/frontend
 - npm i OR yarn
 - npm serve OR yarn serve
+
+=== Развернутое приложение
+
+- Пользовательский интерфейс
+    http://localhost:8080/
+- REST сервисы
+    http://localhost:9090/
