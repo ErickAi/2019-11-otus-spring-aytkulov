@@ -1,11 +1,9 @@
 package ru.otus.booklibrary.services;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.booklibrary.domain.Book;
-import ru.otus.booklibrary.domain.Comment;
 import ru.otus.booklibrary.exception.NotFoundException;
 import ru.otus.booklibrary.repo.BookRepo;
 
@@ -25,9 +23,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getById(Long id) {
-        Book book = bookRepo.findById(id)
+        return bookRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book with id '" + id + "' not found."));
-        return book;
     }
 
     @Override
@@ -56,13 +53,5 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public void deleteById(Long id) {
         bookRepo.deleteById(id);
-    }
-
-    @Override
-    @Transactional
-    public void addCommentToBook(Long bookId, String comment) {
-        Book book = bookRepo.findById(bookId)
-                .orElseThrow(() -> new NotFoundException("Book with id '" + bookId + "' not found."));
-        bookRepo.save(book);
     }
 }
