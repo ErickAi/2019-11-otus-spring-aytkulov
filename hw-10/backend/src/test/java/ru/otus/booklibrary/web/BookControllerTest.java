@@ -1,6 +1,7 @@
 package ru.otus.booklibrary.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,9 +90,9 @@ class BookControllerTest {
 
     @Test
     void update() throws Exception {
-        Book modified = TestData.BOOK_CYAN;
+        Book modified = TestData.BOOK_YELLOW;
         modified.setName("modified name");
-        mvc.perform(put("/books/1")
+        mvc.perform(put("/books/3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(modified)))
                 .andExpect(status().isOk());
