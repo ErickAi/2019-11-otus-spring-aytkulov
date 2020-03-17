@@ -1,0 +1,44 @@
+== 22 Spring Security: Механизмы аутентификации
+
++++ <details><summary> +++
+Изучаемый стек
++++ </summary><div> +++
+
+- Spring Boot 2
+- Spring data JPA
+- Spring WEB
+- VueJS
+- Spring Security
+- JUnit 5
+
+- Libraries:
+
+    lombok        code generator
+
++++ </div></details> +++
+
+=== Техническое задание
+
+- Добавить в приложение новую сущность - пользователь. Не обязательно реализовывать методы по созданию пользователей - допустимо добавить пользователей только через БД-скрипты.
+- В существующее CRUD-приложение добавить механизм Form-based аутентификации.
+- UsersServices реализовать самостоятельно.
+- Авторизация на всех страницах - для всех аутентифицированных. Форма логина - доступна для всех.
+
+=== Предустановки
+
+- Yarn или NPM
+
+=== Запуск
+
+- cd %project-base-dir%/backend
+- mvn spring-boot:run
+- cd %project-base-dir%/frontend
+- npm i OR yarn
+- npm serve OR yarn serve
+
+=== Развернутое приложение
+
+- Пользовательский интерфейс
+    http://localhost:8080/
+- REST сервисы
+    http://localhost:9090/

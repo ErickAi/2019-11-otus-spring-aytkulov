@@ -1,4 +1,4 @@
-== 04 "Чёрная магия" Spring Boot
+== 16 и 17. Spring MVC View. Современные приложения на Spring MVC.
 
 +++ <details><summary> +++
 Изучаемый стек

@@ -12,16 +12,17 @@
   </parent>
 
   <groupId>ru.otus</groupId>
-  <artifactId>book-library-vuejs</artifactId>
+  <artifactId>book-library-security</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>book-library-vuejs</name>
+  <name>book-library-security</name>
 
   <properties>
     <java.version>11</java.version>
   </properties>
 
   <modules>
-    <module>backend</module>
+    <module>back-security</module>
   </modules>
+
 
 </project>
