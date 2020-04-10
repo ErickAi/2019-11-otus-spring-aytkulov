@@ -9,10 +9,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>ru.otus</groupId>
-  <artifactId>book-library-web-mvc</artifactId>
+  <artifactId>book-library-mongodb</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>book-library-mongodb</name>
-  <description>web mvc thymeleaf with classic controllers</description>
 
   <properties>
     <java.version>11</java.version>
