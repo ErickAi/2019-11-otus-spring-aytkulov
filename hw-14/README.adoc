@@ -1,0 +1,24 @@
+== 04 "Чёрная магия" Spring Boot
+
++++ <details><summary> +++
+Изучаемый стек
++++ </summary><div> +++
+
+- Spring Boot 2
+- Spring Batch
+- MongoDB
+- H2
+- JUnit 5
+
+- Libraries:
+
+    lombok        code generator
+
++++ </div></details> +++
+
+=== Техническое задание
+
+CRUD приложение с Web UI и хранением данных в БД
+
+- Разработать процедуру миграции данных из реляционного хранилища в NoSQL или наоборот используя Spring Batch.
+- Опционально: Сделать restart с помощью Spring Shell.
