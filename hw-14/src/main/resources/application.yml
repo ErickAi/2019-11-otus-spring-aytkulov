@@ -1,0 +1,23 @@
+spring:
+  batch:
+    job:
+      enabled: false
+  shell:
+    interactive:
+      enabled: true
+  datasource:
+    initialization-mode: always
+    url: jdbc:h2:tcp://localhost:7072/mem:book-library
+    username: sa
+    password:
+#  h2.console:
+#    enabled: true
+#    path: /h2-console
+  data:
+    mongodb:
+      port: 27017
+      database: booklibrary
+app:
+  output-file: output.csv
+
+debug: true
