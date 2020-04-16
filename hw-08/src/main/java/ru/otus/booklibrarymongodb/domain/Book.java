@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashSet;
@@ -23,22 +24,20 @@ public class Book {
 
     private String name;
 
+    @DBRef
     private Author author;
 
+    @DBRef
     private Set<Genre> genres;
 
-    private Set<Comment> comments;
-
-    public Book(String  id, String name, Author author, Set<Genre> genres) {
-        this(id, name, author, genres, null);
+    public Book(String name, Author author, Set<Genre> genres) {
+        this.name = name;
+        this.author = author;
+        this.genres = genres;
     }
 
-    public Set<Genre> getGenres() {
+    private Set<Genre> getGenres() {
         return genres != null ? genres : new HashSet<>();
-    }
-
-    public Set<Comment> getComments() {
-        return comments != null ? comments : new HashSet<>();
     }
 
     @Override

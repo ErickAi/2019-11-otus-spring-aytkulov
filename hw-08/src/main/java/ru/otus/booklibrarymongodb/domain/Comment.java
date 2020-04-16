@@ -17,12 +17,12 @@ public class Comment {
     @Id
     private String id;
 
-    private Book book;
+    private String  bookId;
 
     private String entry;
 
-    public Comment(String entry, Book book) {
-        this.book = book;
+    public Comment(String bookId, String entry) {
+        this.bookId = bookId;
         this.entry = entry;
     }
 }

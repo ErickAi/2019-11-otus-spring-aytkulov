@@ -9,13 +9,13 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>ru.otus</groupId>
-  <artifactId>book-library-web-mvc</artifactId>
+  <artifactId>book-library-mongodb</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>book-library-mongodb</name>
   <description>web mvc thymeleaf with classic controllers</description>
 
   <properties>
     <java.version>11</java.version>
+    <mongock.version>2.0.2</mongock.version>
   </properties>
 
   <dependencies>
@@ -34,9 +34,9 @@
       <artifactId>de.flapdoodle.embed.mongo</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.github.mongobee</groupId>
-      <artifactId>mongobee</artifactId>
-      <version>0.13</version>
+      <groupId>com.github.cloudyrock.mongock</groupId>
+      <artifactId>mongock-spring</artifactId>
+      <version>${mongock.version}</version>
     </dependency>
     <!-- tools -->
     <dependency>
