@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.otus.springbatch.domain.Author;
+import ru.otus.springbatch.domain.Book;
 import ru.otus.springbatch.domain.Comment;
 import ru.otus.springbatch.domain.Genre;
 
@@ -45,6 +46,7 @@ public class JobConfig {
     public static final String IMPORT_AUTHOR_JOB_NAME = "importAuthorJob";
     public static final String IMPORT_GENRES_JOB_NAME = "importGenreJob";
     public static final String IMPORT_COMMENT_JOB_NAME = "importCommentJob";
+    public static final String IMPORT_BOOK_JOB_NAME = "importBookJob";
 
     private final DataSource dataSource;
     private final MongoTemplate mongoTemplate;
@@ -235,6 +237,67 @@ public class JobConfig {
         return stepBuilderFactory.get("stepComments")        //@formatter:off
                 .chunk(SIMPLE_ITEMS_CHUNK_SIZE)
                 .reader(commentReader)
+                .writer(compositeWriter)
+                .listener(new ItemReadListener() {
+                    public void beforeRead() {logger.info("Начало чтения");}
+                    public void afterRead(Object o) {logger.info("Конец чтения");}
+                    public void onReadError(Exception e) {logger.info("Ошибка чтения");}
+                })
+                .listener(new ItemWriteListener() {
+                    public void beforeWrite(List list) {logger.info("Начало записи");}
+                    public void afterWrite(List list) {logger.info("Конец записи");}
+                    public void onWriteError(Exception e, List list) {logger.info("Ошибка записи");}
+                })
+                .listener(new ItemProcessListener() {
+                    public void beforeProcess(Object o) {logger.info("Начало обработки");}
+                    public void afterProcess(Object o, Object o2) {logger.info("Конец обработки");}
+                    public void onProcessError(Object o, Exception e) {logger.info("Ошбка обработки");}
+                })
+                .listener(new ChunkListener() {
+                    public void beforeChunk(ChunkContext chunkContext) {logger.info("Начало пачки");}
+                    public void afterChunk(ChunkContext chunkContext) {logger.info("Конец пачки");}
+                    public void afterChunkError(ChunkContext chunkContext) {logger.info("Ошибка пачки");}
+                })
+                .build();
+    }                                                       //@formatter:on
+
+    //======= Book migration =========
+    @StepScope
+    @Bean
+    public JdbcCursorItemReader<Book> bookReader() {
+        return new JdbcCursorItemReaderBuilder<Book>()
+                .name("bookItemReader")
+                .dataSource(dataSource)
+                .beanRowMapper(Book.class)
+                .sql("select * from books")
+                .build();
+    }
+
+    @Bean
+    public Job importBookJob(Step stepBooks) {
+        return jobBuilderFactory.get(IMPORT_BOOK_JOB_NAME)
+                .incrementer(new RunIdIncrementer())
+                .flow(stepBooks)
+                .end()
+                .listener(new JobExecutionListener() {
+                    @Override
+                    public void beforeJob(JobExecution jobExecution) {
+                        logger.info("Начало job");
+                    }
+
+                    @Override
+                    public void afterJob(JobExecution jobExecution) {
+                        logger.info("Конец job");
+                    }
+                })
+                .build();
+    }
+
+    @Bean
+    public Step stepBooks(@Qualifier("bookReader") ItemReader bookReader, CompositeItemWriter compositeWriter) {
+        return stepBuilderFactory.get("stepBooks")        //@formatter:off
+                .chunk(SIMPLE_ITEMS_CHUNK_SIZE)
+                .reader(bookReader)
                 .writer(compositeWriter)
                 .listener(new ItemReadListener() {
                     public void beforeRead() {logger.info("Начало чтения");}

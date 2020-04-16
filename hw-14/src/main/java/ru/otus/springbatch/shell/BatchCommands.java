@@ -51,6 +51,9 @@ public class BatchCommands {
         executionIds.add(jobOperator.start(IMPORT_COMMENT_JOB_NAME,
                 OUTPUT_FILE_NAME + "=" + appProps.getOutputFileName()
         ));
+        executionIds.add(jobOperator.start(IMPORT_BOOK_JOB_NAME,
+                OUTPUT_FILE_NAME + "=" + appProps.getOutputFileName()
+        ));
         for (Long l : executionIds) {
             System.out.println(jobOperator.getSummary(l));
         }
