@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,17 +26,13 @@ public class Book {
     @DBRef
     private Author author;
 
-    @DBRef
+    @DBRef(db = "genres")
     private Set<Genre> genres;
 
     public Book(String name, Author author, Set<Genre> genres) {
         this.name = name;
         this.author = author;
         this.genres = genres;
-    }
-
-    private Set<Genre> getGenres() {
-        return genres != null ? genres : new HashSet<>();
     }
 
     @Override

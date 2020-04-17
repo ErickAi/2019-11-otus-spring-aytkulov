@@ -4,21 +4,21 @@ import com.github.cloudyrock.mongock.Mongock;
 import com.github.cloudyrock.mongock.SpringMongockBuilder;
 import com.mongodb.MongoClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import ru.otus.booklibrarymongodb.changelog.InitMongoDBDataChangeLog;
 
 @Configuration
+@EnableMongoRepositories("ru.otus.booklibrarymongodb.repository")
 @RequiredArgsConstructor
 public class MongoConfig {
 
-    @Value("${spring.data.mongodb.database}")
-    private String mongoDBName;
+    private final AppProp appProp;
 
     @Bean
     public Mongock mongock(MongoClient mongoClient) {
-        return new SpringMongockBuilder(mongoClient, mongoDBName,
+        return new SpringMongockBuilder(mongoClient, appProp.getMongoDBName(),
                 InitMongoDBDataChangeLog.class.getPackageName())
                 .build();
     }

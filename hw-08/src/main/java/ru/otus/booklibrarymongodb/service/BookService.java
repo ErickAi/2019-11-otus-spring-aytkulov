@@ -8,7 +8,7 @@ public interface BookService {
 
     List<Book> getAll();
 
-    Book getById(Long id);
+    Book getById(String id);
 
     Book getByName(String name);
 
@@ -18,7 +18,5 @@ public interface BookService {
 
     Book save(Book book);
 
-    void deleteById(Long id);
-
-    void addCommentToBook(Long bookId, String comment);
+    void deleteById(String id);
 }
