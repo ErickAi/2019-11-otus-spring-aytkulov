@@ -14,11 +14,9 @@ import ru.otus.booklibrarymongodb.changelog.InitMongoDBDataChangeLog;
 @RequiredArgsConstructor
 public class MongoConfig {
 
-    private final AppProp appProp;
-
     @Bean
-    public Mongock mongock(MongoClient mongoClient) {
-        return new SpringMongockBuilder(mongoClient, appProp.getMongoDBName(),
+    public Mongock mongock(MongoProps mongoProps, MongoClient mongoClient) {
+        return new SpringMongockBuilder(mongoClient, mongoProps.getDatabase(),
                 InitMongoDBDataChangeLog.class.getPackageName())
                 .build();
     }

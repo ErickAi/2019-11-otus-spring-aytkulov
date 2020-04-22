@@ -11,11 +11,11 @@
   <groupId>ru.otus</groupId>
   <artifactId>book-library-mongodb</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <description>web mvc thymeleaf with classic controllers</description>
 
   <properties>
     <java.version>11</java.version>
     <mongock.version>2.0.2</mongock.version>
+    <morphia.version>1.5.3</morphia.version>
   </properties>
 
   <dependencies>
@@ -38,7 +38,17 @@
       <artifactId>mongock-spring</artifactId>
       <version>${mongock.version}</version>
     </dependency>
+    <dependency>
+      <groupId>dev.morphia.morphia</groupId>
+      <artifactId>core</artifactId>
+      <version>${morphia.version}</version>
+    </dependency>
     <!-- tools -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

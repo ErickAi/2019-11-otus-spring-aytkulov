@@ -1,5 +1,6 @@
 package ru.otus.booklibrarymongodb.domain;
 
+import dev.morphia.annotations.Reference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +27,7 @@ public class Book {
     @DBRef
     private Author author;
 
-    @DBRef(db = "genres")
+    @Reference
     private Set<Genre> genres;
 
     public Book(String name, Author author, Set<Genre> genres) {
