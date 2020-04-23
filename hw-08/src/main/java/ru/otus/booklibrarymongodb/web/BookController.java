@@ -35,18 +35,6 @@ class BookController {
         return bookService.getByName(name);
     }
 
-    @GetMapping(value = "/books/author/{authorName}")
-    public List<Book> getByAuthorName(@PathVariable("authorName") String authorName) {
-        log.info("GET: /books/author/{}", authorName);
-        return bookService.getAllContainsAuthorName(authorName);
-    }
-
-    @GetMapping(value = "/books/genre/{genreName}")
-    public List<Book> getByGenre(@PathVariable("genreName") String genreName) {
-        log.info("GET: /books/genre/{}", genreName);
-        return bookService.findByGenre(genreName);
-    }
-
     @PostMapping(value = "/books")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody Book newBook) {

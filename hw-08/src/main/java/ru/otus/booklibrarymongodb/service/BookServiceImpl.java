@@ -35,16 +35,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getAllContainsAuthorName(String authorName) {
-        return bookRepo.getAllByAuthorNameContainsIgnoreCase(authorName);
-    }
-
-    @Override
-    public List<Book> findByGenre(String genreName) {
-        return bookRepo.findByGenres_NameIgnoreCase(genreName);
-    }
-
-    @Override
     @Transactional
     public Book save(Book book) {
         return bookRepo.save(book);

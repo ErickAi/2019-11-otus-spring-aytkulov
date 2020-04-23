@@ -12,10 +12,6 @@ public interface BookService {
 
     Book getByName(String name);
 
-    List<Book> getAllContainsAuthorName(String authorName);
-
-    List<Book> findByGenre(String genreName);
-
     Book save(Book book);
 
     void deleteById(String id);

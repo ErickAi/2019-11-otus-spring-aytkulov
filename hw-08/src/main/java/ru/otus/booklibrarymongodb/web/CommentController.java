@@ -18,14 +18,14 @@ class CommentController {
 
     @GetMapping(value = "/comments/book/{bookId}")
     public List<Comment> findByBookId(@PathVariable("bookId") String bookId) {
-        log.info("getAll");
+        log.info("findByBookId: {}", bookId);
         return commentRepo.findAllByBookId(bookId);
     }
 
     @PostMapping(value = "/comments")
-    public Comment create(@RequestBody Comment newAuthor) {
-        log.info("create: {}", newAuthor);
-        return commentRepo.save(newAuthor);
+    public Comment create(@RequestBody Comment newComment) {
+        log.info("create: {}", newComment);
+        return commentRepo.save(newComment);
     }
 
     @PutMapping(value = "/comments/{id}")
@@ -35,8 +35,8 @@ class CommentController {
     }
 
     @DeleteMapping(value = "/comments/{id}")
-    public void delete(@PathVariable("id") String id) {
-        log.info("delete");
+    public void deleteById(@PathVariable("id") String id) {
+        log.info("deleteById: {}", id);
         commentRepo.deleteById(id);
     }
 }
