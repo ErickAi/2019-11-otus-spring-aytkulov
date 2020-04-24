@@ -48,12 +48,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book save(Book book) {
-        if (book.getAuthor().isNew()) {
+        if (book.getAuthor().getId() == null) {
             book.setAuthor(authorDao.insert(book.getAuthor()));
         }
         Set<Genre> genresWithId = new HashSet<>();
         for (Genre genre : book.getGenres()) {
-            if (genre.isNew()) {
+            if (genre.getId() == null) {
                 genre = genreDao.insert(genre);
             }
             genresWithId.add(genre);

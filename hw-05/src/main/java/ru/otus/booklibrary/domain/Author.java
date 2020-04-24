@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id", "name"})
-public class Author implements HasId {
+public class Author {
 
     private Long id;
     private String name;

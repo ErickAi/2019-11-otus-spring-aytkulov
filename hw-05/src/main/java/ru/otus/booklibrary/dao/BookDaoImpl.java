@@ -103,16 +103,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> getByGenre(String genre) {
         Map<String, Object> params = Collections.singletonMap("genre", genre);
-        List<Book> books;
-        books = jdbcOperations.query(
-                "SELECT b.id as book_id, B.NAME as book_name, b.AUTHOR_ID, a.NAME as author_name " +
-                        "FROM BOOKS b " +
-                        "         join BOOK_GENRE on BOOK_GENRE.BOOK_ID = B.ID " +
-                        "         join GENRES g on BOOK_GENRE.GENRE_ID = g.ID " +
-                        "         join AUTHORS a on b.AUTHOR_ID = a.ID " +
-                        "where g.name = :genre"
-                , params, new RowMapperResultSetExtractor<>(new BookMapper())
-        );
+        List<Book> books = queryBooks(params);
         if (books.size() <= 0) {
             throw new NotFoundException(String.format(
                     "Book with genre '%s' not found. Perhaps this genre does not exist in our library.", genre));
@@ -125,21 +116,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        Map<Long, Set<Genre>> allGenresByBookId = new HashMap<>();
-        jdbcOperations.query("SELECT * FROM BOOK_GENRE " +
-                "join GENRES g on BOOK_GENRE.GENRE_ID = g.ID ORDER BY BOOK_ID, GENRE_ID", rs -> {
-            allGenresByBookId.compute(rs.getLong("book_id"), (key, value) -> {
-                if (value == null) {
-                    value = new HashSet<>();
-                }
-                try {
-                    value.add(new Genre(rs.getLong("genre_id"), rs.getString("name")));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                return value;
-            });
-        });
+        Map<Long, Set<Genre>> allGenresByBookId = getAllGenresWithBookId();
         List<Book> books = jdbcOperations.query("SELECT book.id, book.name, book.author_id, " +
                 "author.name as author_name FROM BOOKS as book" +
                 " left outer join authors author " +
@@ -164,6 +141,36 @@ public class BookDaoImpl implements BookDao {
         Map<String, Object> params = Collections.singletonMap("id", id);
         jdbcOperations.update("DELETE FROM BOOK_GENRE WHERE book_id=:id", params);
         return jdbcOperations.update("delete from BOOKS where id = :id", params) != 0;
+    }
+
+    private List<Book> queryBooks(Map<String, Object> params) {
+        return  jdbcOperations.query(
+                "SELECT b.id as book_id, B.NAME as book_name, b.AUTHOR_ID, a.NAME as author_name " +
+                        "FROM BOOKS b " +
+                        "         join BOOK_GENRE on BOOK_GENRE.BOOK_ID = B.ID " +
+                        "         join GENRES g on BOOK_GENRE.GENRE_ID = g.ID " +
+                        "         join AUTHORS a on b.AUTHOR_ID = a.ID " +
+                        "where g.name = :genre"
+                , params, new BookMapper());
+    }
+
+    private Map<Long, Set<Genre>> getAllGenresWithBookId() {
+        Map<Long, Set<Genre>> allGenresByBookId = new HashMap<>();
+        jdbcOperations.query("SELECT * FROM BOOK_GENRE " +
+                "join GENRES g on BOOK_GENRE.GENRE_ID = g.ID ORDER BY BOOK_ID, GENRE_ID", rs -> {
+            allGenresByBookId.compute(rs.getLong("book_id"), (key, value) -> {
+                if (value == null) {
+                    value = new HashSet<>();
+                }
+                try {
+                    value.add(new Genre(rs.getLong("genre_id"), rs.getString("name")));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return value;
+            });
+        });
+        return allGenresByBookId;
     }
 
     private Book setGenres(Book book) {
