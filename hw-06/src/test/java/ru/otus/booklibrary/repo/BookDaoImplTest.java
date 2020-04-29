@@ -72,7 +72,7 @@ class BookDaoImplTest {
     @DisplayName(value = "добавляет книгу с автором и жанрами в базу")
     void insert() {
         long expectedCount = bookDao.count() + 1;
-        bookDao.insert(NEW_BOOK);
+        bookDao.saveOrUpdate(NEW_BOOK);
         assertEquals(expectedCount, bookDao.count());
     }
 

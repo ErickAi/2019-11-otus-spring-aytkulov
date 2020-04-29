@@ -1,5 +1,6 @@
 package ru.otus.booklibrary.repo;
 
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.booklibrary.domain.Book;
@@ -79,14 +80,9 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book insert(Book book) {
-//        MapSqlParameterSource parameterSource = new MapSqlParameterSource(
-//            "authorId", book.getAuthor().getId())
-//            .addValue("name", book.getName());
-//        Number newKey = jdbcInsert.executeAndReturnKey(parameterSource);
-//        book.setId(newKey.longValue());
-//        insertGenres(book);
-//        return book;
+    public Book saveOrUpdate(Book book) {
+        Session session = em.unwrap(Session.class);
+        session.saveOrUpdate(book);
         return book;
     }
 

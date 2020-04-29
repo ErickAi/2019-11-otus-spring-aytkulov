@@ -1,22 +1,11 @@
 package ru.otus.booklibrary.repo;
 
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.booklibrary.domain.Author;
-import ru.otus.booklibrary.repo.AuthorDao;
+import ru.otus.booklibrary.exception.NotFoundException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.sql.DataSource;
-import java.util.Collections;
-import java.util.Map;
+import javax.persistence.*;
 
 @Repository
 @Transactional
@@ -37,7 +26,11 @@ public class AuthorDaoImpl implements AuthorDao {
         TypedQuery<Author> query = em.createQuery(
             "select a from Author a where a.name = :name", Author.class);
         query.setParameter("name", name);
-        return query.getSingleResult();
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            throw new NotFoundException(String.format("Book with name '%s' not found.", name));
+        }
     }
     @Override
     public Author insert(Author author) {

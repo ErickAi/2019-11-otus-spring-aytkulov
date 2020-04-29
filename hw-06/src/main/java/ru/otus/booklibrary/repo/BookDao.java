@@ -19,7 +19,7 @@ public interface BookDao {
 
     List<Book> getAll();
 
-    Book insert(Book book);
+    Book saveOrUpdate(Book book);
 
     boolean deleteById(long id);
 }

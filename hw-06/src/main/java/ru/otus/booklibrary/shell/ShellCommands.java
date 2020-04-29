@@ -10,8 +10,8 @@ import ru.otus.booklibrary.domain.Book;
 import ru.otus.booklibrary.domain.Genre;
 import ru.otus.booklibrary.exception.NotFoundException;
 import ru.otus.booklibrary.repo.AuthorDao;
-import ru.otus.booklibrary.repo.BookDao;
 import ru.otus.booklibrary.repo.GenreDao;
+import ru.otus.booklibrary.services.BookService;
 import ru.otus.booklibrary.services.IOService;
 
 import java.util.Collections;
@@ -22,16 +22,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShellCommands {
 
+    private final BookService bookService;
     private final IOService ioService;
-    private final BookDao bookDao;
     private final GenreDao genreDao;
     private final AuthorDao authorDao;
-
     private Book newBook;
 
     @ShellMethod(value = "Get list all books", key = {"b-all", "books-all"})
     public void getAllBooks() {
-        List<Book> books = bookDao.getAll();
+        List<Book> books = bookService.getAll();
         for (Book book : books) {
             ioService.print(book.toString());
         }
@@ -40,7 +39,7 @@ public class ShellCommands {
     @ShellMethod(value = "Get book by id", key = {"b", "book"})
     public void getBookById(long id) {
         try {
-            ioService.print(bookDao.getById(id).toString());
+            ioService.print(bookService.getById(id).toString());
         } catch (Exception e) {
             ioService.print(e.getMessage());
         }
@@ -50,7 +49,7 @@ public class ShellCommands {
     public void getBooksByAuthor(String author) {
         author = replaceUnderscores(author);
         try {
-            List<Book> books = bookDao.getByAuthor(author);
+            List<Book> books = bookService.getByAuthor(author);
             for (Book book : books) {
                 ioService.print(book.toString());
             }
@@ -63,7 +62,7 @@ public class ShellCommands {
     public void getBooksByGenre(String genre) {
         genre = replaceUnderscores(genre);
         try {
-            List<Book> books = bookDao.getByGenre(genre);
+            List<Book> books = bookService.getByGenre(genre);
             for (Book book : books) {
                 ioService.print(book.toString());
             }
@@ -87,21 +86,23 @@ public class ShellCommands {
         name = replaceUnderscores(name);
         authorName = replaceUnderscores(authorName);
         genreName = replaceUnderscores(genreName);
+        Author author = null;
+        Genre genre = null;
         try {
-            Book book = bookDao.getByName(name);
+            Book book = bookService.getByName(name);
             ioService.print(String.format("The %s exists.", book.toString()));
             ioService.print("Updating book not implemented yet");
+            author = authorDao.getByName(authorName);
+            genre = genreDao.getByName(genreName);
         } catch (NotFoundException ignored) {
         }
-        Author author = authorDao.getByName(authorName);
-        Genre genre = genreDao.getByName(genreName);
         if (author == null) {
             ioService.print(String.format("Author with name '%s' is not exists. A new one will be created.", authorName));
             author = new Author(authorName);
         }
         if (genre == null) {
             ioService.print(String.format("Genre with name '%s' is not exists. A new one will be created.", genreName));
-            genre = new Genre(authorName);
+            genre = new Genre(genreName);
         }
         newBook = new Book(null, name, author, new HashSet<>(Collections.singleton(genre)));
         ioService.print(String.format("%s ready to save.", newBook));
@@ -122,7 +123,7 @@ public class ShellCommands {
 
     @ShellMethod(value = "Delete book by ID", key = {"b-d", "book-delete"})
     public void deleteBookById(long id) {
-        if (bookDao.deleteById(id)) {
+        if (bookService.deleteById(id)) {
             ioService.print(String.format("book with id '%s' deleted.", id));
         }
     }
@@ -131,11 +132,11 @@ public class ShellCommands {
         return option.replace('_', ' ');
     }
 
-//    @ShellMethod(value = "Save creation command", key = {"bcs", "save-creation"})
-//    public void saveCreation() {
-//        ioService.print(bookDao.save(newBook).toString() + " saved.");
-//        newBook = null;
-//    }
+    @ShellMethod(value = "Save creation command", key = {"bcs", "save-creation"})
+    public void saveCreation() {
+        ioService.print(bookService.save(newBook).toString() + " saved.");
+        newBook = null;
+    }
 
     @ShellMethod(value = "Deny creation command", key = {"bcd", "deny-creation"})
     public void denyCreation() {

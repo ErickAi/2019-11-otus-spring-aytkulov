@@ -1,5 +1,5 @@
-// @formatter:off
-select 1;       // first query is not insert data. I have no idea what's going on.
+-- @formatter:off
+select 1;       -- first query is not insert data. I have no idea what's going on.
 insert into GENRES (ID, NAME) values ( 1, 'g');
 insert into GENRES (ID, NAME) values ( 2, 'genre');
 insert into GENRES (ID, NAME) values ( 3, 'Русская классика');
@@ -14,8 +14,7 @@ insert into GENRES (id, name) values (11, 'Военная проза');
 insert into GENRES (id, name) values (12, 'Фентези');
 insert into GENRES (id, name) values (13, 'Поэма');
 insert into GENRES (id, name) values (14, 'Пьеса');
-insert into GENRES (id, name) values (15, 'Военная проза');
-insert into GENRES (id, name) values (16, 'Сказка');
+insert into GENRES (id, name) values (15, 'Сказка');
 
 insert into AUTHORS (id, name) values ( 1, 'a');
 insert into AUTHORS (id, name) values ( 2, 'author');
@@ -83,6 +82,7 @@ insert into BOOK_GENRE(book_id, genre_id) values ( 8, 13);
 insert into BOOK_GENRE(book_id, genre_id) values ( 9, 4);
 insert into BOOK_GENRE(book_id, genre_id) values ( 9, 10);
 insert into BOOK_GENRE(book_id, genre_id) values (10, 4);
+insert into BOOK_GENRE(book_id, genre_id) values (10, 2);
 insert into BOOK_GENRE(book_id, genre_id) values (10, 11);
 insert into BOOK_GENRE(book_id, genre_id) values (11, 4);
 insert into BOOK_GENRE(book_id, genre_id) values (11, 8);
@@ -99,6 +99,7 @@ insert into BOOK_GENRE(book_id, genre_id) values (16, 12);
 insert into BOOK_GENRE(book_id, genre_id) values (17, 4);
 insert into BOOK_GENRE(book_id, genre_id) values (17, 12);
 insert into BOOK_GENRE(book_id, genre_id) values (18, 4);
+insert into BOOK_GENRE(book_id, genre_id) values (18, 2);
 insert into BOOK_GENRE(book_id, genre_id) values (18, 12);
 insert into BOOK_GENRE(book_id, genre_id) values (19, 5);
 insert into BOOK_GENRE(book_id, genre_id) values (19, 13);
@@ -112,8 +113,26 @@ insert into BOOK_GENRE(book_id, genre_id) values (22, 6);
 -- insert into BOOK_GENRE(book_id, genre_id) values (20, 4);
 insert into BOOK_GENRE(book_id, genre_id) values (24, 5);
 insert into BOOK_GENRE(book_id, genre_id) values (24, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (24, 16);
+insert into BOOK_GENRE(book_id, genre_id) values (24, 2);
+insert into BOOK_GENRE(book_id, genre_id) values (24, 15);
 insert into BOOK_GENRE(book_id, genre_id) values (25, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (25, 16);
+insert into BOOK_GENRE(book_id, genre_id) values (25, 15);
 insert into BOOK_GENRE(book_id, genre_id) values (26, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (26, 16);
+insert into BOOK_GENRE(book_id, genre_id) values (26, 15);
+
+insert into COMMENTS(id, book_id, ENTRY) values (1, 1, 'Small comment for book "b".');
+insert into COMMENTS(id, book_id, ENTRY) values (2, 1, 'Another small comment for book "b".');
+insert into COMMENTS(id, book_id, ENTRY) values (3, 2, 'Small comment for book "book".');
+insert into COMMENTS(id, book_id, ENTRY) values (4, 2, 'Big review and critique for little book "book". 6000 characters except this sentences.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac ipsum felis. Donec tincidunt vehicula libero quis luctus. Duis ac aliquet diam, at congue enim. Nunc vulputate, quam vitae luctus vestibulum, lorem elit consectetur tellus, eget lacinia ipsum nisl eu enim. Cras sodales lectus eget gravida laoreet. Integer iaculis ante id tempus sodales. Maecenas et tincidunt quam, ut commodo odio. Phasellus ornare mi non dui semper interdum. Praesent in magna bibendum, imperdiet neque ut, sagittis metus. Mauris sollicitudin blandit viverra. Cras sed pulvinar mauris. Nam vel eros viverra, ornare felis ac, malesuada nibh. Phasellus et turpis laoreet dui suscipit eleifend eget vel sem.
+Nunc imperdiet sapien augue, ut dignissim erat pulvinar nec. Nunc nibh erat, porta id enim nec, lacinia mattis risus. Duis quis euismod arcu. Proin nec enim id arcu fringilla imperdiet nec vitae enim. Donec in sem lacus. Fusce bibendum, est in pretium molestie, libero ipsum dapibus massa, in accumsan orci tellus quis erat. Etiam feugiat mauris id nisl feugiat maximus. Integer nec venenatis nunc. Aliquam ultricies luctus leo id scelerisque. Fusce id aliquet nisi. Donec luctus justo quis leo pharetra, id gravida erat rhoncus. Maecenas sagittis quis mauris in viverra. Vestibulum et luctus elit, dictum venenatis eros. Morbi pretium nunc ut mauris luctus, eu cursus nulla ornare. Nulla eget accumsan nulla, a convallis dolor.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis aliquet mollis. Nulla bibendum tincidunt odio id sagittis. Fusce convallis convallis risus, nec sollicitudin sapien scelerisque sagittis. Proin a rhoncus ex. Ut in porttitor quam. Donec molestie purus eget massa hendrerit luctus.
+Vestibulum accumsan mollis finibus. Praesent consectetur volutpat elementum. Mauris ipsum nisi, vehicula ac quam vel, semper elementum sem. Fusce sagittis, nibh sit amet tempus vulputate, arcu odio scelerisque ipsum, eget feugiat ligula diam eu dui. Aenean vitae pretium elit. Etiam metus arcu, vulputate ac urna ut, fringilla varius augue. Fusce at mi venenatis, varius libero et, maximus augue. Maecenas vel semper lectus.
+Nam in erat ac enim varius sollicitudin quis at purus. Praesent id est convallis, consectetur neque vitae, interdum velit. Nam a egestas enim, at tempus neque. Aenean vitae risus enim. Duis mollis erat sit amet rhoncus molestie. Duis nec lobortis nibh, at malesuada leo. Praesent vitae mattis magna. Aliquam vulputate risus ut turpis viverra blandit.
+In quam velit, ornare et interdum sit amet, volutpat non nunc. In in pellentesque sem, ut interdum purus. Nam purus est, pretium sit amet feugiat ac, pretium et sapien. Morbi orci dui, iaculis sed sem ut, placerat placerat felis. Sed vel felis eleifend, ornare nunc mollis, ultrices arcu. Duis et nisl libero. Vestibulum suscipit nisi quis diam tincidunt fermentum. Vestibulum aliquam tempus eros, ac finibus nisi varius ornare. Etiam augue odio, suscipit a varius vitae, dapibus convallis orci. Curabitur quis neque pulvinar, tincidunt justo in, commodo nulla. Etiam pharetra metus eget elit mollis, sit amet ornare nisi commodo. Suspendisse vel augue sit amet orci viverra faucibus ac pretium erat. Mauris nec vehicula sem. Maecenas eu purus eros. Vivamus condimentum augue metus, et tempus nibh auctor sit amet. Nam faucibus ultrices dui, eget mollis est pharetra in.
+Aenean a fermentum lorem. Vestibulum eleifend arcu ut elit rhoncus tincidunt. Donec mollis ipsum vel sapien volutpat, eget imperdiet ipsum consectetur. Vestibulum nec hendrerit ante. Sed scelerisque auctor urna, vitae scelerisque lorem suscipit faucibus. Sed nisi massa, rutrum quis imperdiet ut, semper id ex. Nam nec mauris faucibus, tempor libero non, luctus purus. Suspendisse porttitor molestie velit, et vulputate metus vulputate eu.
+Integer mollis massa velit. Curabitur dictum lectus id nibh convallis, sed vestibulum justo consectetur. Cras eu viverra lorem. Sed viverra imperdiet ultrices. Ut pellentesque nunc sed metus tempor faucibus. Aliquam vel molestie augue. Cras aliquam, orci sit amet molestie ultricies, magna purus tempor lacus, nec ultricies leo neque ut ante. Vivamus at elementum purus. Mauris vitae lobortis tellus. Suspendisse rutrum nunc nec suscipit bibendum.
+Nam maximus quam ex, vitae pellentesque enim convallis non. Aenean pharetra nunc sed enim tincidunt, ornare lobortis diam consequat. Nam vulputate elit felis, sed ornare neque lobortis et. Aenean a tincidunt mauris. Curabitur nec justo urna. Aliquam blandit tellus sed imperdiet gravida. Donec egestas nunc et porttitor laoreet.
+In hac habitasse platea dictumst. Sed molestie, lectus non viverra vestibulum, metus ipsum tristique libero, eget elementum felis ligula luctus nibh. Pellentesque felis dui, luctus vitae lacus non, ultrices gravida felis. In pharetra, est et fermentum bibendum, elit risus varius tellus, at faucibus urna ipsum non ex. Fusce rhoncus lobortis lorem at viverra. Pellentesque suscipit ornare est, vel congue elit vulputate vitae. Donec sed tempor nunc. Duis maximus ante et ipsum pharetra, eu pulvinar ligula dapibus. Nam vulputate, enim nec tincidunt vehicula, leo tellus semper dui, et tempor mauris ex pulvinar nulla.
+Morbi feugiat fermentum luctus. Praesent ipsum nisi, volutpat quis lacus vitae, finibus rutrum orci. Fusce varius risus et leo semper commodo. Nullam ac scelerisque lectus. Vivamus vitae cursus sapien, et tempus leo. Nulla facilisi. Curabitur suscipit, neque vitae placerat facilisis, nisl massa porttitor nulla, non condimentum magna elit sit amet tortor. Ut tortor dolor, ullamcorper nec dictum eget, dignissim in enim. Sed turpis nisi, lacinia a leo sed, volutpat gravida erat. Mauris lacinia nisl turpis, id lacinia tortor placerat non. Nulla fermentum tortor massa, quis aliquam elit efficitur pellentesque.
+Cras gravida et tortor ac faucibus. Duis iaculis lacus sit amet lacinia viverra. Aliquam vestibulum, nunc sed porta sodales, libero dui ultricies neque, ut rutrum sem eros quis sem volutpat.');

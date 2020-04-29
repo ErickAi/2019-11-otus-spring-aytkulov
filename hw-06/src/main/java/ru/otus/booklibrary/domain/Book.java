@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,23 +25,13 @@ public class Book {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", insertable = false, updatable = false)
+    @JoinColumn(name = "author_id")
     private Author author;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "book_genre", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres;
-
-    public Book(Long id, String name, Author author) {
-        this(id, name, author, null);
-        this.name = name;
-        this.author = author;
-    }
-
-    public Set<Genre> getGenres() {
-        return genres != null ? genres : new HashSet<>();
-    }
 
     @Override
     public String toString() {
