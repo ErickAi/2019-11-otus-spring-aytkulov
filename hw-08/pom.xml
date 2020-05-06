@@ -9,7 +9,7 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>ru.otus</groupId>
-  <artifactId>book-library-mongodb</artifactId>
+  <artifactId>hw-08-book-library-mongodb</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <properties>
