@@ -9,7 +9,7 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>ru.otus</groupId>
-  <artifactId>spring-batch</artifactId>
+  <artifactId>hw-14-spring-batch</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <properties>
