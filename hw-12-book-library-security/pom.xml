@@ -12,9 +12,8 @@
   </parent>
 
   <groupId>ru.otus</groupId>
-  <artifactId>book-library-security</artifactId>
+  <artifactId>hw-12-book-library-security</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>book-library-security</name>
 
   <properties>
     <java.version>11</java.version>

@@ -12,9 +12,8 @@
   </parent>
 
   <groupId>ru.otus</groupId>
-  <artifactId>book-library-vuejs</artifactId>
+  <artifactId>hw-10-book-library-vuejs</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>book-library-vuejs</name>
 
   <properties>
     <java.version>11</java.version>
