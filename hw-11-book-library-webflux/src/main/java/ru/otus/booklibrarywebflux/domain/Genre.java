@@ -1,0 +1,28 @@
+package ru.otus.booklibrarywebflux.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "genres")
+public class Genre {
+
+    @Id
+    private String id;
+
+    private String name;
+
+    public Genre(String name) {
+        this(null, name);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s, '%s')", getClass().getSimpleName(), id, name);
+    }
+}
