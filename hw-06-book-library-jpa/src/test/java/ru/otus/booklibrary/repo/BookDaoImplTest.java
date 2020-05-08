@@ -1,7 +1,8 @@
 package ru.otus.booklibrary.repo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
@@ -10,13 +11,15 @@ import ru.otus.booklibrary.exception.NotFoundException;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.otus.booklibrary.TestData.*;
 
 @DataJpaTest
 @Import(BookDaoImpl.class)
 @DisplayName(value = "DAO для работы с книгами")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Slf4j
 class BookDaoImplTest {
 
@@ -24,29 +27,28 @@ class BookDaoImplTest {
     private BookDaoImpl bookDao;
 
     @Test
-    @Order(1)
     @DisplayName(value = "достает из базы все книги")
     void getAll() {
         List<Book> allBooks = bookDao.getAll();
+        assertThat(allBooks, hasItems(notNullValue()));
         assertEquals(bookDao.count(), allBooks.size());
     }
 
     @Test
-    @Order(2)
     @DisplayName(value = "достает из базы книгу по ID")
     void getById() {
-        log.info(bookDao.getById(1L).toString());
+        assertNotNull(bookDao.getById(1L));
+
     }
 
     @Test
-    @Order(3)
     @DisplayName(value = "достает из базы книгу по названию")
     void getByName() {
-        log.info(bookDao.getByName(BOOK.getName()).toString());
+        Book book = bookDao.getByName(BOOK.getName());
+        assertEquals(book.getName(), BOOK.getName());
     }
 
     @Test
-    @Order(4)
     @DisplayName(value = "достает из базы список книг по автору")
     void getByAuthor() {
         List<Book> byAuthor = bookDao.getByAuthor(AUTHOR_SAPKOWSKI.getName());
@@ -57,7 +59,6 @@ class BookDaoImplTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName(value = "достает из базы список книг по жанру")
     void getByGenre() {
         List<Book> byGenre = bookDao.getByGenre(GENRE_DRAMA.getName());
@@ -68,7 +69,6 @@ class BookDaoImplTest {
     }
 
     @Test
-    @Order(6)
     @DisplayName(value = "добавляет книгу с автором и жанрами в базу")
     void insert() {
         long expectedCount = bookDao.count() + 1;
@@ -77,7 +77,6 @@ class BookDaoImplTest {
     }
 
     @Test
-    @Order(7)
     @DisplayName(value = "удаляет книгу и связи с жанрами по ее ID")
     void deleteById() {
         long expectedCount = bookDao.count() - 1;
