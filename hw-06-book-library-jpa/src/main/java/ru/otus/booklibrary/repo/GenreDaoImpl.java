@@ -1,7 +1,6 @@
 package ru.otus.booklibrary.repo;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.booklibrary.domain.Genre;
 import ru.otus.booklibrary.exception.NotFoundException;
 
@@ -9,7 +8,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Repository
-@Transactional
 @SuppressWarnings("JpaQlInspection")
 public class GenreDaoImpl implements GenreDao {
 

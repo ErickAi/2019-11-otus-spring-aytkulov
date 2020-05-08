@@ -1,14 +1,12 @@
 package ru.otus.booklibrary.repo;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.booklibrary.domain.Author;
 import ru.otus.booklibrary.exception.NotFoundException;
 
 import javax.persistence.*;
 
 @Repository
-@Transactional
 @SuppressWarnings("JpaQlInspection")
 public class AuthorDaoImpl implements AuthorDao {
 

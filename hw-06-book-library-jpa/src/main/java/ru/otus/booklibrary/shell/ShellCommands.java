@@ -5,6 +5,7 @@ import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.booklibrary.domain.Author;
 import ru.otus.booklibrary.domain.Book;
 import ru.otus.booklibrary.domain.Genre;
@@ -72,6 +73,7 @@ public class ShellCommands {
     }
 
     @ShellMethod(value = "Get list all genres", key = {"g-all", "genres-all"})
+    @Transactional(readOnly = true)
     public void getAllGenres() {
         List<Genre> genres = genreDao.getAll();
         for (Genre genre : genres) {
@@ -81,6 +83,7 @@ public class ShellCommands {
 
     @ShellMethod(value = "Create new book command (if name/author/genre contains spaces, replace it to underscores ('_'))"
         , key = {"b-c", "book-create"})
+    @Transactional(readOnly = true)
     public void addBook(@ShellOption(value = "--name") String name, @ShellOption("--author") String authorName,
                         @ShellOption(value = "--genre") String genreName) {
         name = replaceUnderscores(name);
@@ -110,6 +113,7 @@ public class ShellCommands {
     }
 
     @ShellMethod(value = "Add genre to new book", key = {"g-add", "genre-add-to-new-book"})
+    @Transactional(readOnly = true)
     public void addGenreToNewBook(String genreName) {
         genreName = replaceUnderscores(genreName);
         Genre genre = genreDao.getByName(genreName);

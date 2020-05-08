@@ -2,6 +2,7 @@ package ru.otus.booklibrary.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.booklibrary.domain.Book;
 import ru.otus.booklibrary.domain.Genre;
 import ru.otus.booklibrary.repo.AuthorDao;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BookServiceImpl implements BookService {
 
     private final BookDao bookDao;
@@ -46,6 +48,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public Book save(Book book) {
         if (book.getAuthor().getId() == null) {
             book.setAuthor(authorDao.insert(book.getAuthor()));
@@ -62,6 +65,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public boolean deleteById(long id) {
         return bookDao.deleteById(id);
     }

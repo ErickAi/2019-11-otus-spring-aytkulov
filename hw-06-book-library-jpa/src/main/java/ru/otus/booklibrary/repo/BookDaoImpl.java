@@ -2,7 +2,6 @@ package ru.otus.booklibrary.repo;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.booklibrary.domain.Book;
 import ru.otus.booklibrary.exception.NotFoundException;
 
@@ -10,7 +9,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Repository
-@Transactional
 @SuppressWarnings("JpaQlInspection")
 public class BookDaoImpl implements BookDao {
 
