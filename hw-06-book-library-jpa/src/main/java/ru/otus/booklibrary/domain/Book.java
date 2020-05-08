@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = {"id", "name"})
 @Entity
 @Table(name = "books")
+@NamedEntityGraph(name = "graph.Book.author",
+        attributeNodes = {@NamedAttributeNode("author")})
 public class Book {
 
     @Id
@@ -28,6 +32,8 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
+    @Fetch(FetchMode.SUBSELECT)
+//    @BatchSize(size = 15)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "book_genre", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))

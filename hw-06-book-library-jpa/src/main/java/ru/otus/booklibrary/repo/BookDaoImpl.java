@@ -74,7 +74,9 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        return em.createQuery("select b from Book b", Book.class).getResultList();
+        return em.createQuery("select b from Book b", Book.class)
+                .setHint("javax.persistence.fetchgraph", em.getEntityGraph("graph.Book.author"))
+                .getResultList();
     }
 
     @Override
