@@ -17,11 +17,12 @@ public class TestData {
 
     public static final int DRAMA_BOOKS_COUNT = 4;
     public static final Genre GENRE = new Genre(2L, "genre");
+    public static final Genre GENRE_G = new Genre(1L, "g");
     public static final Genre GENRE_DRAMA = new Genre(6L, "Драма");
     public static final Genre NEW_GENRE = new Genre(null, "New Genre");
 
-    public static final Book BOOK = new Book(3L, "book", AUTHOR,
-            new HashSet<>(Arrays.asList(GENRE, GENRE_DRAMA)));
+    public static final Book BOOK = new Book(2L, "book", AUTHOR,
+            new HashSet<>(Arrays.asList(GENRE, GENRE_G, GENRE_DRAMA)));
     public static final Book NEW_BOOK = new Book(null, "new book", AUTHOR,
             new HashSet<>(Arrays.asList(GENRE, GENRE_DRAMA)));
 

@@ -88,8 +88,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public boolean deleteById(long id) {
-        Query deleteComments = em.createQuery("delete from Comment c where c.bookId =:id");
-        deleteComments.setParameter("id", id);
+        Query deleteComments = em.createQuery("delete from Comment c where c.book.id = :bookId");
+        deleteComments.setParameter("bookId", id);
         deleteComments.executeUpdate();
         Query query = em.createQuery("delete from Book b where b.id =:id");
         query.setParameter("id", id);

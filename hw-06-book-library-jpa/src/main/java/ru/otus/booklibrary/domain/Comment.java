@@ -19,7 +19,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long bookId;
+    @ManyToOne
+    @JoinColumn(name = "book_id", insertable=false, updatable=false)
+    private BookTruncated book;
 
     @Lob
     @Column(name = "entry")

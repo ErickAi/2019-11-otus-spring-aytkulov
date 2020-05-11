@@ -1,4 +1,5 @@
 -- @formatter:off
+select 1;       -- first query is not insert data. I have no idea what's going on.
 drop table if exists genres;
 drop table if exists authors;
 drop table if exists books;
