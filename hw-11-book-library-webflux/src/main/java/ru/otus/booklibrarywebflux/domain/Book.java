@@ -34,6 +34,12 @@ public class Book {
         this.author = author;
         this.genres = genres;
     }
+    public Book(Book copy) {
+        this.id = copy.getId();
+        this.name = copy.getName();
+        this.author = copy.getAuthor();
+        this.genres = copy.getGenres();
+    }
 
     @Override
     public String toString() {

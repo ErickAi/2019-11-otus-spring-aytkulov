@@ -3,6 +3,6 @@ server:
 spring:
   data:
     mongodb:
-#      port: 0
-      port: 59793
+      port: 0
+#      port: 59793   # defined port for mongo explorer
       database: booklibrary
