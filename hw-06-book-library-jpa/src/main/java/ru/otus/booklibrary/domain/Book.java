@@ -21,9 +21,17 @@ import java.util.stream.Collectors;
         attributeNodes = {@NamedAttributeNode("author")})
 public class Book {
 
+    public Book(Book book) {
+        this.id = book.getId();
+        this.name = book.getName();
+        this.author = book.getAuthor();
+        this.genres = book.getGenres();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;

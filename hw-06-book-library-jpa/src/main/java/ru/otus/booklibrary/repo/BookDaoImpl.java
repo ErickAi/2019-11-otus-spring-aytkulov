@@ -1,6 +1,5 @@
 package ru.otus.booklibrary.repo;
 
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import ru.otus.booklibrary.domain.Book;
 import ru.otus.booklibrary.exception.NotFoundException;
@@ -27,6 +26,7 @@ public class BookDaoImpl implements BookDao {
             "select b from Book b where b.id = :id"
             , Book.class);
         query.setParameter("id", id);
+        query.setHint("javax.persistence.fetchgraph", em.getEntityGraph("graph.Book.author"));
         try {
             return query.getSingleResult();
         } catch (NoResultException e) {
@@ -39,6 +39,7 @@ public class BookDaoImpl implements BookDao {
         TypedQuery<Book> query = em.createQuery(
             "select b from Book b where b.name = :name", Book.class);
         query.setParameter("name", name);
+        query.setHint("javax.persistence.fetchgraph", em.getEntityGraph("graph.Book.author"));
         try {
             return query.getSingleResult();
         } catch (NoResultException e) {
@@ -50,6 +51,7 @@ public class BookDaoImpl implements BookDao {
     public List<Book> getByAuthor(String author) {
         TypedQuery<Book> query = em.createQuery(
             "select b from Book b join b.author author where author.name = :authorName", Book.class);
+        query.setHint("javax.persistence.fetchgraph", em.getEntityGraph("graph.Book.author"));
         query.setParameter("authorName", author);
         List<Book> books = query.getResultList();
         if (books.isEmpty()) {
@@ -64,6 +66,7 @@ public class BookDaoImpl implements BookDao {
         TypedQuery<Book> query = em.createQuery(
             "select b from Book b join b.genres genre where genre.name = :genreName", Book.class);
         query.setParameter("genreName", genre);
+        query.setHint("javax.persistence.fetchgraph", em.getEntityGraph("graph.Book.author"));
         List<Book> books = query.getResultList();
         if (books.isEmpty()) {
             throw new NotFoundException(String.format(
@@ -81,8 +84,11 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book saveOrUpdate(Book book) {
-        Session session = em.unwrap(Session.class);
-        session.saveOrUpdate(book);
+        if (book.getId() == null) {
+            em.persist(book);
+        } else {
+            em.merge(book);
+        }
         return book;
     }
 

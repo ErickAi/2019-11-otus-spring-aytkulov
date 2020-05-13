@@ -70,10 +70,20 @@ class BookDaoImplTest {
 
     @Test
     @DisplayName(value = "добавляет книгу с автором и жанрами в базу")
-    void insert() {
+    void persist() {
         long expectedCount = bookDao.count() + 1;
         bookDao.saveOrUpdate(NEW_BOOK);
         assertEquals(expectedCount, bookDao.count());
+    }
+
+    @Test
+    @DisplayName(value = "обновляет книгу")
+    void merge() {
+        String updatedName = "updated name";
+        Book forUpdate = new Book(BOOK);
+        forUpdate.setName(updatedName);
+        bookDao.saveOrUpdate(forUpdate);
+        assertEquals(bookDao.getByName(updatedName), forUpdate);
     }
 
     @Test
