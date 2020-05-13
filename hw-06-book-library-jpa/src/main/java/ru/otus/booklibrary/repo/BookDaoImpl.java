@@ -1,13 +1,16 @@
 package ru.otus.booklibrary.repo;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.otus.booklibrary.domain.Book;
+import ru.otus.booklibrary.domain.Genre;
 import ru.otus.booklibrary.exception.NotFoundException;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 @SuppressWarnings("JpaQlInspection")
 public class BookDaoImpl implements BookDao {
 
@@ -84,6 +87,14 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book saveOrUpdate(Book book) {
+        if (book.getAuthor().getId() == null) {
+            em.persist(book.getAuthor());
+        }
+        for (Genre genre : book.getGenres()) {
+            if (genre.getId() == null) {
+                em.persist(genre);
+            }
+        }
         if (book.getId() == null) {
             em.persist(book);
         } else {

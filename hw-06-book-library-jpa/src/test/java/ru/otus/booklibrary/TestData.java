@@ -7,6 +7,7 @@ import ru.otus.booklibrary.domain.Genre;
 import java.util.Arrays;
 import java.util.HashSet;
 
+@SuppressWarnings("WeakerAccess")
 public class TestData {
     public static final String NO_NAME = "No name";
     public static final int SAPKOWSKI_BOOKS_COUNT = 7;
@@ -23,7 +24,7 @@ public class TestData {
 
     public static final Book BOOK = new Book(2L, "book", AUTHOR,
             new HashSet<>(Arrays.asList(GENRE, GENRE_G, GENRE_DRAMA)));
-    public static final Book NEW_BOOK = new Book(null, "new book", AUTHOR,
-            new HashSet<>(Arrays.asList(GENRE, GENRE_DRAMA)));
+    public static final Book NEW_BOOK = new Book(null, "new book", NEW_AUTHOR,
+            new HashSet<>(Arrays.asList(NEW_GENRE, GENRE_DRAMA)));
 
 }
