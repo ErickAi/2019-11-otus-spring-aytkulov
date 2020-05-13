@@ -80,29 +80,17 @@ public class ShellCommands {
     }
 
     @ShellMethod(value = "Create new book command (if name/author/genre contains spaces, replace it to underscores ('_'))"
-        , key = {"b-c", "book-create"})
+            , key = {"b-c", "book-create"})
     public void addBook(@ShellOption(value = "--name") String name, @ShellOption("--author") String authorName,
                         @ShellOption(value = "--genre") String genreName) {
         name = replaceUnderscores(name);
-        authorName = replaceUnderscores(authorName);
-        genreName = replaceUnderscores(genreName);
-        Author author = null;
-        Genre genre = null;
+        Author author = getOrCreateAuthor(authorName);
+        Genre genre = getOrCreateGenre(genreName);
         try {
             Book book = bookService.getByName(name);
             ioService.print(String.format("The %s exists.", book.toString()));
             ioService.print("Updating book not implemented yet");
-            author = authorService.getByName(authorName);
-            genre = genreService.getByName(genreName);
         } catch (NotFoundException ignored) {
-        }
-        if (author == null) {
-            ioService.print(String.format("Author with name '%s' is not exists. A new one will be created.", authorName));
-            author = new Author(authorName);
-        }
-        if (genre == null) {
-            ioService.print(String.format("Genre with name '%s' is not exists. A new one will be created.", genreName));
-            genre = new Genre(genreName);
         }
         newBook = new Book(null, name, author, new HashSet<>(Collections.singleton(genre)));
         ioService.print(String.format("%s ready to save.", newBook));
@@ -128,10 +116,6 @@ public class ShellCommands {
         }
     }
 
-    private String replaceUnderscores(String option) {
-        return option.replace('_', ' ');
-    }
-
     @ShellMethod(value = "Save creation command", key = {"bcs", "save-creation"})
     public void saveCreation() {
         ioService.print(bookService.save(newBook).toString() + " saved.");
@@ -141,6 +125,38 @@ public class ShellCommands {
     @ShellMethod(value = "Deny creation command", key = {"bcd", "deny-creation"})
     public void denyCreation() {
         newBook = null;
+    }
+
+    private String replaceUnderscores(String option) {
+        return option.replace('_', ' ');
+    }
+
+    private Author getOrCreateAuthor(String authorName) {
+        authorName = replaceUnderscores(authorName);
+        Author author = null;
+        try {
+            author = authorService.getByName(authorName);
+        } catch (NotFoundException ignored) {
+        }
+        if (author == null) {
+            ioService.print(String.format("Author with name '%s' is not exists. A new one will be created.", authorName));
+            author = new Author(authorName);
+        }
+        return author;
+    }
+
+    private Genre getOrCreateGenre(String genreName) {
+        genreName = replaceUnderscores(genreName);
+        Genre genre = null;
+        try {
+            genre = genreService.getByName(genreName);
+        } catch (NotFoundException ignored) {
+        }
+        if (genre == null) {
+            ioService.print(String.format("Genre with name '%s' is not exists. A new one will be created.", genreName));
+            genre = new Genre(genreName);
+        }
+        return genre;
     }
 
     private Availability getAllBooksAvailability() {
@@ -178,7 +194,7 @@ public class ShellCommands {
     private Availability creationAvailability() {
         if (newBook != null) {
             return Availability.unavailable("\n Now you creating the book %s. \nConfirm or deny creation by command " +
-                "\n Confirm: 'c', 'confirm-creation'. \n Deny: 'd', 'deny-creation'");
+                    "\n Confirm: 'c', 'confirm-creation'. \n Deny: 'd', 'deny-creation'");
         }
         return Availability.available();
     }
@@ -186,7 +202,7 @@ public class ShellCommands {
     private Availability saveOrDenyAvailability() {
         if (newBook == null) {
             return Availability.unavailable("\n This command for save or deny created book." +
-                "\nFor create new book use command ");
+                    "\nFor create new book use command ");
         }
         return Availability.available();
     }
