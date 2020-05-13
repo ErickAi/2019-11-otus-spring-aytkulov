@@ -79,8 +79,8 @@
 </template>
 
 <script>
-    import BookDataService from "@/services/BookDataService";
-    import NavMenu from "@/components/NavMenu";
+    import BookDataService from "../services/BookDataService";
+    import NavMenu from "../views/NavMenu";
     import Fuse from "fuse.js"
 
     export default {

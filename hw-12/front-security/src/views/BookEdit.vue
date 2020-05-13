@@ -71,9 +71,9 @@
 </template>
 
 <script>
-    import NavMenu from "@/components/NavMenu";
-    import Author from "@/components/Author";
-    import Genre from "@/components/Genre";
+    import NavMenu from "../views/NavMenu";
+    import Author from "../views/Author";
+    import Genre from "../views/Genre";
     import BookDataService from "../services/BookDataService";
 
     export default {

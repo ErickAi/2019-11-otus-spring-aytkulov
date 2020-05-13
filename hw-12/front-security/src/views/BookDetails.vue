@@ -85,9 +85,9 @@
 
 <script>
     import vueCustomScrollbar from 'vue-custom-scrollbar'
-    import NavMenu from "@/components/NavMenu";
+    import NavMenu from "../views/NavMenu";
     import BookDataService from "../services/BookDataService";
-    import CommentDataService from "@/services/CommentDataService";
+    import CommentDataService from "../services/CommentDataService";
 
     const infiniteScroll = require('vue-infinite-scroll');
 
