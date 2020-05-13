@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import ru.otus.booklibrary.domain.Author;
@@ -20,20 +19,19 @@ import static ru.otus.booklibrary.TestData.NEW_AUTHOR;
 class AuthorDaoImplTest {
 
     @Autowired
-    AuthorDaoImpl authorDao;
+    private AuthorDaoImpl authorDao;
 
     @Test
     @DisplayName(value = "достает из базы автора по имени")
     void getByName() {
         Author author = authorDao.getByName(AUTHOR.getName());
-        assertEquals(author.getId(), AUTHOR.getId());
+        assertEquals(AUTHOR, author);
     }
 
     @Test
     @DisplayName(value = "сохраняет нового автора")
     void insert() {
-        long expectedCount = authorDao.count() + 1;
         authorDao.insert(NEW_AUTHOR);
-        assertEquals(expectedCount, authorDao.count());
+        assertEquals(authorDao.getByName(NEW_AUTHOR.getName()), NEW_AUTHOR);
     }
 }

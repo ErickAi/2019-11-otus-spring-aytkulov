@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.otus.booklibrary.TestData.*;
@@ -37,7 +38,9 @@ class BookDaoImplTest {
     @Test
     @DisplayName(value = "достает из базы книгу по ID")
     void getById() {
-        assertNotNull(bookDao.getById(1L));
+        Book book = bookDao.getById(1L);
+        assertThat(book, hasProperty("id"));
+        assertThat(book, hasProperty("name"));
 
     }
 

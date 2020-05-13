@@ -24,7 +24,7 @@ public class TestData {
 
     public static final Book BOOK = new Book(2L, "book", AUTHOR,
             new HashSet<>(Arrays.asList(GENRE, GENRE_G, GENRE_DRAMA)));
-    public static final Book NEW_BOOK = new Book(null, "new book", NEW_AUTHOR,
-            new HashSet<>(Arrays.asList(NEW_GENRE, GENRE_DRAMA)));
+    public static final Book NEW_BOOK = new Book(null, "new book", new Author("New Author for new Book"),
+            new HashSet<>(Arrays.asList(new Genre("New Genre for New Book"), GENRE_DRAMA)));
 
 }
