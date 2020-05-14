@@ -19,23 +19,34 @@ import java.util.Set;
 @AllArgsConstructor
 public class User {
 
+    public User(String name, String email, String password, Set<Role> roles) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     @Size(max = 512)
     @Column(name = "name", nullable = false)
     @NotNull
     private String name;
+
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotEmpty
     @Size(max = 128)
     private String email;
+
     @Column(name = "password")
     @NotEmpty
     @Size(max = 256)
     private String password;
+
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
