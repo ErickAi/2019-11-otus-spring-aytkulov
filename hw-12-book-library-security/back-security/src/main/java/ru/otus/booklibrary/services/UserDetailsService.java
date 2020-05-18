@@ -2,26 +2,28 @@ package ru.otus.booklibrary.services;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.booklibrary.AuthUser;
 import ru.otus.booklibrary.domain.User;
 import ru.otus.booklibrary.repo.UserRepository;
 
-import static ru.otus.booklibrary.util.ValidationUtil.checkFoundOptional;
+import java.util.Optional;
 
 @Slf4j
 @AllArgsConstructor
 @Service("userDetailsService")
+@Transactional(readOnly = true)
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(final String email) {
+    public AuthUser loadUserByUsername(final String email) {
         log.debug("Authenticating {}", email);
-        User user = checkFoundOptional(
-                userRepository.findByEmailIgnoreCase(email), "User not found. email: " + email);
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(), user.getRoles());
+        Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);
+        return new AuthUser(optionalUser.orElseThrow(
+                () -> new UsernameNotFoundException("User '" + email + "' was not found.")));
     }
 }

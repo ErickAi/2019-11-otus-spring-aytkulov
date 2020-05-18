@@ -1,5 +1,6 @@
 package ru.otus.booklibrary.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,7 @@ public class User {
     @Column(name = "password")
     @NotEmpty
     @Size(max = 256)
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)

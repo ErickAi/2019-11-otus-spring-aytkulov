@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import ru.otus.booklibrary.domain.Role;
@@ -25,12 +24,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .antMatchers(HttpMethod.PUT).hasAuthority(Role.ROLE_ADMIN.getAuthority())
             .antMatchers(HttpMethod.DELETE).hasAuthority(Role.ROLE_ADMIN.getAuthority())
             .anyRequest().authenticated()
-          .and().cors()
-          .and()
-            .httpBasic().disable()
-            .csrf().disable()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.NEVER)
         ;
     }                                   // @formatter:on
 }
