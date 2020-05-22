@@ -1,23 +1,32 @@
 <template>
-  <el-container>
-    <nav-menu/>
-    <el-main>
-      <el-col  :span="8">
-        <el-form :model="user" status-icon :rules="rules" ref="ruleForm" label-width="120px">
-          <el-form-item label="e-mail" prop="email">
-            <el-input v-model="user.email"></el-input>
-          </el-form-item>
-          <el-form-item label="Password" prop="pass">
-            <el-input type="password" v-model="user.pass" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>
-            <el-button @click="resetForm('ruleForm')">Reset</el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-main>
-  </el-container>
+    <el-container>
+        <nav-menu/>
+        <el-main>
+            <div class="login">
+                <el-card>
+                    <img id="profile-img"
+                         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                         class="profile-img-card"/>
+                    <el-form :model="user" :rules="rules" ref="loginForm">
+                        <el-form-item class="mt-5" prop="email">
+                            <el-input v-model="user.email" placeholder="e-mail"
+                                      prefix-icon="el-icon-user-solid"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="password">
+                            <el-input v-model="user.password" placeholder="password"
+                                      prefix-icon="el-icon-lock"
+                                      type="password" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button :loading="loading" style="width: 100%" type="primary" block
+                                       @click="submitForm('loginForm')">Submit
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-card>
+            </div>
+        </el-main>
+    </el-container>
 </template>
 <script>
     import NavMenu from "../NavMenu";
@@ -29,44 +38,45 @@
             NavMenu
         },
         data() {
-            let validatePass = (rule, value, callback) => {
+            let validateEmail = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('Please input the password'));
+                    callback(new Error('Please input your email'));
                 } else {
-                    if (this.ruleForm.checkPass !== '') {
-                        this.$refs.ruleForm.validateField('checkPass');
+                    if (this.loginForm.password !== '') {
+                        this.$refs.loginForm.validateField('email');
                     }
                     callback();
                 }
             };
-            let validatePass2 = (rule, value, callback) => {
+            let validatePassword = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('Please input the password again'));
-                } else if (value !== this.ruleForm.pass) {
-                    callback(new Error('Two inputs don\'t match!'));
+                    callback(new Error('Please input the password'));
                 } else {
+                    if (this.loginForm.password !== '') {
+                        this.$refs.loginForm.validateField('password');
+                    }
                     callback();
                 }
             };
             return {
-                user: new User('', '', ''),
+                user: new User('', ''),
+                loading: false,
+                loginForm: {
+                    email: '',
+                    password: '',
+                },
                 rules: {
-                    pass: [
-                        {validator: validatePass, trigger: 'blur'}
+                    email: [
+                        {validator: validateEmail, trigger: 'blur'}
                     ],
-                    checkPass: [
-                        {validator: validatePass2, trigger: 'blur'}
+                    password: [
+                        {validator: validatePassword, trigger: 'blur'}
                     ],
                 }
             };
         },
-        computed: {
-            loggedIn() {
-                return this.$store.state.auth.status.loggedIn;
-            }
-        },
         created() {
-            if (this.loggedIn) {
+            if (this.$store.getters.isLoggedIn) {
                 this.$router.push('/profile');
             }
         },
@@ -74,12 +84,10 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
-                        // let email = this.email;
-                        // let password = this.password;
-                        // this.$store.dispatch('login', {email, password})
-                        //     .then(() => this.$router.push('/'))
-                        //     .catch(err => console.log(err))
+                        let user = this.user;
+                        this.$store.dispatch('login', user)
+                            .then(() => this.$router.push('/profile'))
+                            .catch(err => console.log(err));
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -94,5 +102,25 @@
 </script>
 
 <style scoped>
-
+    .login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .login .el-card {
+        padding-top: 30px;
+        padding-bottom: 20px;
+        width: 340px;
+        display: flex;
+        justify-content: center;
+    }
+    .profile-img-card {
+        width: 96px;
+        height: 96px;
+        margin: 0 auto 10px;
+        display: block;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+    }
 </style>

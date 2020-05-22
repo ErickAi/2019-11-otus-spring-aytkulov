@@ -1,10 +1,11 @@
 select 1; -- first query is not insert data. I have no idea what's going on. @formatter:off
 INSERT INTO USERS (EMAIL, NAME, PASSWORD) VALUES
-       ('admin@mail.ru', 'Admin Admin', '{noop}password'),
-       ('user@mail.ru', 'User User', '{noop}password');
+       ('a@a.a', 'Admin Admin', '{noop}password'),
+       ('u@u.u', 'User User', '{noop}password');
 
 INSERT INTO USER_ROLE (ROLE, USER_ID) VALUES
        ('ROLE_ADMIN', 1),
+       ('ROLE_USER', 1),
        ('ROLE_USER', 2);
 
 insert into GENRES (ID, NAME) values ( 1, 'g');
