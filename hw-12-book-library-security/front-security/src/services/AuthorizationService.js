@@ -32,7 +32,7 @@ class AuthorizationService {
             .get(API_URL + '/userinfo', {headers: {'Authorization' : `Bearer ${accessToken}`}})
             .then(response => {
                 if (response.data) {
-                    localStorage.setItem('user', JSON.stringify(response.data));
+                    localStorage.setItem('currentUser', JSON.stringify(response.data));
                 }
                 return response.data;
             })
@@ -40,7 +40,7 @@ class AuthorizationService {
     }
 
     logout() {
-        localStorage.removeItem('user');
+        localStorage.removeItem('currentUser');
     }
 
     register(user) {

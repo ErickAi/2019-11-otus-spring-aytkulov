@@ -1,9 +1,9 @@
 import AuthService from '../services/AuthorizationService';
 
-const user = JSON.parse(localStorage.getItem('user'));
-const initialState = user
-    ? {loggedIn: true, user}
-    : {loggedIn: false, user: null};
+const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+const initialState = currentUser
+    ? {loggedIn: true, currentUser}
+    : {loggedIn: false, currentUser: null};
 
 export const auth = {
     state: {
@@ -79,7 +79,7 @@ export const auth = {
             }
         },
         currentUser: () => {
-            let currentUser = JSON.parse(localStorage.getItem('user'));
+            let currentUser = JSON.parse(localStorage.getItem('currentUser'));
             if (currentUser) {
                 return currentUser;
             } else {
