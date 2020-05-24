@@ -19,7 +19,7 @@ class AuthorizationService {
             }), config)
             .then(response => {
                 if (response.data.access_token) {
-                    localStorage.setItem('access_token', JSON.stringify(response.data.access_token));
+                    localStorage.setItem('tokenInfo', JSON.stringify(response.data));
                 }
                 return response.data;
             })
@@ -27,9 +27,9 @@ class AuthorizationService {
     }
 
     userinfo() {
-        let accessToken = JSON.parse(localStorage.getItem('access_token'));
+        let tokenInfo = JSON.parse(localStorage.getItem('tokenInfo'));
         return axios
-            .get(API_URL + '/userinfo', {headers: {'Authorization' : `Bearer ${accessToken}`}})
+            .get(API_URL + '/userinfo', {headers: {'Authorization' : `Bearer ${tokenInfo.access_token}`}})
             .then(response => {
                 if (response.data) {
                     localStorage.setItem('currentUser', JSON.stringify(response.data));
@@ -42,6 +42,7 @@ class AuthorizationService {
     logout() {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('access_token');
+        localStorage.removeItem('tokenInfo');
     }
 
     register(user) {

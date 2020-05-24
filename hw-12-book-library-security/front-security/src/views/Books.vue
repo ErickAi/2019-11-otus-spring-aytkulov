@@ -101,7 +101,6 @@
                     .then(response => {
                         this.books = response.data;
                         this.filteredBooks = this.books;
-                        console.log(response.data);
                     })
                     .catch(e => {
                         console.log(e);

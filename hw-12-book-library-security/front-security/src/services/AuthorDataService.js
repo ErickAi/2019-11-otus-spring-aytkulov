@@ -3,7 +3,6 @@ import http from "../http-common";
 class AuthorDataService {
     getAll() {
         return http.get("/authors");
-
     }
 
     get(id) {

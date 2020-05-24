@@ -2,13 +2,15 @@ import AuthService from '../services/AuthorizationService';
 
 export const auth = {
     state: {
-        currentUser:  JSON.parse(localStorage.getItem('currentUser')),
+        currentUser: JSON.parse(localStorage.getItem('currentUser')),
+        tokenInfo: JSON.parse(localStorage.getItem('tokenInfo')),
         loggedIn: false
     },
     actions: {
         async login({commit}, user) {
             return AuthService.token(user)
-                .then(() => {
+                .then(tokenInfo => {
+                        commit('TOKEN_SUCCESS', tokenInfo);
                         return AuthService.userinfo()
                             .then(user => {
                                     commit('LOGIN_SUCCESS', user);
@@ -43,16 +45,21 @@ export const auth = {
         }
     },
     mutations: {
+        TOKEN_SUCCESS(state, tokenInfo) {
+            state.tokenInfo = tokenInfo;
+        },
         LOGIN_SUCCESS(state, user) {
             state.loggedIn = true;
             state.currentUser = user;
         },
         LOGIN_FAILURE(state) {
             state.loggedIn = false;
+            state.tokenInfo = null;
             state.currentUser = null;
         },
         LOGOUT(state) {
             state.loggedIn = false;
+            state.tokenInfo = null;
             state.currentUser = null;
         },
         REGISTER_SUCCESS(state) {
@@ -66,10 +73,9 @@ export const auth = {
         isLoggedIn: state => {
             return state.loggedIn;
         },
-        accessToken: () => {
-            let access_token = JSON.parse(localStorage.getItem('access_token'));
-            if (access_token) {
-                return access_token;
+        accessToken: state => {
+            if (state.tokenInfo) {
+                return state.tokenInfo.access_token;
             } else {
                 return null;
             }

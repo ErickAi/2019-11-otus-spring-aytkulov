@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const accessToken = JSON.parse(localStorage.getItem("access_token"));
-
 const httpCommon = axios.create({
     baseURL: "http://localhost:9090/",
     headers: {
@@ -9,6 +7,14 @@ const httpCommon = axios.create({
     }
 });
 
-httpCommon.defaults.headers.common['Authorization'] = accessToken ? `Bearer ${accessToken}` : null;
-
+httpCommon.interceptors.request.use(
+    config => {
+        let tokenInfo = JSON.parse(localStorage.getItem("tokenInfo"));
+        config.headers["Authorization"] = "bearer " + tokenInfo.access_token;
+        return config;
+    },
+    error => {
+        Promise.reject(error);
+    }
+);
 export default httpCommon;

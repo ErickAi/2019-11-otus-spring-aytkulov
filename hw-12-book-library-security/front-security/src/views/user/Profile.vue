@@ -44,7 +44,6 @@
             },
             truncatedToken() {
                 let currentToken = this.$store.getters.accessToken;
-                console.log(currentToken);
                 if (!currentToken) {
                     return "";
                 }
@@ -52,7 +51,7 @@
             }
         },
         mounted() {
-            if (!this.currentUser) {
+            if (!this.currentUser.email) {
                 this.$router.push('/login');
             }
         }

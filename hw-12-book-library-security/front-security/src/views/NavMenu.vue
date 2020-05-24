@@ -12,7 +12,7 @@
       <el-menu-item index="/profile">Профиль</el-menu-item>
       <el-menu-item index="/register">Регистрация</el-menu-item>
       <el-menu-item index="/login">Вход</el-menu-item>
-      <el-menu-item index="/login" @click="logout">Выход</el-menu-item>
+      <el-menu-item @click="logout">Выход</el-menu-item>
     </el-menu>
   </el-header>
 </template>
@@ -21,7 +21,8 @@
     export default {
       methods: {
         logout(){
-          this.$store.dispatch('logout')
+          this.$store.dispatch('logout');
+          this.$router.push('/login');
         }
       }
     }
