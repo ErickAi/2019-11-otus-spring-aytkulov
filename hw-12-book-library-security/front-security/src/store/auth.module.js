@@ -1,13 +1,9 @@
 import AuthService from '../services/AuthorizationService';
 
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-const initialState = currentUser
-    ? {loggedIn: true, currentUser}
-    : {loggedIn: false, currentUser: null};
-
 export const auth = {
     state: {
-        initialState
+        currentUser:  JSON.parse(localStorage.getItem('currentUser')),
+        loggedIn: false
     },
     actions: {
         async login({commit}, user) {
@@ -15,54 +11,54 @@ export const auth = {
                 .then(() => {
                         return AuthService.userinfo()
                             .then(user => {
-                                    commit('loginSuccess', user);
+                                    commit('LOGIN_SUCCESS', user);
                                     return Promise.resolve(user);
                                 },
                                 error => {
-                                    commit('loginFailure');
+                                    commit('LOGIN_FAILURE');
                                     return Promise.reject(error);
                                 }
                             )
                     },
                     error => {
-                        commit('loginFailure');
+                        commit('LOGIN_FAILURE');
                         return Promise.reject(error);
                     });
         },
         logout({commit}) {
             AuthService.logout();
-            commit('logout');
+            commit('LOGOUT');
         },
         register({commit}, user) {
             return AuthService.register(user).then(
                 response => {
-                    commit('registerSuccess');
+                    commit('REGISTER_SUCCESS');
                     return Promise.resolve(response.data);
                 },
                 error => {
-                    commit('registerFailure');
+                    commit('REGISTER_FAILURE');
                     return Promise.reject(error);
                 }
             );
         }
     },
     mutations: {
-        loginSuccess(state, user) {
+        LOGIN_SUCCESS(state, user) {
             state.loggedIn = true;
-            state.user = user;
+            state.currentUser = user;
         },
-        loginFailure(state) {
+        LOGIN_FAILURE(state) {
             state.loggedIn = false;
-            state.user = null;
+            state.currentUser = null;
         },
-        logout(state) {
+        LOGOUT(state) {
             state.loggedIn = false;
-            state.user = null;
+            state.currentUser = null;
         },
-        registerSuccess(state) {
+        REGISTER_SUCCESS(state) {
             state.loggedIn = false;
         },
-        registerFailure(state) {
+        REGISTER_FAILURE(state) {
             state.loggedIn = false;
         }
     },
@@ -75,13 +71,12 @@ export const auth = {
             if (access_token) {
                 return access_token;
             } else {
-                return {};
+                return null;
             }
         },
-        currentUser: () => {
-            let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if (currentUser) {
-                return currentUser;
+        currentUser: state => {
+            if (state.currentUser) {
+                return state.currentUser;
             } else {
                 return {};
             }

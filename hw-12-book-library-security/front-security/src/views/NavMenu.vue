@@ -10,14 +10,21 @@
       <el-menu-item index="/">Библиотека</el-menu-item>
       <el-menu-item index="/books">Список книг</el-menu-item>
       <el-menu-item index="/profile">Профиль</el-menu-item>
-      <el-menu-item index="/login">Вход</el-menu-item>
       <el-menu-item index="/register">Регистрация</el-menu-item>
+      <el-menu-item index="/login">Вход</el-menu-item>
+      <el-menu-item index="/login" @click="logout">Выход</el-menu-item>
     </el-menu>
   </el-header>
 </template>
 
 <script>
-    export default {}
+    export default {
+      methods: {
+        logout(){
+          this.$store.dispatch('logout')
+        }
+      }
+    }
 </script>
 <style>
 </style>

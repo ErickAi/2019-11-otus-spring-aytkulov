@@ -22,7 +22,7 @@
                     <el-divider/>
                     <p>
                         <strong>Access token:</strong>
-                        {{currentToken.substr(0,22) + '...{ TRUNCATED }'}}
+                        {{truncatedToken}}
                     </p>
                 </el-card>
             </div>
@@ -38,10 +38,17 @@
         components: {
             NavMenu
         },
-        data() {
-            return {
-                currentUser: this.$store.getters.currentUser,
-                currentToken: this.$store.getters.accessToken,
+        computed: {
+            currentUser(){
+                return this.$store.getters.currentUser
+            },
+            truncatedToken() {
+                let currentToken = this.$store.getters.accessToken;
+                console.log(currentToken);
+                if (!currentToken) {
+                    return "";
+                }
+                return currentToken.substr(0, 22) + '...{ TRUNCATED }';
             }
         },
         mounted() {
