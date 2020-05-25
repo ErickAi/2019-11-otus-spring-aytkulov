@@ -4,7 +4,9 @@ export const auth = {
     state: {
         currentUser: JSON.parse(localStorage.getItem('currentUser')),
         tokenInfo: JSON.parse(localStorage.getItem('tokenInfo')),
-        loggedIn: false
+        loggedIn: false,
+        tokenObtainedTime: null,
+        tokenExpiresIn: null
     },
     actions: {
         async login({commit}, user) {
@@ -21,6 +23,17 @@ export const auth = {
                                     return Promise.reject(error);
                                 }
                             )
+                    },
+                    error => {
+                        commit('LOGIN_FAILURE');
+                        return Promise.reject(error);
+                    });
+        },
+        async refreshToken({commit}) {
+            return AuthService.refresh()
+                .then(tokenInfo => {
+                        commit('TOKEN_SUCCESS', tokenInfo);
+                        return Promise.resolve(tokenInfo);
                     },
                     error => {
                         commit('LOGIN_FAILURE');
@@ -47,6 +60,9 @@ export const auth = {
     mutations: {
         TOKEN_SUCCESS(state, tokenInfo) {
             state.tokenInfo = tokenInfo;
+            state.tokenObtainedTime = new Date();
+            console.log("tokenInfo.expires_in " + tokenInfo.expires_in);
+            state.tokenExpiresIn = tokenInfo.expires_in;
         },
         LOGIN_SUCCESS(state, user) {
             state.loggedIn = true;
@@ -73,6 +89,13 @@ export const auth = {
         isLoggedIn: state => {
             return state.loggedIn;
         },
+        currentUser: state => {
+            if (state.currentUser) {
+                return state.currentUser;
+            } else {
+                return {};
+            }
+        },
         accessToken: state => {
             if (state.tokenInfo) {
                 return state.tokenInfo.access_token;
@@ -80,12 +103,5 @@ export const auth = {
                 return null;
             }
         },
-        currentUser: state => {
-            if (state.currentUser) {
-                return state.currentUser;
-            } else {
-                return {};
-            }
-        }
     }
 };

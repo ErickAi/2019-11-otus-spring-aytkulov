@@ -18,6 +18,21 @@ class AuthorizationService {
             })
             .catch(error => console.log(error));
     }
+    refresh() {
+        let tokenInfo = JSON.parse(localStorage.getItem("tokenInfo"));
+        let refresh_token = tokenInfo ? tokenInfo.refresh_token : "";
+        return http
+            .post('/oauth/token', qs.stringify({
+                grant_type: 'refresh_token', client_id: client_id, client_secret: client_secret,
+                refresh_token: refresh_token}))
+            .then(response => {
+                if (response.data.access_token) {
+                    localStorage.setItem('tokenInfo', JSON.stringify(response.data));
+                }
+                return response.data;
+            })
+            .catch(error => console.log(error));
+    }
 
     userinfo() {
         return http
