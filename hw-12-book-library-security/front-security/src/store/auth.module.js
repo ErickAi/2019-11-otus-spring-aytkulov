@@ -1,21 +1,18 @@
 import AuthService from '../services/AuthorizationService';
-
 export const auth = {
     state: {
         currentUser: JSON.parse(localStorage.getItem('currentUser')),
         tokenInfo: JSON.parse(localStorage.getItem('tokenInfo')),
-        loggedIn: false,
-        tokenObtainedTime: null,
-        tokenExpiresIn: null
+        tokenExpiration: JSON.parse(localStorage.getItem('tokenExpiration')),
     },
     actions: {
         async login({commit}, user) {
             return AuthService.token(user)
                 .then(tokenInfo => {
-                        commit('TOKEN_SUCCESS', tokenInfo);
                         return AuthService.userinfo()
                             .then(user => {
                                     commit('LOGIN_SUCCESS', user);
+                                    commit('TOKEN_SUCCESS', tokenInfo);
                                     return Promise.resolve(user);
                                 },
                                 error => {
@@ -33,6 +30,7 @@ export const auth = {
             return AuthService.refresh()
                 .then(tokenInfo => {
                         commit('TOKEN_SUCCESS', tokenInfo);
+                        location.reload();
                         return Promise.resolve(tokenInfo);
                     },
                     error => {
@@ -60,9 +58,10 @@ export const auth = {
     mutations: {
         TOKEN_SUCCESS(state, tokenInfo) {
             state.tokenInfo = tokenInfo;
-            state.tokenObtainedTime = new Date();
-            console.log("tokenInfo.expires_in " + tokenInfo.expires_in);
-            state.tokenExpiresIn = tokenInfo.expires_in;
+            let expiration = new Date();
+            expiration.setSeconds(expiration.getSeconds() + tokenInfo.expires_in);
+            console.log("token expires at: " + expiration);
+            localStorage.setItem("tokenExpiration", expiration.getTime());
         },
         LOGIN_SUCCESS(state, user) {
             state.loggedIn = true;
@@ -86,9 +85,6 @@ export const auth = {
         }
     },
     getters: {
-        isLoggedIn: state => {
-            return state.loggedIn;
-        },
         currentUser: state => {
             if (state.currentUser) {
                 return state.currentUser;
@@ -103,5 +99,19 @@ export const auth = {
                 return null;
             }
         },
+        tokenExpiresIn: () => {
+            let expiration = new Date(JSON.parse(localStorage.getItem("tokenExpiration")));
+            let now = new Date();
+            if (expiration) {
+                    return expiration < now ? "expired" : expiration.getSeconds() - new Date().getSeconds();
+            } else {
+                return null;
+            }
+        },
+        isAdmin: state =>{
+            if (state.currentUser) {
+                return state.currentUser.roles.contains("ROLE_ADMIN")
+            }
+        }
     }
 };

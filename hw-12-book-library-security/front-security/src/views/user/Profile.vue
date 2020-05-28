@@ -15,7 +15,7 @@
                         <strong>Email:</strong>
                         {{currentUser.email}}
                     </p>
-                        <strong>Authorities:</strong>
+                    <strong>Authorities:</strong>
                     <ul>
                         <li v-for="(role,index) in currentUser.roles" :key="index">{{role}}</li>
                     </ul>
@@ -23,6 +23,10 @@
                     <p>
                         <strong>Access token:</strong>
                         {{truncatedToken}}
+                    </p>
+                    <p>
+                        <strong>Expires in:</strong>
+                        {{tokenExpiresIn}}
                     </p>
                 </el-card>
             </div>
@@ -39,7 +43,7 @@
             NavMenu
         },
         computed: {
-            currentUser(){
+            currentUser() {
                 return this.$store.getters.currentUser
             },
             truncatedToken() {
@@ -48,13 +52,11 @@
                     return "";
                 }
                 return currentToken.substr(0, 22) + '...{ TRUNCATED }';
+            },
+            tokenExpiresIn() {
+                return this.$store.getters.tokenExpiresIn;
             }
         },
-        mounted() {
-            if (!this.currentUser.email) {
-                this.$router.push('/login');
-            }
-        }
     };
 </script>
 
