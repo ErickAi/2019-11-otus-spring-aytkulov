@@ -51,6 +51,7 @@
             >
             </el-table-column>
             <el-table-column
+                    v-if="this.$store.getters.isAdmin"
                     align="right">
               <template slot="header" slot-scope="scope">
                 <el-button

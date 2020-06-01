@@ -89,7 +89,7 @@ export const auth = {
             if (state.currentUser) {
                 return state.currentUser;
             } else {
-                return {};
+                return null;
             }
         },
         accessToken: state => {
@@ -110,7 +110,7 @@ export const auth = {
         },
         isAdmin: state =>{
             if (state.currentUser) {
-                return state.currentUser.roles.contains("ROLE_ADMIN")
+                return state.currentUser.roles.includes("ROLE_ADMIN")
             }
         }
     }
