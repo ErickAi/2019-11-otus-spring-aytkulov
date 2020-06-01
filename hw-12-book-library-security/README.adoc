@@ -45,5 +45,5 @@
 
 === Авторизация
 
-- admin@mail.ru password
-- user@mail.ru password
+- a@a.a password
+- u@u.u password
