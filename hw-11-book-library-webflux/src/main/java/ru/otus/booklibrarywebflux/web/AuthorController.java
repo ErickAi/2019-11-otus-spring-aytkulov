@@ -29,20 +29,14 @@ class AuthorController {
     }
 
     @PostMapping(value = "/authors")
-    public void create(@RequestBody Author newAuthor) {
+    public Mono<Author> create(@RequestBody Author newAuthor) {
         log.info("create: {}", newAuthor);
-        authorRepo.insert(newAuthor);
+        return authorRepo.insert(newAuthor);
     }
 
     @PutMapping(value = "/authors/{id}")
-    public void update(@PathVariable("id") String id, @RequestBody Author forUpdate) {
+    public Mono<Author> update(@PathVariable("id") String id, @RequestBody Author forUpdate) {
         log.info("update: {}", forUpdate);
-        authorRepo.save(forUpdate);
-    }
-
-    @DeleteMapping(value = "/authors/{id}")
-    public void delete(@PathVariable("id") String id) {
-        log.info("delete");
-        authorRepo.deleteById(id);
+        return authorRepo.save(forUpdate);
     }
 }

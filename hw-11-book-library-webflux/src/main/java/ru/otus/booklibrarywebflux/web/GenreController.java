@@ -29,20 +29,20 @@ class GenreController {
     }
 
     @PostMapping(value = "/genres")
-    public void create(@RequestBody Genre newGenre) {
+    public Mono<Genre> create(@RequestBody Genre newGenre) {
         log.info("create: {}", newGenre);
-        genreRepo.save(newGenre);
+        return genreRepo.save(newGenre);
     }
 
     @PutMapping(value = "/genres/{id}")
-    public void update(@PathVariable("id") String id, @RequestBody Genre forUpdate) {
+    public Mono<Genre> update(@PathVariable("id") String id, @RequestBody Genre forUpdate) {
         log.info("update: {}", forUpdate);
-        genreRepo.save(forUpdate);
+        return genreRepo.save(forUpdate);
     }
 
     @DeleteMapping(value = "/genres/{id}")
-    public void delete(@PathVariable("id") String id) {
+    public Mono delete(@PathVariable("id") String id) {
         log.info("delete");
-        genreRepo.deleteById(id);
+        return genreRepo.deleteById(id);
     }
 }

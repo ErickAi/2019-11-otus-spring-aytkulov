@@ -45,7 +45,7 @@ class BookController {
     }
 
     @PutMapping(value = "/books/{id}")
-    public Mono update(@PathVariable("id") String id, @RequestBody Book forUpdate) {
+    public Mono<Book> update(@PathVariable("id") String id, @RequestBody Book forUpdate) {
         log.info("PUT: /books/{}", id);
         return bookRepo.save(forUpdate);
     }
