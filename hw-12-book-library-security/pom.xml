@@ -14,6 +14,7 @@
   <groupId>ru.otus</groupId>
   <artifactId>hw-12-book-library-security</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <name>hw-12-book-library-security</name>
 
   <properties>
     <java.version>11</java.version>

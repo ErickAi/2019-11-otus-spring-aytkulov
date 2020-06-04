@@ -42,3 +42,8 @@
     http://localhost:8080/
 - REST сервисы
     http://localhost:9090/
+
+=== Авторизация
+
+- a@a.a password
+- u@u.u password
