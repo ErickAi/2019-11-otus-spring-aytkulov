@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    initialization-mode: always
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:test-book-library
+    # tcp connection jdbc:h2:tcp://localhost:7072/mem:book-library
+    # web connection http://localhost:8082
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+    show-sql: true
+logging:
+  level:
+    root: info
+
