@@ -23,6 +23,10 @@ public class BookMongo {
     @DBRef
     private Set<GenreMongo> genres;
 
+    public BookMongo(String name, AuthorMongo author, Set<GenreMongo> genres) {
+        this(null, name, author, genres);
+    }
+
     @Override
     public String toString() {
         return "Book{(id=" + id + ") \'" + name + '\'' +

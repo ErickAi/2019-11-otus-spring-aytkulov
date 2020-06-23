@@ -10,5 +10,9 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
+  data:
+    mongodb:
+      port: 0
+      database: booklibrary
 
 debug: true
