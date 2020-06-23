@@ -16,4 +16,8 @@ public class CommentMongo {
     private String bookId;
 
     private String entry;
+
+    public CommentMongo(String bookId, String entry) {
+        this(null, bookId, entry);
+    }
 }
