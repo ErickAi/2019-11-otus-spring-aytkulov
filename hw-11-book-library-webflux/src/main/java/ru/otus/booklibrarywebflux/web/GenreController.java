@@ -41,7 +41,7 @@ class GenreController {
     }
 
     @DeleteMapping(value = "/genres/{id}")
-    public Mono delete(@PathVariable("id") String id) {
+    public Mono<Void> delete(@PathVariable("id") String id) {
         log.info("delete");
         return genreRepo.deleteById(id);
     }

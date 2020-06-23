@@ -51,7 +51,7 @@ class BookController {
     }
 
     @DeleteMapping(value = "/books/{id}")
-    public Mono delete(@PathVariable("id") String id) {
+    public Mono<Void> delete(@PathVariable("id") String id) {
         log.info("DELETE: /books/{}", id);
         return Mono.when(commentRepo.deleteAllByBookId(id))
                 .then(bookRepo.deleteById(id));
