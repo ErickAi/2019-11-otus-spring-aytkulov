@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.springbatch.domain.jpa.BookRdb;
-import ru.otus.springbatch.repository.rdb.BookRepositoryRdb;
+import ru.otus.springbatch.repository.rdb.BookRepoRdb;
 
 @RequiredArgsConstructor
 @ShellComponent
 public class BatchCommands {
 
-    private final BookRepositoryRdb repositoryRdb;
+    private final BookRepoRdb repositoryRdb;
 
     @ShellMethod(value = "RepositoryTest", key = "a")
     public String repositoryTest(Long id) {
