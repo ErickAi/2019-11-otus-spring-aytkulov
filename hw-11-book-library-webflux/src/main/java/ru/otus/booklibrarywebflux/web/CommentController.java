@@ -29,13 +29,13 @@ class CommentController {
     }
 
     @PutMapping(value = "/comments/{id}")
-    public Mono update(@PathVariable("id") String id, @RequestBody Comment forUpdate) {
+    public Mono<Comment> update(@PathVariable("id") String id, @RequestBody Comment forUpdate) {
         log.info("update: {}", forUpdate);
         return commentRepo.save(forUpdate);
     }
 
     @DeleteMapping(value = "/comments/{id}")
-    public Mono deleteById(@PathVariable("id") String id) {
+    public Mono<Void> deleteById(@PathVariable("id") String id) {
         log.info("deleteById: {}", id);
         return commentRepo.deleteById(id);
     }
