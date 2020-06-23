@@ -1,7 +1,6 @@
 package ru.otus.booklibrary.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +30,9 @@ import static ru.otus.booklibrary.TestData.BOOK_YELLOW;
 class BookControllerTest {
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     @MockBean
-    BookService bookService;
+    private BookService bookService;
     @Autowired
     private MockMvc mvc;
 
