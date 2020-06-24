@@ -12,7 +12,8 @@ spring:
       ddl-auto: none
   data:
     mongodb:
-      port: 0
+#      port: 0
+      port: 54812
       database: booklibrary
 
 debug: true
