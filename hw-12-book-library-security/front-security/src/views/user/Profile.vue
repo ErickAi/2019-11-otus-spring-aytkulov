@@ -54,7 +54,8 @@
                 return currentToken.substr(0, 22) + '...{ TRUNCATED }';
             },
             tokenExpiresIn() {
-                return this.$store.getters.tokenExpiresIn;
+                let expiresIn = this.$store.getters.tokenExpiresIn;
+                return expiresIn > 0 ? expiresIn + " seconds" : "expired";
             }
         },
     };

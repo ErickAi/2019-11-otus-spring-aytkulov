@@ -10,7 +10,7 @@
       <el-menu-item index="/">Библиотека</el-menu-item>
       <el-menu-item index="/books">Список книг</el-menu-item>
       <el-menu-item index="/profile">Профиль</el-menu-item>
-      <el-menu-item index="/register">Регистрация</el-menu-item>
+      <el-menu-item index="/register" v-if="!this.$store.getters.currentUser">Регистрация</el-menu-item>
       <el-menu-item index="/login" v-if="!this.$store.getters.currentUser">Вход</el-menu-item>
       <el-menu-item @click="logout" v-else>Выход</el-menu-item>
     </el-menu>

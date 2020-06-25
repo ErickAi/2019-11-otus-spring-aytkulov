@@ -86,7 +86,7 @@
                     if (valid) {
                         let user = this.user;
                         this.$store.dispatch('login', user)
-                            .then(() => this.$router.push('/profile'))
+                            .then(() => this.$router.push('/books'))
                             .catch(err => console.log(err));
                     } else {
                         console.log('error submit!!');

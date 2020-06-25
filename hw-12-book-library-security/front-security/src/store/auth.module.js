@@ -64,16 +64,13 @@ export const auth = {
             localStorage.setItem("tokenExpiration", expiration.getTime());
         },
         LOGIN_SUCCESS(state, user) {
-            state.loggedIn = true;
             state.currentUser = user;
         },
         LOGIN_FAILURE(state) {
-            state.loggedIn = false;
             state.tokenInfo = null;
             state.currentUser = null;
         },
         LOGOUT(state) {
-            state.loggedIn = false;
             state.tokenInfo = null;
             state.currentUser = null;
         },
@@ -103,7 +100,10 @@ export const auth = {
             let expiration = new Date(JSON.parse(localStorage.getItem("tokenExpiration")));
             let now = new Date();
             if (expiration) {
-                    return expiration < now ? "expired" : expiration.getSeconds() - new Date().getSeconds();
+                console.log(expiration);
+                console.log(now);
+                console.log(expiration - now);
+                    return Math.trunc((expiration - now) / 1000);
             } else {
                 return null;
             }

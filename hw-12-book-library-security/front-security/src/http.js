@@ -31,7 +31,6 @@ http.interceptors.response.use(
             response: {status, data}
         } = err;
 
-
         if (status === 401 && data.error_description.includes("Access token expired")) {
             if (!isRefreshing) {
                 isRefreshing = true;
