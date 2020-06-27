@@ -1,6 +1,7 @@
 package ru.otus.booklibrary.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.otus.booklibrary.SecurityTestConfig;
@@ -30,6 +32,7 @@ import static ru.otus.booklibrary.TestData.BOOK_YELLOW;
 
 @WebMvcTest(BookController.class)
 @Import(SecurityTestConfig.class)
+@DisplayName(value = "Контроллер книг")
 class BookControllerTest {
 
     @Autowired
@@ -40,8 +43,10 @@ class BookControllerTest {
     private MockMvc mvc;
 
     @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName(value = "для роли 'USER' отдает все книги")
     void getAll() throws Exception {
-        given(bookService.getAll()).willReturn(TestData.getAll());
+        given(bookService.getAll()).willReturn(TestData.getAllBooks());
         mvc.perform(get("/books"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -50,6 +55,8 @@ class BookControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "ROLE_USER")
+    @DisplayName(value = "для роли 'USER' отдает книгу по ID")
     void getById() throws Exception {
         given(bookService.getById(1L)).willReturn(TestData.BOOK_CYAN);
         mvc.perform(get("/books/1"))
@@ -60,6 +67,8 @@ class BookControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName(value = "для роли 'USER' отдает книгу по названию")
     void getByName() throws Exception {
         given(bookService.getByName("magenta")).willReturn(BOOK_MAGENTA);
         mvc.perform(get("/books/name/magenta"))
@@ -70,6 +79,8 @@ class BookControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName(value = "для роли 'USER' отдает книгу по автору")
     void getByAuthorName() throws Exception {
         String authorNamePattern = "oth";
         given(bookService.getAllContainsAuthorName(authorNamePattern)).willReturn(Arrays.asList(BOOK_MAGENTA, BOOK_YELLOW));
@@ -81,6 +92,8 @@ class BookControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
+    @DisplayName(value = "для роли 'ADMIN' создает книгу в базе")
     void create() throws Exception {
         mvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -91,6 +104,8 @@ class BookControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
+    @DisplayName(value = "для роли 'ADMIN' обновляет книгу")
     void update() throws Exception {
         Book modified = TestData.BOOK_YELLOW;
         modified.setName("modified name");
@@ -103,10 +118,43 @@ class BookControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
+    @DisplayName(value = "для роли 'ADMIN' удаляет книгу")
     void delete() throws Exception {
         mvc.perform(MockMvcRequestBuilders.delete("/books/1"))
                 .andExpect(status().isOk());
 
         Mockito.verify(bookService, times(1)).deleteById(any());
     }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName(value = "запрещает для роли 'USER' создавать книгу в базе")
+    void createDenied() throws Exception {
+        mvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(TestData.NEW_BOOK)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName(value = "запрещает для роли 'USER' обновлять книгу")
+    void updateDenied() throws Exception {
+        Book modified = TestData.BOOK_YELLOW;
+        modified.setName("modified name");
+        mvc.perform(put("/books/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(modified)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName(value = "запрещает для роли 'USER' удалять книгу")
+    void deleteDenied() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.delete("/books/1"))
+                .andExpect(status().isForbidden());
+    }
+
 }

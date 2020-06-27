@@ -23,7 +23,13 @@ public class TestData {
 
     public static final Book NEW_BOOK = new Book(null, "new red book", AUTHOR_1, Set.of(GENRE_RED));
 
-    public static List<Book> getAll() {
+    public static List<Genre> getAllGenres() {
+        return Arrays.asList(GENRE_RED, GENRE_GREEN, GENRE_BLUE);
+    }
+    public static List<Author> getAllAuthors() {
+        return Arrays.asList(AUTHOR_1, AUTHOR_2);
+    }
+    public static List<Book> getAllBooks() {
         return Arrays.asList(BOOK_CYAN, BOOK_MAGENTA, BOOK_YELLOW);
     }
 }
