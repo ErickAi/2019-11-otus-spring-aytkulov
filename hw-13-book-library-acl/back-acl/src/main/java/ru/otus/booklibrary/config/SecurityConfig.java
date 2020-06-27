@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final PasswordEncoder DELEGATING_PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     private final UserDetailsService userDetailsService;
-    private final AppProperties properties;
 
     @Bean(name = "authenticationManagerBean")
     @Primary
