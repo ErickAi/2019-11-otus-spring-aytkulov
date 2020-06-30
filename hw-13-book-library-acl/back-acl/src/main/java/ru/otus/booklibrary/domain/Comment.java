@@ -10,11 +10,18 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode
 @Entity
 @Table(name = "comments")
 public class Comment {
 
+    public Comment(Long bookId, String entry) {
+        this(null, bookId, entry);
+    }
+
+    public Comment(Comment comment) {
+        this(comment.getId(), comment.getBookId(), comment.getEntry());
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

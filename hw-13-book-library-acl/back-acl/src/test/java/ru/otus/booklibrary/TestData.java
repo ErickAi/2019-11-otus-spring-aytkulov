@@ -2,6 +2,7 @@ package ru.otus.booklibrary;
 
 import ru.otus.booklibrary.domain.Author;
 import ru.otus.booklibrary.domain.Book;
+import ru.otus.booklibrary.domain.Comment;
 import ru.otus.booklibrary.domain.Genre;
 
 import java.util.Arrays;
@@ -22,6 +23,9 @@ public class TestData {
     public static final Book BOOK_YELLOW = new Book(3L, "yellow", AUTHOR_2, Set.of(GENRE_RED, GENRE_GREEN));
 
     public static final Book NEW_BOOK = new Book(null, "new red book", AUTHOR_1, Set.of(GENRE_RED));
+
+    public static final Comment USER_COMMENT = new Comment(1L, "user comment");
+    public static final Comment ADMIN_COMMENT = new Comment(1L, "admin comment");
 
     public static List<Genre> getAllGenres() {
         return Arrays.asList(GENRE_RED, GENRE_GREEN, GENRE_BLUE);
