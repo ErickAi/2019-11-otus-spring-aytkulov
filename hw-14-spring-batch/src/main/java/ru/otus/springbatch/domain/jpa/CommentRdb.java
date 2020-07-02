@@ -19,7 +19,9 @@ public class CommentRdb {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long bookId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id", nullable = false)
+    private BookRdb book;
 
     @Lob
     @Column(name = "entry")
