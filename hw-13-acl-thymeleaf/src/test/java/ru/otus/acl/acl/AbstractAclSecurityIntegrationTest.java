@@ -12,7 +12,7 @@ import ru.otus.acl.services.NoticeMessageService;
 
 @DataJpaTest
 @Import({AclMethodSecurityConfiguration.class, AclConfig.class})
-@ComponentScan({"com.er.acl.services"})
+@ComponentScan({"ru.otus.acl.services"})
 @ActiveProfiles("test")
 class AbstractAclSecurityIntegrationTest {
 

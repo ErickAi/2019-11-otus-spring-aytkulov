@@ -1,7 +1,7 @@
 INSERT INTO PUBLIC.SYSTEM_MESSAGE (ID, CONTENT) VALUES
 (1, 'New admin message'),
-(2, 'New user message'),
-(3, 'New user message');
+(2, 'New user message first'),
+(3, 'New user message second');
 
 INSERT INTO PUBLIC.ACL_CLASS (ID, CLASS) VALUES (1, 'ru.otus.acl.domain.NoticeMessage');
 
