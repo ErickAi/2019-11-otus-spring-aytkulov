@@ -1,3 +1,4 @@
+/*
 package ru.otus.booklibrary.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,8 +48,8 @@ class SecurityIntegrationTest {
     private String userToken;
     private String adminToken;
 
-    private Comment userComment;
-    private Comment adminComment;
+//    private Comment userComment;
+//    private Comment adminComment;
 
 
     @PostConstruct
@@ -183,4 +184,4 @@ class SecurityIntegrationTest {
                 .andReturn();
         adminComment = objectMapper.readValue(mvcAdminCommentResult.getResponse().getContentAsString(), Comment.class);
     }
-}
+}*/

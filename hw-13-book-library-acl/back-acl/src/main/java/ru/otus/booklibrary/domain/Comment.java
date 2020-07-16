@@ -2,7 +2,6 @@ package ru.otus.booklibrary.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,17 +9,16 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "comments")
 public class Comment {
 
-    public Comment(Long bookId, String entry) {
-        this(null, bookId, entry);
+    public Comment(Book book, User user, String entry) {
+        this(null, book, user, entry);
     }
 
     public Comment(Comment comment) {
-        this(comment.getId(), comment.getBookId(), comment.getEntry());
+        this(comment.getId(), comment.getBook(), comment.getUser(),  comment.getEntry());
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
