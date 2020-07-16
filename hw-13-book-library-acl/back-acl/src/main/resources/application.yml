@@ -3,12 +3,13 @@ server:
 app:
   ui-client-id: book-library-id
   ui-client-secret: secret
-#  access-token-lifetime: 10
   access-token-lifetime: 7200
   refresh-token-lifetime: 21600
 #  keystore-path: absolute path to keystore
 
 spring:
+  profiles:
+    active: production
   datasource:
     initialization-mode: always
     driverClassName: org.h2.Driver
@@ -32,4 +33,4 @@ spring:
 logging:
   level:
     root: info
-    org.springframework: info
+    org.springframework: debug

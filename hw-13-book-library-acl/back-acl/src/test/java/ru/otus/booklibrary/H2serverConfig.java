@@ -1,4 +1,4 @@
-package ru.otus.booklibrary.config;
+package ru.otus.booklibrary;
 
 
 import lombok.RequiredArgsConstructor;
@@ -13,18 +13,12 @@ import java.sql.SQLException;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-@Profile("production")
+@Profile("integrationTest")
 public class H2serverConfig {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server h2Server() throws SQLException {
         log.info("Start H2 TCP server");
-        return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "7072");
-    }
-
-    @Bean(initMethod = "start", destroyMethod = "stop")
-    public Server h2WebServer() throws SQLException {
-        log.info("Start H2 WEB server");
-        return Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082");
+        return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "6062");
     }
 }

@@ -2,6 +2,7 @@ package ru.otus.booklibrary.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.booklibrary.domain.Author;
 import ru.otus.booklibrary.exception.NotFoundException;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Secured("ROLE_ADMIN")
 class AuthorController {
 
     private final AuthorRepo authorRepo;

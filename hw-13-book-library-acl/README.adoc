@@ -9,7 +9,8 @@
 - Spring WEB
 - VueJS
 - Spring Security
-- Spring Security ACL
+- JWT
+- OAuth2
 - JUnit 5
 
 - Libraries:

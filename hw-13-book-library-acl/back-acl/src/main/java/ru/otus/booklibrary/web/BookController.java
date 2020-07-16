@@ -3,6 +3,7 @@ package ru.otus.booklibrary.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.booklibrary.domain.Book;
 import ru.otus.booklibrary.services.BookService;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Secured("ROLE_USER")
 class BookController {
 
     private final BookService bookService;
@@ -47,6 +49,7 @@ class BookController {
         return bookService.findByGenre(genreName);
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping(value = "/books")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody Book newBook) {
@@ -54,12 +57,14 @@ class BookController {
         bookService.save(newBook);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping(value = "/books/{id}")
     public void update(@PathVariable("id") Long id, @RequestBody Book forUpdate) {
         log.info("PUT: /books/{}", id);
         bookService.save(forUpdate);
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping(value = "/books/{id}")
     public void delete(@PathVariable("id") Long id) {
         log.info("DELETE: /books/{}", id);
