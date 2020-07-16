@@ -36,21 +36,22 @@
                     :settings="scrollSettings"
                     class="comment-list"
                     v-infinite-scroll="loadNextCommentsPage">
-              <p class="comment-item" v-if="!bookComments.length">Ваш комментарий будет первым.</p>
+              <p class="comment-item comment-entry" v-if="!bookComments.length">Ваш комментарий будет первым.</p>
               <div :key="comment.id" class="comment-item"
                    v-for="(comment) in bookComments">
                 <el-row>
-                  <el-col :span="24">
-                    <div v-text="comment.entry"></div>
+                  <el-col>
+                    <div v-text="comment.user.name"></div>
+                    <div class="comment-entry mt-2" v-text="comment.entry"></div>
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :offset="22">
-                    <el-button @click="clickEdit(comment)" circle class="btn-edit"
-                               icon="el-icon-edit" size="mini"></el-button>
-                    <el-button @click="deleteComment(comment, 'commentForm')" circle icon="el-icon-delete"
-                               size="mini" type="danger"></el-button>
-                  </el-col>
+                  <div style="float: right">
+                    <el-button v-if="isModifyCommentAllowed(comment)" @click="clickEdit(comment)"
+                               circle class="btn-edit" icon="el-icon-edit" size="mini"></el-button>
+                    <el-button v-if="isDeleteCommentAllowed(comment)" @click="deleteComment(comment, 'commentForm')"
+                               circle icon="el-icon-delete" size="mini" type="danger"></el-button>
+                  </div>
                 </el-row>
               </div>
             </vue-custom-scrollbar>
@@ -66,12 +67,10 @@
                         v-model="currentComment.entry">
                 </el-input>
                 <el-form-item class="mt-1" style="position: absolute; right: 22px;">
-                  <el-button @click="submitCommentForm('commentForm')"
-                             type="primary" v-if="currentComment.entry">Принять
-                  </el-button>
-                  <el-button @click="submitCommentForm('commentForm')" disabled
-                             type="primary" v-if="!currentComment.entry">Принять
-                  </el-button>
+                  <el-button v-if="currentComment.entry"
+                             @click="submitCommentForm('commentForm')"
+                             type="primary">Принять</el-button>
+                  <el-button v-else disabled type="primary">Принять</el-button>
                   <el-button @click="resetCommentForm('commentForm')" class="btn-edit">Очистить</el-button>
                 </el-form-item>
               </el-form>
@@ -113,7 +112,8 @@
                 url: 'undefined',
                 currentComment: {
                     id: null,
-                    bookId: null,
+                    book: null,
+                    user: null,
                     entry: "",
                 },
                 scrollSettings: {
@@ -121,11 +121,13 @@
                 }
             };
         },
+        computed: {
+        },
+
         methods: {
             initData(id) {
                 BookDataService.get(id)
                     .then(response => {
-                        console.log("Book received. id: " + id);
                         this.currentBook = response.data;
                     })
                     .catch(e => {
@@ -136,7 +138,6 @@
             loadComments(bookId) {
                 CommentDataService.findByBookId(bookId)
                     .then(response => {
-                        console.log(response.data);
                         this.bookComments = response.data;
                     })
                     .catch(e => {
@@ -145,6 +146,16 @@
             },
             loadNextCommentsPage() {
                 //    need implement pagination into backend
+            },
+            isModifyCommentAllowed: function (comment) {
+                let authorizedUser = this.$store.getters.currentUser;
+                return authorizedUser.id === comment.user.id;
+            },
+            isDeleteCommentAllowed: function (comment) {
+                let authorizedUser = this.$store.getters.currentUser;
+                let isOwner = authorizedUser.id === comment.user.id;
+                let isAdmin = authorizedUser.roles.indexOf("ROLE_ADMIN") > -1;
+                return isOwner || isAdmin;
             },
             deleteComment(comment, formName) {
                 let index = this.bookComments.indexOf(comment);
@@ -156,13 +167,12 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let commentId = this.currentComment.id;
-                        this.currentComment.bookId = this.currentBook.id;
-                        console.log(this.currentComment);
+                        this.currentComment.book = this.currentBook;
+                        this.currentComment.user = this.$store.getters.currentUser;
                         commentId ? CommentDataService.update(commentId, this.currentComment)
                             : CommentDataService.create(this.currentComment)
                                 .then(response => {
                                     this.message = 'The book was updated successfully!';
-                                    console.log(response.data);
                                     if (!this.currentComment.id) {
                                         this.bookComments.push(response.data);
                                     }
@@ -227,6 +237,8 @@
     margin: 10px;
     padding: 9px 15px;
     background: #e3f4ff;
+  }
+  .comment-entry {
     color: #0062ff;
     font-size: 17px;
   }
