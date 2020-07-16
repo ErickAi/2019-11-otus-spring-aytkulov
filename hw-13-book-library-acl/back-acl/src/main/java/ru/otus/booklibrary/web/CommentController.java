@@ -23,9 +23,9 @@ class CommentController {
     }
 
     @PostMapping(value = "/comments")
-    public Comment create(@RequestBody Comment newAuthor) {
-        log.info("create: {}", newAuthor);
-        return commentRepo.save(newAuthor);
+    public Comment create(@RequestBody Comment newComment) {
+        log.info("create: {}", newComment);
+        return commentRepo.save(newComment);
     }
 
     @PutMapping(value = "/comments/{id}")

@@ -31,6 +31,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import static org.springframework.http.HttpMethod.*;
+
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
@@ -100,6 +102,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public FilterRegistrationBean processCorsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        config.addAllowedMethod(OPTIONS.name());
+        config.addAllowedMethod(PUT.name());
+        config.addAllowedMethod(DELETE.name());
         source.registerCorsConfiguration("/**", config);
 
         final FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));

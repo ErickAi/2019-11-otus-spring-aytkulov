@@ -20,9 +20,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http                            // @formatter:off
           .authorizeRequests()
             .antMatchers("/admin/**").hasAuthority(Role.ROLE_ADMIN.getAuthority())
-            .antMatchers(HttpMethod.POST).hasAuthority(Role.ROLE_ADMIN.getAuthority())
-            .antMatchers(HttpMethod.PUT).hasAuthority(Role.ROLE_ADMIN.getAuthority())
-            .antMatchers(HttpMethod.DELETE).hasAuthority(Role.ROLE_ADMIN.getAuthority())
             .anyRequest().authenticated()
         ;
     }                                   // @formatter:on
