@@ -159,7 +159,7 @@
             },
             deleteComment(comment, formName) {
                 let index = this.bookComments.indexOf(comment);
-                CommentDataService.delete(comment.id);
+                CommentDataService.delete(comment);
                 this.bookComments.splice(index, 1);
                 this.resetCommentForm(formName)
             },
@@ -169,7 +169,7 @@
                         let commentId = this.currentComment.id;
                         this.currentComment.book = this.currentBook;
                         this.currentComment.user = this.$store.getters.currentUser;
-                        commentId ? CommentDataService.update(commentId, this.currentComment)
+                        commentId ? CommentDataService.update(this.currentComment)
                             : CommentDataService.create(this.currentComment)
                                 .then(response => {
                                     this.message = 'The book was updated successfully!';

@@ -10,12 +10,12 @@ class CommentDataService {
         return http.post("/comments", data);
     }
 
-    update(id, data) {
-        return http.put(`/comments/${id}`, data);
+    update(data) {
+        return http.put(`/comments/`, data);
     }
 
-    delete(id) {
-        return http.delete(`/comments/${id}`);
+    delete(data) {
+        return http.delete(`/comments/`, {data: data});
     }
 }
 
