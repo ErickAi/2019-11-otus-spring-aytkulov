@@ -1,137 +1,141 @@
-select 1; -- first query is not insert data. I have no idea what's going on. @formatter:off
-INSERT INTO USERS (EMAIL, NAME, PASSWORD) VALUES
-       ('a@a.a', 'Admin Admin', '{noop}password'),
-       ('u@u.u', 'User User', '{noop}password');
+-- select 1; -- first query does not insert data. I have no idea what's going on. @formatter:off
+INSERT INTO USERS (ID, EMAIL, NAME, PASSWORD) VALUES
+       (1, 'a@a.a', 'Admin Admin', '{noop}password'),
+       (2, 'u@u.u', 'User User', '{noop}password');
 
 INSERT INTO USER_ROLE (ROLE, USER_ID) VALUES
        ('ROLE_ADMIN', 1),
        ('ROLE_USER', 1),
        ('ROLE_USER', 2);
 
-insert into GENRES (ID, NAME) values ( 1, 'g');
-insert into GENRES (ID, NAME) values ( 2, 'genre');
-insert into GENRES (ID, NAME) values ( 3, 'Русская классика');
-insert into GENRES (id, name) values ( 4, 'Современная проза');
-insert into GENRES (id, name) values ( 5, 'Мировая классика');
-insert into GENRES (id, name) values ( 6, 'Драма');
-insert into GENRES (id, name) values ( 7, 'Мистика');
-insert into GENRES (id, name) values ( 8, 'Юмор');
-insert into GENRES (id, name) values ( 9, 'Басня');
-insert into GENRES (id, name) values (10, 'Фантастика');
-insert into GENRES (id, name) values (11, 'Военная проза');
-insert into GENRES (id, name) values (12, 'Фентези');
-insert into GENRES (id, name) values (13, 'Поэма');
-insert into GENRES (id, name) values (14, 'Пьеса');
-insert into GENRES (id, name) values (15, 'Сказка');
+insert into GENRES (ID, NAME) values
+( 1, 'g'),
+( 2, 'genre'),
+( 3, 'Русская классика'),
+( 4, 'Современная проза'),
+( 5, 'Мировая классика'),
+( 6, 'Драма'),
+( 7, 'Мистика'),
+( 8, 'Юмор'),
+( 9, 'Басня'),
+(10, 'Фантастика'),
+(11, 'Военная проза'),
+(12, 'Фентези'),
+(13, 'Поэма'),
+(14, 'Пьеса'),
+(15, 'Сказка');
 
-insert into AUTHORS (id, name) values ( 1, 'a');
-insert into AUTHORS (id, name) values ( 2, 'author');
-insert into AUTHORS (id, name) values ( 3, 'Михаил Булгаков');
-insert into AUTHORS (id, name) values ( 4, 'Ильф и Петров');
-insert into AUTHORS (id, name) values ( 5, 'Федор Достоевский');
-insert into AUTHORS (id, name) values ( 6, 'Иван Крылов');
-insert into AUTHORS (id, name) values ( 7, 'Михаил Лермонтов');
-insert into AUTHORS (id, name) values ( 8, 'Виктор Пелевин');
-insert into AUTHORS (id, name) values ( 9, 'Маркус Зусак');
-insert into AUTHORS (id, name) values (10, 'Слава Сэ');
-insert into AUTHORS (id, name) values (11, 'Анджей Сапковский');
-insert into AUTHORS (id, name) values (12, 'Гомер');
-insert into AUTHORS (id, name) values (13, 'Уильям Шекспир');
-insert into AUTHORS (id, name) values (14, 'Оскар Уайльд');
-insert into AUTHORS (id, name) values (15, 'Фрэнсис Скотт Фицджеральд');
-insert into AUTHORS (id, name) values (16, 'Джером Дэвид Сэлинджер');
-insert into AUTHORS (id, name) values (17, 'Антуан де Сент-Экзюпери');
-insert into AUTHORS (id, name) values (18, 'Ханс Кристиан Андерсен');
-insert into AUTHORS (id, name) values (19, 'Братья Гримм');
+insert into AUTHORS (id, name) values
+( 1, 'a'),
+( 2, 'author'),
+( 3, 'Михаил Булгаков'),
+( 4, 'Ильф и Петров'),
+( 5, 'Федор Достоевский'),
+( 6, 'Иван Крылов'),
+( 7, 'Михаил Лермонтов'),
+( 8, 'Виктор Пелевин'),
+( 9, 'Маркус Зусак'),
+(10, 'Слава Сэ'),
+(11, 'Анджей Сапковский'),
+(12, 'Гомер'),
+(13, 'Уильям Шекспир'),
+(14, 'Оскар Уайльд'),
+(15, 'Фрэнсис Скотт Фицджеральд'),
+(16, 'Джером Дэвид Сэлинджер'),
+(17, 'Антуан де Сент-Экзюпери'),
+(18, 'Ханс Кристиан Андерсен'),
+(19, 'Братья Гримм');
 
-insert into BOOKS (id, name, author_id) values ( 1, 'b', 1);                                                -- g
-insert into BOOKS (id, name, author_id) values ( 2, 'book', 2);                                             -- g  -- genre
-insert into BOOKS (id, name, author_id) values ( 3, 'b book', 2);                                           -- g  -- genre
-insert into BOOKS (id, name, author_id) values ( 4, 'Мастер и Маргарита', 3);                               -- Русская классика  -- Драма    -- Мистика
-insert into BOOKS (id, name, author_id) values ( 5, 'Двенадцать стульев', 4);                               -- Русская классика  -- Юмор
-insert into BOOKS (id, name, author_id) values ( 6, 'Идиот', 5);                                            -- Русская классика  -- Драма
-insert into BOOKS (id, name, author_id) values ( 7, 'Мартышка и очки', 6);                                  -- Русская классика  -- Басня
-insert into BOOKS (id, name, author_id) values ( 8, 'Мцыри', 7);                                            -- Русская классика  -- Поэма
-insert into BOOKS (id, name, author_id) values ( 9, 'Чапаев и Пустота', 8);                                 -- Современная проз  -- Фантастика
-insert into BOOKS (id, name, author_id) values (10, 'Книжный вор', 9);                                      -- Современная проз  -- Военная проза
-insert into BOOKS (id, name, author_id) values (11, 'Сантехник, его кот, жена и другие подробности', 10);   -- Современная проз  -- Юмор
-insert into BOOKS (id, name, author_id) values (12, 'Ведьмак. Последнее желание', 11);                      -- Современная проз  -- Фентези
-insert into BOOKS (id, name, author_id) values (13, 'Ведьмак. Меч Предназначения', 11);                     -- Современная проз  -- Фентези
-insert into BOOKS (id, name, author_id) values (14, 'Ведьмак. Кровь эльфов', 11);                           -- Современная проз  -- Фентези
-insert into BOOKS (id, name, author_id) values (15, 'Ведьмак. Крещение огнём', 11);                         -- Современная проз  -- Фентези
-insert into BOOKS (id, name, author_id) values (16, 'Ведьмак. Башня Ласточки', 11);                         -- Современная проз  -- Фентези
-insert into BOOKS (id, name, author_id) values (17, 'Ведьмак. Владычица Озера', 11);                        -- Современная проз  -- Фентези
-insert into BOOKS (id, name, author_id) values (18, 'Ведьмак. Сезон гроз', 11);                             -- Современная проз  -- Фентези
-insert into BOOKS (id, name, author_id) values (19, 'Илиада', 12);                                          -- Мировая классика  -- Поэма
-insert into BOOKS (id, name, author_id) values (20, 'Король Лир', 13);                                      -- Мировая классика  -- Пьеса
-insert into BOOKS (id, name, author_id) values (21, 'Портрет Дориана Грея', 14);                            -- Мировая классика  -- Драма
-insert into BOOKS (id, name, author_id) values (22, 'Великий Гетсби', 15);                                  -- Мировая классика  -- Драма
-insert into BOOKS (id, name, author_id) values (23, 'Над пропастью во ржи', 16);                            -- Мировая классика  -- Драма
-insert into BOOKS (id, name, author_id) values (24, 'Маленький принц', 17);                                 -- Мировая классика  -- Сказка --Фэнтези
-insert into BOOKS (id, name, author_id) values (25, 'Дюймовочка', 18);                                      -- Мировая классика  -- Сказка
-insert into BOOKS (id, name, author_id) values (26, 'Бременские музыканты', 19);                            -- Мировая классика  -- Сказка
+insert into BOOKS (id, name, author_id) values
+( 1, 'b', 1),                                                -- g
+( 2, 'book', 2),                                             -- g  -- genre
+( 3, 'b book', 2),                                           -- g  -- genre
+( 4, 'Мастер и Маргарита', 3),                               -- Русская классика  -- Драма    -- Мистика
+( 5, 'Двенадцать стульев', 4),                               -- Русская классика  -- Юмор
+( 6, 'Идиот', 5),                                            -- Русская классика  -- Драма
+( 7, 'Мартышка и очки', 6),                                  -- Русская классика  -- Басня
+( 8, 'Мцыри', 7),                                            -- Русская классика  -- Поэма
+( 9, 'Чапаев и Пустота', 8),                                 -- Современная проз  -- Фантастика
+(10, 'Книжный вор', 9),                                      -- Современная проз  -- Военная проза
+(11, 'Сантехник, его кот, жена и другие подробности', 10),   -- Современная проз  -- Юмор
+(12, 'Ведьмак. Последнее желание', 11),                      -- Современная проз  -- Фентези
+(13, 'Ведьмак. Меч Предназначения', 11),                     -- Современная проз  -- Фентези
+(14, 'Ведьмак. Кровь эльфов', 11),                           -- Современная проз  -- Фентези
+(15, 'Ведьмак. Крещение огнём', 11),                         -- Современная проз  -- Фентези
+(16, 'Ведьмак. Башня Ласточки', 11),                         -- Современная проз  -- Фентези
+(17, 'Ведьмак. Владычица Озера', 11),                        -- Современная проз  -- Фентези
+(18, 'Ведьмак. Сезон гроз', 11),                             -- Современная проз  -- Фентези
+(19, 'Илиада', 12),                                          -- Мировая классика  -- Поэма
+(20, 'Король Лир', 13),                                      -- Мировая классика  -- Пьеса
+(21, 'Портрет Дориана Грея', 14),                            -- Мировая классика  -- Драма
+(22, 'Великий Гетсби', 15),                                  -- Мировая классика  -- Драма
+(23, 'Над пропастью во ржи', 16),                            -- Мировая классика  -- Драма
+(24, 'Маленький принц', 17),                                 -- Мировая классика  -- Сказка --Фэнтези
+(25, 'Дюймовочка', 18),                                      -- Мировая классика  -- Сказка
+(26, 'Бременские музыканты', 19);                            -- Мировая классика  -- Сказка
 
-insert into BOOK_GENRE(book_id, genre_id) values ( 1, 1);
-insert into BOOK_GENRE(book_id, genre_id) values ( 2, 1);
-insert into BOOK_GENRE(book_id, genre_id) values ( 2, 2);
-insert into BOOK_GENRE(book_id, genre_id) values ( 3, 1);
-insert into BOOK_GENRE(book_id, genre_id) values ( 3, 2);
-insert into BOOK_GENRE(book_id, genre_id) values ( 4, 3);
-insert into BOOK_GENRE(book_id, genre_id) values ( 4, 6);
-insert into BOOK_GENRE(book_id, genre_id) values ( 4, 7);
-insert into BOOK_GENRE(book_id, genre_id) values ( 5, 3);
-insert into BOOK_GENRE(book_id, genre_id) values ( 5, 8);
-insert into BOOK_GENRE(book_id, genre_id) values ( 6, 3);
-insert into BOOK_GENRE(book_id, genre_id) values ( 6, 6);
-insert into BOOK_GENRE(book_id, genre_id) values ( 7, 3);
-insert into BOOK_GENRE(book_id, genre_id) values ( 7, 9);
-insert into BOOK_GENRE(book_id, genre_id) values ( 8, 3);
-insert into BOOK_GENRE(book_id, genre_id) values ( 8, 13);
-insert into BOOK_GENRE(book_id, genre_id) values ( 9, 4);
-insert into BOOK_GENRE(book_id, genre_id) values ( 9, 10);
-insert into BOOK_GENRE(book_id, genre_id) values (10, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (10, 2);
-insert into BOOK_GENRE(book_id, genre_id) values (10, 11);
-insert into BOOK_GENRE(book_id, genre_id) values (11, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (11, 8);
-insert into BOOK_GENRE(book_id, genre_id) values (12, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (12, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (13, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (13, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (14, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (14, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (15, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (15, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (16, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (16, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (17, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (17, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (18, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (18, 2);
-insert into BOOK_GENRE(book_id, genre_id) values (18, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (19, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (19, 13);
-insert into BOOK_GENRE(book_id, genre_id) values (20, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (20, 14);
-insert into BOOK_GENRE(book_id, genre_id) values (21, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (21, 6);
-insert into BOOK_GENRE(book_id, genre_id) values (22, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (22, 6);
--- insert into BOOK_GENRE(book_id, genre_id) values (20, 3);
--- insert into BOOK_GENRE(book_id, genre_id) values (20, 4);
-insert into BOOK_GENRE(book_id, genre_id) values (24, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (24, 12);
-insert into BOOK_GENRE(book_id, genre_id) values (24, 2);
-insert into BOOK_GENRE(book_id, genre_id) values (24, 15);
-insert into BOOK_GENRE(book_id, genre_id) values (25, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (25, 15);
-insert into BOOK_GENRE(book_id, genre_id) values (26, 5);
-insert into BOOK_GENRE(book_id, genre_id) values (26, 15);
+insert into BOOK_GENRE(book_id, genre_id) values
+( 1, 1),
+( 2, 1),
+( 2, 2),
+( 3, 1),
+( 3, 2),
+( 4, 3),
+( 4, 6),
+( 4, 7),
+( 5, 3),
+( 5, 8),
+( 6, 3),
+( 6, 6),
+( 7, 3),
+( 7, 9),
+( 8, 3),
+( 8, 13),
+( 9, 4),
+( 9, 10),
+(10, 4),
+(10, 2),
+(10, 11),
+(11, 4),
+(11, 8),
+(12, 4),
+(12, 12),
+(13, 4),
+(13, 12),
+(14, 4),
+(14, 12),
+(15, 4),
+(15, 12),
+(16, 4),
+(16, 12),
+(17, 4),
+(17, 12),
+(18, 4),
+(18, 2),
+(18, 12),
+(19, 5),
+(19, 13),
+(20, 5),
+(20, 14),
+(21, 5),
+(21, 6),
+(22, 5),
+(22, 6),
+-- (20, 3),
+-- (20, 4),
+(24, 5),
+(24, 12),
+(24, 2),
+(24, 15),
+(25, 5),
+(25, 15),
+(26, 5),
+(26, 15);
 
-insert into COMMENTS(id, book_id, ENTRY) values (1, 1, 'Small comment for book "b".');
-insert into COMMENTS(id, book_id, ENTRY) values (2, 1, 'Another small comment for book "b".');
-insert into COMMENTS(id, book_id, ENTRY) values (3, 2, 'Small comment for book "book".');
-insert into COMMENTS(id, book_id, ENTRY) values (4, 2, 'Big review and critique for little book "book". 6000 characters except this sentences.
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (1, 1, 1, 'Small comment for book "b".');
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (2, 1, 2, 'Another small comment for book "b".');
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (3, 2, 1, 'Small comment for book "book".');
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (4, 2, 2, 'Big review and critique for little book "book". 6000 characters except this sentences.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac ipsum felis. Donec tincidunt vehicula libero quis luctus. Duis ac aliquet diam, at congue enim. Nunc vulputate, quam vitae luctus vestibulum, lorem elit consectetur tellus, eget lacinia ipsum nisl eu enim. Cras sodales lectus eget gravida laoreet. Integer iaculis ante id tempus sodales. Maecenas et tincidunt quam, ut commodo odio. Phasellus ornare mi non dui semper interdum. Praesent in magna bibendum, imperdiet neque ut, sagittis metus. Mauris sollicitudin blandit viverra. Cras sed pulvinar mauris. Nam vel eros viverra, ornare felis ac, malesuada nibh. Phasellus et turpis laoreet dui suscipit eleifend eget vel sem.
 Nunc imperdiet sapien augue, ut dignissim erat pulvinar nec. Nunc nibh erat, porta id enim nec, lacinia mattis risus. Duis quis euismod arcu. Proin nec enim id arcu fringilla imperdiet nec vitae enim. Donec in sem lacus. Fusce bibendum, est in pretium molestie, libero ipsum dapibus massa, in accumsan orci tellus quis erat. Etiam feugiat mauris id nisl feugiat maximus. Integer nec venenatis nunc. Aliquam ultricies luctus leo id scelerisque. Fusce id aliquet nisi. Donec luctus justo quis leo pharetra, id gravida erat rhoncus. Maecenas sagittis quis mauris in viverra. Vestibulum et luctus elit, dictum venenatis eros. Morbi pretium nunc ut mauris luctus, eu cursus nulla ornare. Nulla eget accumsan nulla, a convallis dolor.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis aliquet mollis. Nulla bibendum tincidunt odio id sagittis. Fusce convallis convallis risus, nec sollicitudin sapien scelerisque sagittis. Proin a rhoncus ex. Ut in porttitor quam. Donec molestie purus eget massa hendrerit luctus.
