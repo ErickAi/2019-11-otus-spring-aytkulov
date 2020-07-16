@@ -47,7 +47,8 @@ create table comments(
     user_id bigint        not null,
     entry   text          not null,
     primary key (id),
-    foreign key (book_id) references books(id)
+    foreign key (book_id) references books(id),
+    foreign key (user_id) references users(id)
 );
 
 create table book_genre(
