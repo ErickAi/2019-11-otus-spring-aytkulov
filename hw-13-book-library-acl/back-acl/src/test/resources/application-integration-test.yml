@@ -1,0 +1,7 @@
+# overridden properties. exclude production beans
+spring:
+  profiles:
+    active: integration-test
+logging:
+  level:
+    org.springframework: warn

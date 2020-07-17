@@ -8,26 +8,28 @@ INSERT INTO USER_ROLE (ROLE, USER_ID) VALUES
        ('ROLE_USER', 1),
        ('ROLE_USER', 2);
 
+insert into GENRES (ID, NAME) values ( 1, 'red');
+insert into GENRES (ID, NAME) values ( 2, 'green');
+insert into GENRES (ID, NAME) values ( 3, 'blue');
+
 insert into GENRES (ID, NAME) values
-( 1, 'g'),
-( 2, 'genre'),
-( 3, 'Русская классика'),
-( 4, 'Современная проза'),
-( 5, 'Мировая классика'),
-( 6, 'Драма'),
-( 7, 'Мистика'),
-( 8, 'Юмор'),
-( 9, 'Басня'),
-(10, 'Фантастика'),
-(11, 'Военная проза'),
-(12, 'Фентези'),
-(13, 'Поэма'),
-(14, 'Пьеса'),
-(15, 'Сказка');
+( 4, 'Русская классика'),
+( 5, 'Современная проза'),
+( 6, 'Мировая классика'),
+( 7, 'Драма'),
+( 8, 'Мистика'),
+( 9, 'Юмор'),
+(10, 'Басня'),
+(11, 'Фантастика'),
+(12, 'Военная проза'),
+(13, 'Фентези'),
+(14, 'Поэма'),
+(15, 'Пьеса'),
+(16, 'Сказка');
 
 insert into AUTHORS (id, name) values
-( 1, 'a'),
-( 2, 'author'),
+( 1, 'yellow book author'),
+( 2, 'magenta & cyan book author'),
 ( 3, 'Михаил Булгаков'),
 ( 4, 'Ильф и Петров'),
 ( 5, 'Федор Достоевский'),
@@ -47,9 +49,9 @@ insert into AUTHORS (id, name) values
 (19, 'Братья Гримм');
 
 insert into BOOKS (id, name, author_id) values
-( 1, 'b', 1),                                                -- g
-( 2, 'book', 2),                                             -- g  -- genre
-( 3, 'b book', 2),                                           -- g  -- genre
+( 1, 'yellow', 1),                                           -- red    -- green
+( 2, 'magenta', 2),                                          -- red    -- blue
+( 3, 'cyan', 2),                                             -- green  -- blue
 ( 4, 'Мастер и Маргарита', 3),                               -- Русская классика  -- Драма    -- Мистика
 ( 5, 'Двенадцать стульев', 4),                               -- Русская классика  -- Юмор
 ( 6, 'Идиот', 5),                                            -- Русская классика  -- Драма
@@ -76,66 +78,68 @@ insert into BOOKS (id, name, author_id) values
 
 insert into BOOK_GENRE(book_id, genre_id) values
 ( 1, 1),
+( 1, 2),
 ( 2, 1),
-( 2, 2),
-( 3, 1),
+( 2, 3),
 ( 3, 2),
-( 4, 3),
-( 4, 6),
+( 3, 3),
+( 4, 4),
 ( 4, 7),
-( 5, 3),
-( 5, 8),
-( 6, 3),
-( 6, 6),
-( 7, 3),
-( 7, 9),
-( 8, 3),
-( 8, 13),
-( 9, 4),
-( 9, 10),
-(10, 4),
+( 4, 8),
+( 5, 4),
+( 5, 9),
+( 6, 4),
+( 6, 7),
+( 7, 4),
+( 7, 10),
+( 8, 4),
+( 8, 14),
+( 9, 5),
+( 9, 11),
+(10, 5),
 (10, 2),
-(10, 11),
-(11, 4),
-(11, 8),
-(12, 4),
-(12, 12),
-(13, 4),
-(13, 12),
-(14, 4),
-(14, 12),
-(15, 4),
-(15, 12),
-(16, 4),
-(16, 12),
-(17, 4),
-(17, 12),
-(18, 4),
+(10, 12),
+(11, 5),
+(11, 9),
+(12, 5),
+(12, 13),
+(13, 5),
+(13, 13),
+(14, 5),
+(14, 13),
+(15, 5),
+(15, 13),
+(16, 5),
+(16, 13),
+(17, 5),
+(17, 13),
+(18, 5),
 (18, 2),
-(18, 12),
-(19, 5),
-(19, 13),
-(20, 5),
-(20, 14),
-(21, 5),
+(18, 13),
+(19, 6),
+(19, 14),
+(20, 6),
+(20, 15),
 (21, 6),
-(22, 5),
+(21, 7),
 (22, 6),
--- (20, 3),
+(22, 7),
 -- (20, 4),
-(24, 5),
-(24, 12),
+-- (20, 5),
+(24, 6),
+(24, 13),
 (24, 2),
-(24, 15),
-(25, 5),
-(25, 15),
-(26, 5),
-(26, 15);
+(24, 16),
+(25, 6),
+(25, 16),
+(26, 6),
+(26, 16);
 
-insert into COMMENTS(id, book_id, user_id, ENTRY) values (1, 1, 1, 'Small comment for book "b".');
-insert into COMMENTS(id, book_id, user_id, ENTRY) values (2, 1, 2, 'Another small comment for book "b".');
-insert into COMMENTS(id, book_id, user_id, ENTRY) values (3, 2, 1, 'Small comment for book "book".');
-insert into COMMENTS(id, book_id, user_id, ENTRY) values (4, 2, 2, 'Big review and critique for little book "book". 6000 characters except this sentences.
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (1, 1, 1, 'admin comment for yellow');
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (2, 1, 2, 'user comment for yellow');
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (3, 2, 1, 'admin comment for magenta');
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (4, 2, 2, 'user comment for magenta');
+insert into COMMENTS(id, book_id, user_id, ENTRY) values (5, 3, 2, 'Big review and critique for little book "blue". 6000 characters except this sentences.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac ipsum felis. Donec tincidunt vehicula libero quis luctus. Duis ac aliquet diam, at congue enim. Nunc vulputate, quam vitae luctus vestibulum, lorem elit consectetur tellus, eget lacinia ipsum nisl eu enim. Cras sodales lectus eget gravida laoreet. Integer iaculis ante id tempus sodales. Maecenas et tincidunt quam, ut commodo odio. Phasellus ornare mi non dui semper interdum. Praesent in magna bibendum, imperdiet neque ut, sagittis metus. Mauris sollicitudin blandit viverra. Cras sed pulvinar mauris. Nam vel eros viverra, ornare felis ac, malesuada nibh. Phasellus et turpis laoreet dui suscipit eleifend eget vel sem.
 Nunc imperdiet sapien augue, ut dignissim erat pulvinar nec. Nunc nibh erat, porta id enim nec, lacinia mattis risus. Duis quis euismod arcu. Proin nec enim id arcu fringilla imperdiet nec vitae enim. Donec in sem lacus. Fusce bibendum, est in pretium molestie, libero ipsum dapibus massa, in accumsan orci tellus quis erat. Etiam feugiat mauris id nisl feugiat maximus. Integer nec venenatis nunc. Aliquam ultricies luctus leo id scelerisque. Fusce id aliquet nisi. Donec luctus justo quis leo pharetra, id gravida erat rhoncus. Maecenas sagittis quis mauris in viverra. Vestibulum et luctus elit, dictum venenatis eros. Morbi pretium nunc ut mauris luctus, eu cursus nulla ornare. Nulla eget accumsan nulla, a convallis dolor.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis aliquet mollis. Nulla bibendum tincidunt odio id sagittis. Fusce convallis convallis risus, nec sollicitudin sapien scelerisque sagittis. Proin a rhoncus ex. Ut in porttitor quam. Donec molestie purus eget massa hendrerit luctus.

@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Set;
 
 @TestConfiguration
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityTestConfig {
 
     @Bean

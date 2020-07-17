@@ -1,6 +1,6 @@
-/*
 package ru.otus.booklibrary.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -23,20 +25,22 @@ import ru.otus.booklibrary.repo.CommentRepo;
 
 import javax.annotation.PostConstruct;
 
+import java.util.List;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static ru.otus.booklibrary.TestData.ADMIN_COMMENT;
-import static ru.otus.booklibrary.TestData.USER_COMMENT;
 
-//@SpringBootTest
+import static ru.otus.booklibrary.TestData.*;
+
+@SpringBootTest
 @AutoConfigureMockMvc
-@DataJpaTest
+@ActiveProfiles("integration-test")
 @DisplayName(value = "Security приложения")
-@ActiveProfiles({"integrationTest"})
 class SecurityIntegrationTest {
 
     @Autowired
@@ -48,10 +52,6 @@ class SecurityIntegrationTest {
 
     private String userToken;
     private String adminToken;
-
-//    private Comment userComment;
-//    private Comment adminComment;
-
 
     @PostConstruct
     void init() throws Exception {
@@ -72,12 +72,26 @@ class SecurityIntegrationTest {
     }
 
     @Test
+    @DisplayName(value = "позволяет пользователям создавать комментарии")
+    void createComment() throws Exception {
+        mvc.perform(post("/comments")
+                .header("Authorization", "Bearer " + userToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(NEW_COMMENT)))
+                .andExpect(status().isOk());
+
+        List<Comment> actualComments = commentRepo.findAllByBookId(NEW_COMMENT.getBook().getId());
+        assertTrue(actualComments.stream().anyMatch(comment ->
+                NEW_COMMENT.getEntry().equals(comment.getEntry())));
+    }
+
+    @Test
     @DisplayName(value = "позволяет создателю комментария обновлять его")
     void update() throws Exception {
-        Comment comment = new Comment(userComment);
+        Comment comment = new Comment(USER_YELLOW_COMMENT);
         comment.setEntry("modified by User User");
 
-        mvc.perform(put("/comments/" + comment.getId())
+        mvc.perform(put("/comments")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(comment)))
@@ -91,45 +105,46 @@ class SecurityIntegrationTest {
     @Test
     @DisplayName(value = "запрещает пользователю изменять чужие комментарии")
     void updateOtherCommentDenied() throws Exception {
-        Comment comment = new Comment(adminComment);
-        comment.setEntry("modified by User User");
-
-        mvc.perform(put("/comments/" + comment.getId())
+        mvc.perform(put("/comments")
                 .header("Authorization", "Bearer " + userToken)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(comment)))
+                .content(objectMapper.writeValueAsString(ADMIN_YELLOW_COMMENT)))
                 .andExpect(status().isForbidden());
-
-        Comment actual = commentRepo.findById(comment.getId())
-                .orElseThrow(() -> new NotFoundException("something gone wrong"));
-        assertEquals(comment, actual);
     }
 
     @Test
     @DisplayName(value = "позволяет создателю комментария удалять его")
     void deleteUserComment() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.delete("/comments/" + userComment.getId())
-                .header("Authorization", "Bearer " + userToken))
+        mvc.perform(MockMvcRequestBuilders.delete("/comments")
+                .header("Authorization", "Bearer " + userToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(USER_YELLOW_COMMENT)))
                 .andExpect(status().isOk());
     }
 
     @Test
     @DisplayName(value = "запрещает пользователю удалять чужие комментарии")
     void deleteOtherCommentDenied() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.delete("/comments/" + userComment.getId())
-                .header("Authorization", "Bearer " + userToken))
+        mvc.perform(MockMvcRequestBuilders.delete("/comments")
+                .header("Authorization", "Bearer " + userToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(ADMIN_YELLOW_COMMENT)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @DisplayName(value = "позволяет админу удалять любые комментарии")
     void deleteAdminComment() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.delete("/comments/" + adminComment.getId())
-                .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk());
-        mvc.perform(MockMvcRequestBuilders.delete("/comments/" + userComment.getId())
-                .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk());
+        mvc.perform(MockMvcRequestBuilders.delete("/comments")
+                .header("Authorization", "Bearer " + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(ADMIN_YELLOW_COMMENT)))
+               .andExpect(status().isOk());
+        mvc.perform(MockMvcRequestBuilders.delete("/comments")
+                .header("Authorization", "Bearer " + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(USER_YELLOW_COMMENT)))
+      .andExpect(status().isOk());
     }
 
     @Test
@@ -160,29 +175,4 @@ class SecurityIntegrationTest {
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resultString).get("access_token").toString();
     }
-
-    @Test
-    @DisplayName(value = "позволяет пользователям создавать комментарии")
-    void createComment() {
-        // @PostConstruct init() method
-    }
-
-  @BeforeEach
-  void createComments() throws Exception {
-        MvcResult mvcUserCommentResult = mvc.perform(post("/comments")
-                .header("Authorization", "Bearer " + userToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(USER_COMMENT)))
-                .andExpect(status().isCreated())
-                .andReturn();
-        userComment =  objectMapper.readValue(mvcUserCommentResult.getResponse().getContentAsString(), Comment.class);
-
-        MvcResult mvcAdminCommentResult = mvc.perform(post("/comments")
-                .header("Authorization", "Bearer " + adminToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(ADMIN_COMMENT)))
-                .andExpect(status().isCreated())
-                .andReturn();
-        adminComment = objectMapper.readValue(mvcAdminCommentResult.getResponse().getContentAsString(), Comment.class);
-    }
-}*/
+}
