@@ -1,0 +1,47 @@
+== 24 Spring Security: ACL
+
++++ <details><summary> +++
+Изучаемый стек
++++ </summary><div> +++
+
+- Spring Boot 2
+- Spring data JPA
+- Spring WEB
+- VueJS
+- Spring Security
+- JWT
+- OAuth2
+- JUnit 5
+- Spring Boot Actuator
+
+- Libraries:
+
+    lombok        code generator
+
++++ </div></details> +++
+
+=== Техническое задание
+
+- Использовать метрики, healthchecks и logfile к приложению
+- И любую другую функциональность на выбор.
+- Опционально: переписать приложение на HATEOAS принципах.
+
+=== Запуск
+
+- cd %project-base-dir%/backend
+- mvn spring-boot:run
+- cd %project-base-dir%/frontend
+- npm i OR yarn
+- npm serve OR yarn serve
+
+=== Развернутое приложение
+
+- Пользовательский интерфейс
+    http://localhost:8080/
+- REST сервисы
+    http://localhost:9090/
+
+=== Авторизация
+
+- a@a.a password
+- u@u.u password
