@@ -31,6 +31,7 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import ru.otus.booklibrary.config.properites.AppProperties;
 
 import static org.springframework.http.HttpMethod.*;
 
@@ -44,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final PasswordEncoder DELEGATING_PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     private final UserDetailsService userDetailsService;
+    private final String[] permittedMatchers = new String[]{
+            "/actuator/**",
+    };
 
     @Bean(name = "authenticationManagerBean")
     @Primary
@@ -116,18 +120,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers(HttpMethod.OPTIONS);
+                .antMatchers(HttpMethod.OPTIONS)
+                .antMatchers(permittedMatchers);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors()
-                .and()
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        ;
+        http                                                        // @formatter:off
+            .authorizeRequests()
+            .antMatchers(permittedMatchers).permitAll()
+           .and()
+            .cors()
+           .and()
+            .httpBasic().disable()
+            .csrf().disable()
+            .sessionManagement()
+              .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        ;                                                           // @formatter:on
     }
 }
