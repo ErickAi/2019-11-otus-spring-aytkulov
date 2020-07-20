@@ -12,6 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,16 +32,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import static org.springframework.http.HttpMethod.*;
+
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @EnableConfigurationProperties(AppProperties.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final PasswordEncoder DELEGATING_PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     private final UserDetailsService userDetailsService;
-    private final AppProperties properties;
 
     @Bean(name = "authenticationManagerBean")
     @Primary
@@ -100,6 +103,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public FilterRegistrationBean processCorsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        config.addAllowedMethod(OPTIONS.name());
+        config.addAllowedMethod(PUT.name());
+        config.addAllowedMethod(DELETE.name());
         source.registerCorsConfiguration("/**", config);
 
         final FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));

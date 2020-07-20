@@ -6,12 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.sql.SQLException;
 
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
+@Profile("production")
 public class H2serverConfig {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
@@ -25,5 +27,4 @@ public class H2serverConfig {
         log.info("Start H2 WEB server");
         return Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082");
     }
-
 }
