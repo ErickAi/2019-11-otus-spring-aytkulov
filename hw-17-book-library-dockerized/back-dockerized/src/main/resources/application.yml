@@ -1,0 +1,49 @@
+server:
+  port: 9090
+app:
+  ui-client-id: book-library-id
+  ui-client-secret: secret
+  admin-login: a@a.a
+  admin-password: password
+  access-token-lifetime: 7200
+  refresh-token-lifetime: 21600
+  #  keystore-path: absolute path to keystore
+  urls:
+    oauth-token: http://localhost:9090/oauth/token
+    oauth-check-token: http://localhost:9090/oauth/check_token
+    oauth-token_key: http://localhost:9090/oauth/token_key
+    user-info: http://localhost:9090/userinfo
+
+spring:
+  profiles:
+    active: development
+  datasource:
+    initialization-mode: always
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:book-library
+    # tcp connection jdbc:h2:tcp://localhost:7072/mem:book-library
+    # web connection http://localhost:8082
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    database: default
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        batch_fetch_style: dynamic
+        default_batch_fetch_size: 30
+        jdbc:
+          batch_size: 30
+management:
+  endpoints.web:
+    base-path: /actuator
+    exposure.include: "*"
+  endpoint.health.show-details: always
+
+logging:
+  level:
+    root: info
+    org.springframework: info

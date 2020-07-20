@@ -1,0 +1,47 @@
+== 22 Spring Security: Механизмы аутентификации
+
++++ <details><summary> +++
+Изучаемый стек
++++ </summary><div> +++
+
+- Spring Boot 2
+- Spring data JPA
+- Spring WEB
+- VueJS
+- Spring Security
+- Spring Boot Actuator
+- Docker
+- JUnit 5
+
+- Libraries:
+
+    lombok        code generator
+
++++ </div></details> +++
+
+=== Техническое задание
+
+- Обернуть приложение в docker-контейнер. Dockerfile принято располагать в корне репозитория. В image должна попадать JAR-приложения. Сборка в контейнере рекомендуется, но не обязательна.
+- Если Вы не используете кастомные плагины для БД, не нужно делать для нее отдельный Dockerfile. Лучше взять готовый образ
+- Настроить связь между контейнерами, с помощью docker-compose
+- Опционально: сделать это в локальном миникубе.
+- Приложение желательно реализовать с помощью всех Best Practices Docker (логгирование в stdout и т.д.)
+=== Предустановки
+
+- Docker
+
+=== Запуск
+
+//todo: fix it
+
+=== Развернутое приложение
+
+- Пользовательский интерфейс
+//todo: fix it
+- REST сервисы
+//todo: fix it
+
+=== Авторизация
+
+- a@a.a password
+- u@u.u password
