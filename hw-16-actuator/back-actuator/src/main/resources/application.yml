@@ -11,6 +11,7 @@ app:
   urls:
     oauth-token: http://localhost:9090/oauth/token
     oauth-check-token: http://localhost:9090/oauth/check_token
+    oauth-token_key: http://localhost:9090/oauth/token_key
     user-info: http://localhost:9090/userinfo
 
 spring:

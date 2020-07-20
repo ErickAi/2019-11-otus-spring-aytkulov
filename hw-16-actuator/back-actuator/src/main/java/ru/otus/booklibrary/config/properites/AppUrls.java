@@ -13,6 +13,7 @@ public class AppUrls {
 
     private String oauthToken;
     private String oauthCheckToken;
+    private String oauthToken_key;
     private String userInfo;
 
 }
