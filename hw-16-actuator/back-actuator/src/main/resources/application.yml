@@ -46,4 +46,4 @@ management:
 logging:
   level:
     root: info
-    org.springframework: debug
+    org.springframework: info

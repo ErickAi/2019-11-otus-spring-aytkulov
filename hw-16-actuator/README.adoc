@@ -45,3 +45,20 @@
 
 - a@a.a password
 - u@u.u password
+
+=== Actuator
+
+- docs/scratch.http
+
+    curl --location --request GET 'http://localhost:9090/actuator/' \
+
+    curl --location --request GET 'http://localhost:9090/actuator/health'
+
+    curl --location --request GET 'http://localhost:9090/actuator/loggers' \
+    --header 'Content-Type: application/json; charset=UTF-8' \
+
+    curl --location --request POST 'http://localhost:9090/actuator/loggers/org.springframework' \
+    --header 'Content-Type: application/json; charset=UTF-8' \
+    --data-raw '{
+    "configuredLevel": "debug"
+    }'

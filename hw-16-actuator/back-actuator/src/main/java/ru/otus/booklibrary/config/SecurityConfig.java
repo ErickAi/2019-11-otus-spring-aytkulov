@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final String[] permittedMatchers = new String[]{
             "/actuator/**",
+            "/error",
     };
 
     @Bean(name = "authenticationManagerBean")
