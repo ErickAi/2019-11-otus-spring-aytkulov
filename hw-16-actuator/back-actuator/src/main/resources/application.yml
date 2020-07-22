@@ -40,10 +40,13 @@ spring:
 management:
   endpoints.web:
     base-path: /actuator
-    exposure.include: "*"
+    exposure.include: health, metrics, logfile, loggers
   endpoint.health.show-details: always
 
 logging:
+  pattern.file: "%d{yyyy-MM-dd HH:mm:ss:sss} %-5level [%thread]   %logger{36} - %msg%n"
+  file:
+    name: logs/book-library.log
   level:
     root: info
     org.springframework: info
