@@ -1,0 +1,20 @@
+GET http://localhost:9090/actuator/
+###
+
+GET http://localhost:9090/actuator/health
+###
+
+GET http://localhost:9090/actuator/loggers
+Content-Type: application/json; charset=UTF-8
+###
+
+POST http://localhost:9090/actuator/loggers/org.springframework
+Content-Type: application/json; charset=UTF-8
+
+{
+  "configuredLevel": "debug"
+}
+###
+
+
+

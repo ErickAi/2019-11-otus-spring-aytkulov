@@ -1,4 +1,4 @@
-package ru.otus.booklibrary.config;
+package ru.otus.booklibrary.config.properites;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +13,8 @@ public class AppProperties {
 
     private String uiClientId;
     private String uiClientSecret;
+    private String adminLogin;
+    private String adminPassword;
     private int accessTokenLifetime;
     private int refreshTokenLifetime;
     private String privateKeyPath;
