@@ -64,11 +64,20 @@ spring:
   profiles: production
   datasource:
     initialization-mode: always
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:book-library
-    # docker port bindings
-    # tcp connection jdbc:h2:tcp://localhost:7073/mem:book-library
-    # web connection http://localhost:8083  jdbc:h2:mem:book-library
-    username: sa
-    password:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/book-library
+    username: postgres
+    password: postgres
+  jpa:
+    database: default
+    generate-ddl: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_batch_fetch_size: 20
+        jdbc:
+          batch_size: 20
+          lob.non_contextual_creation: true
 

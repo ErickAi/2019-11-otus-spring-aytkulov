@@ -13,7 +13,7 @@ import java.sql.SQLException;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-@Profile("!integration-test")
+@Profile("development")
 public class H2serverConfig {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
