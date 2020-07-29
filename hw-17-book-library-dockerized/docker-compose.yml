@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  backend:
+    build: .
+    ports:
+      - "9091:5000"
+    environment:
+      - PROFILES_OPTION=-Dspring-boot.run.profiles=production
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: ./front-dockerized/
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:80"
