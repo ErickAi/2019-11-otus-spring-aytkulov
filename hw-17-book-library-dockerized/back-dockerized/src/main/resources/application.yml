@@ -1,5 +1,5 @@
-server:
-  port: 9090
+# docker port binding 8091
+server.port: 5000
 app:
   ui-client-id: book-library-id
   ui-client-secret: secret
@@ -9,22 +9,14 @@ app:
   refresh-token-lifetime: 21600
   #  keystore-path: absolute path to keystore
   urls:
-    oauth-token: http://localhost:9090/oauth/token
-    oauth-check-token: http://localhost:9090/oauth/check_token
-    oauth-token_key: http://localhost:9090/oauth/token_key
-    user-info: http://localhost:9090/userinfo
+    oauth-token: http://localhost:5000/oauth/token
+    oauth-check-token: http://localhost:5000/oauth/check_token
+    oauth-token_key: http://localhost:5000/oauth/token_key
+    user-info: http://localhost:5000/userinfo
 
 spring:
   profiles:
     active: development
-  datasource:
-    initialization-mode: always
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:book-library
-    # tcp connection jdbc:h2:tcp://localhost:7072/mem:book-library
-    # web connection http://localhost:8082
-    username: sa
-    password:
   jpa:
     show-sql: true
     database: default
@@ -47,3 +39,45 @@ logging:
   level:
     root: info
     org.springframework: info
+
+---
+server.port: 9090
+spring:
+  profiles: development
+  datasource:
+    initialization-mode: always
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:book-library
+    # tcp connection jdbc:h2:tcp://localhost:7072/mem:book-library
+    # web connection http://localhost:8082  jdbc:h2:mem:book-library
+    username: sa
+    password:
+app:
+  urls:
+    oauth-token: http://localhost:9090/oauth/token
+    oauth-check-token: http://localhost:9090/oauth/check_token
+    oauth-token_key: http://localhost:9090/oauth/token_key
+    user-info: http://localhost:9090/userinfo
+
+---
+spring:
+  profiles: production
+  datasource:
+    initialization-mode: always
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/book-library
+    username: postgres
+    password: postgres
+  jpa:
+    database: default
+    generate-ddl: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_batch_fetch_size: 20
+        jdbc:
+          batch_size: 20
+          lob.non_contextual_creation: true
+

@@ -1,8 +1,8 @@
 import http from '../http';
 import qs from 'querystring'
 
-const client_id = 'book-library-id';
-const client_secret = 'secret';
+const client_id = process.env.VUE_APP_ID;
+const client_secret = process.env.VUE_APP_SECRET;
 
 class AuthorizationService {
     token(user) {

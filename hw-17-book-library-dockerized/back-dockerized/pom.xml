@@ -5,11 +5,11 @@
   <parent>
     <artifactId>hw-17-book-library-dockerized</artifactId>
     <groupId>ru.otus</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>back-actuator</artifactId>
+  <artifactId>back-dockerized</artifactId>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,6 +44,10 @@
       <version>${jwt.version}</version>
     </dependency>
     <!-- database -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>

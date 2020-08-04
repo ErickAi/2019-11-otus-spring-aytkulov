@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  backend:
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "9091:5000"
+    environment:
+      - PROFILES_OPTION=-Dspring.profiles.active=production
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: ./front-dockerized/
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:80"
+  db:
+#    jdbc:postgresql://localhost:5433/book-library
+    image: postgres:12
+    environment:
+      POSTGRES_DB: book-library
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    #    volumes:
+    #      - d:\docker-mounts\postgres:/data/postgres
+    ports:
+      - 5433:5432
