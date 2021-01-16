@@ -1,33 +1,12 @@
-== 04 "Чёрная магия" Spring Boot
+== 11 "Белая магия" Spring Data: Spring Data JPA
 
 +++ <details><summary> +++
 Изучаемый стек
 +++ </summary><div> +++
 
-=== BACKEND
 - Spring Boot 2
 - Spring data JPA
 - JUnit 5
-- Spring JDBC
-- Spring data JPA
-- JPQL
-- Spring data MongoDB
-- Spring WEB
-- Spring WebFlux
-- Spring Security
-- Spring Batch
-- Spring Boot Actuator
-
-=== Data Base
-- H2
-- PostgresQL
-- MongoDB
-
-=== AppServer
-- Docker
-
-=== FRONTEND
-- VueJS
 
 - Libraries:
 

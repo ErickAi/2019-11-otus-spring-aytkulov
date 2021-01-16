@@ -1,4 +1,4 @@
-== 24 Spring Security: ACL
+== 29 Монолиты vs. Microservices (Round 2), Spring Boot Actuator - must have в микросервисах
 
 +++ <details><summary> +++
 Изучаемый стек

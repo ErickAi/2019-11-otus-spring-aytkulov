@@ -6,8 +6,30 @@
 Изучаемый стек
 +++ </summary><div> +++
 
+=== BACKEND
 - Spring Boot 2
+- Spring data JPA
 - JUnit 5
+- Spring JDBC
+- Spring data JPA
+- JPQL
+- Spring data MongoDB
+- Spring WEB
+- Spring WebFlux
+- Spring Security
+- Spring Batch
+- Spring Boot Actuator
+
+=== Data Base
+- H2
+- PostgresQL
+- MongoDB
+
+=== AppServer
+- Docker
+
+=== FRONTEND
+- VueJS
 
 - Libraries:
 
@@ -18,4 +40,18 @@
 
 === Навигация по домашним заданиям в репозитории
 
-https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-03[ДЗ 03 (занятие 04) "Чёрная магия" Spring Boot]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-03[ДЗ 03 (занятие 04) "Чёрная магия" Spring Boot ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-04-students-testing-shell[ДЗ 04 (занятие 05) Продвинутая конфигурация Spring-приложений ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-05-book-library-jdbc[ДЗ 05 (занятие 07) DAO на Spring JDBC ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-06-book-library-jpa[ДЗ 06 (занятие 09) JPQL, Spring ORM, DAO на основе Spring ORM + JPA ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-07-book-library-data-jpa[ДЗ 07 (занятие 11) "Белая магия" Spring Data: Spring Data JPA ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-08-book-library-mongodb[ДЗ 08 (занятие 13) Spring Data для подключения к нереляционным БД ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-10-book-library-vuejs[ДЗ 09, 10 (занятие 16, 17) Spring MVC View, (занятие 17) Современные приложения на Spring MVC ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-11-book-library-webflux[ДЗ 11 (занятие 20) Spring WebFlux ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-12-book-library-security[ДЗ 12 (занятие 22) Spring Security: Механизмы аутентификации]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-13-acl-thymeleaf[ДЗ 13 (занятие 24. вариант 1) Spring Security: ACL ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-13-book-library-acl[ДЗ 13 (занятие 24 вариант 2) Spring Security: ACL ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-14-spring-batch[ДЗ 14 (занятие 25) Spring Batch ]
+
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-16-actuator[ДЗ 16 (занятие 29) Монолиты vs. Microservices (Round 2), Spring Boot Actuator - must have в микросервисах ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-17-book-library-dockerized[ДЗ 17 (занятие 31) Docker, оркестрация, облака, облачные хостинги ]

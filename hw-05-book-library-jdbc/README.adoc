@@ -1,4 +1,4 @@
-== 04 "Чёрная магия" Spring Boot
+== 07 DAO на Spring JDBC
 
 +++ <details><summary> +++
 Изучаемый стек

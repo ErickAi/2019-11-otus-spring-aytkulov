@@ -1,4 +1,4 @@
-== 04 "Чёрная магия" Spring Boot
+== 25 Spring Batch
 
 +++ <details><summary> +++
 Изучаемый стек
