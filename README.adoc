@@ -9,16 +9,16 @@
 === BACKEND
 - Spring Boot 2
 - Spring data JPA
-- JUnit 5
 - Spring JDBC
-- Spring data JPA
 - JPQL
+- Spring data JPA
 - Spring data MongoDB
 - Spring WEB
 - Spring WebFlux
 - Spring Security
 - Spring Batch
 - Spring Boot Actuator
+- JUnit 5
 
 === Data Base
 - H2
