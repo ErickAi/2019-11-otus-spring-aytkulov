@@ -40,7 +40,7 @@
 
 === Навигация по домашним заданиям в репозитории
 
-https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-03[ДЗ 03 (занятие 04) "Чёрная магия" Spring Boot ]
+https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-03-students-testing-yamlconfig[ДЗ 03 (занятие 04) "Чёрная магия" Spring Boot ]
 
 https://github.com/ErickAi/2019-11-otus-spring-aytkulov/tree/master/hw-04-students-testing-shell[ДЗ 04 (занятие 05) Продвинутая конфигурация Spring-приложений ]
 
